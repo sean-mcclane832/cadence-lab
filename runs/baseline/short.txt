@@ -1,0 +1,31 @@
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+  P:\projects\cadence\tests\test_learner_calibration.py:15: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    cd.LearnerConfig(qualified=True, free_steps=32, tolerance=1e-9, **config),
+
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    return obj.__class__(**changes)
+
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[cpu-None]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float64]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float32]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+  P:\projects\cadence\tests\test_calibration_backends.py:33: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    graph, wire.populations["output"], cd.LearnerConfig(
+
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float64]
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float32]
+  P:\projects\cadence\tests\test_bias_qualification.py:253: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, wire.populations["output"], cd.LearnerConfig(momentum=0.6, normalize=0.7))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [2] tests\test_qualified_learning.py:13: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [2] tests\test_damping_stagnation.py:13: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [1] tests\test_damping_stagnation.py:108: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [1] tests\test_calibration_backends.py:19: could not import 'mlx.core': No module named 'mlx'
+160 passed, 6 skipped, 39 warnings in 21.52s
+secs=23

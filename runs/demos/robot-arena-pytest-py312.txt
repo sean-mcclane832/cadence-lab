@@ -1,0 +1,31 @@
+
+tests\test_royale.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+arena\league.py:238: in royale
+    record_row = self._record_fight(
+arena\league.py:295: in _record_fight
+    page.write_text(render_html(replay))
+                    ^^^^^^^^^^^^^^^^^^^
+arena\replay.py:21: in render_html
+    page = template.read_text()
+           ^^^^^^^^^^^^^^^^^^^^
+<home>\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\pathlib.py:1028: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x00000160203D8350>
+input = b'<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width...} });\n\nif (REPLAY) load(REPLAY); else document.getElementById("drop").hidden = false;\n</script>\n</body>\n</html>\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 17061: character maps to <undefined>
+
+<home>\AppData\Roaming\uv\python\cpython-3.12-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+=========================== short test summary info ===========================
+FAILED tests/test_royale.py::test_a_royale_of_random_bots_and_a_newborn_records_a_replay
+FAILED tests/test_royale.py::test_league_round_trip - UnicodeDecodeError: 'ch...
+2 failed, 64 passed in 78.49s (0:01:18)
+secs=81

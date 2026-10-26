@@ -1,0 +1,7 @@
+modules=(1536,) seed 0 cpu             90.83 ms/moment hit_last100 0.73 sweeps 4017
+modules=(1536,) seed 0 cuda-float64    38.54 ms/moment hit_last100 0.73 sweeps 4017
+modules=(1536,) seed 0 cuda-float32    67.48 ms/moment hit_last100 0.73 sweeps 4017
+modules=(1536,) seed 1 cpu             90.06 ms/moment hit_last100 0.96 sweeps 4011
+modules=(1536,) seed 1 cuda-float64    40.34 ms/moment hit_last100 0.96 sweeps 4011
+modules=(1536,) seed 1 cuda-float32    67.30 ms/moment hit_last100 0.96 sweeps 4011
+receipt: runs\backend_timing\receipt_1536.json

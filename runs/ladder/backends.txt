@@ -1,0 +1,1 @@
+{'cpu': 'numpy float64', 'torch': 'cuda float64'} 2.11.0+cu128 True NVIDIA GeForce RTX 2060 SUPER 0.68.0

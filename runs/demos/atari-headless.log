@@ -1,0 +1,20 @@
+A.L.E: Arcade Learning Environment (version 0.12.1+8a8fafb)
+[Powered by Stella]
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.02) above eta (0.003): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/learning.md#7-every-knob.
+  return obj.__class__(**changes)
+Freeway: TAKEOVER at 500 lessons, agreement 1.00
+Freeway: TAKEOVER at 500 lessons, agreement 1.00
+{
+ "Freeway": {
+  "takeover_living": true,
+  "takeover_frozen": true,
+  "no_faults": true,
+  "lived_episodes": false,
+  "no_collapse": false,
+  "expert_via_selfplay": false,
+  "living_holds_or_beats_frozen": false,
+  "PASS": false
+ }
+}
+HEADLESS-PASS-DONE
+rc=0 secs=165

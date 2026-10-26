@@ -1,0 +1,26 @@
+E         
+E         - 46b266194bc8a88f42f816a13373f2fb68f891e428473862dc933948f1b7345e
+E         + 95af17c08db41e77f9972a6b874e5dd1614f00307ae27dccaa4a23f950198685
+
+tests\test_brain_interface.py:21: AssertionError
+_ ERROR at setup of test_watched_rewarded_and_saved_tape_keeps_owned_continuation[4] _
+
+    @pytest.fixture(scope="module")
+    def previous_recipe():
+        path = Path(__file__).resolve().parents[1] / "web/tools/make_parity_fixture.py"
+>       assert hashlib.sha256(path.read_bytes()).hexdigest() == (
+            "46b266194bc8a88f42f816a13373f2fb68f891e428473862dc933948f1b7345e"
+        )
+E       AssertionError: assert '95af17c08db4...a23f950198685' == '46b266194bc8...33948f1b7345e'
+E         
+E         - 46b266194bc8a88f42f816a13373f2fb68f891e428473862dc933948f1b7345e
+E         + 95af17c08db41e77f9972a6b874e5dd1614f00307ae27dccaa4a23f950198685
+
+tests\test_brain_interface.py:21: AssertionError
+=========================== short test summary info ===========================
+ERROR tests/test_brain_interface.py::test_pixel_sized_factory_keeps_explicit_recipe[3]
+ERROR tests/test_brain_interface.py::test_pixel_sized_factory_keeps_explicit_recipe[4]
+ERROR tests/test_brain_interface.py::test_watched_rewarded_and_saved_tape_keeps_owned_continuation[3]
+ERROR tests/test_brain_interface.py::test_watched_rewarded_and_saved_tape_keeps_owned_continuation[4]
+4 errors in 1.23s
+secs=2

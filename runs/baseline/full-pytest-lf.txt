@@ -1,0 +1,2048 @@
+........................................................................ [  2%]
+.....................................................ssss.............x. [  4%]
+......................s....................................ss.ss.ss.ss.s [  6%]
+s.ss...................ss............................................... [  8%]
+........................................................................ [ 10%]
+.......s.s...................s.......................................... [ 12%]
+........................................................................ [ 14%]
+........................................................................ [ 16%]
+...................s.s.ss.........s................s...................s [ 18%]
+...........s......s....................................sss.............. [ 20%]
+..F....F...FF........................................................... [ 22%]
+........................................................................ [ 24%]
+........................................................................ [ 26%]
+....................................s.............................s..s.. [ 28%]
+........................................................................ [ 30%]
+............s............sssssss........................................ [ 32%]
+.......................................s................................ [ 34%]
+........................................................................ [ 36%]
+................................ss...............s.s.s......ssssss...... [ 38%]
+........................................................................ [ 40%]
+....................................................................s... [ 42%]
+s.......................................................ssss............ [ 44%]
+........................................................................ [ 46%]
+........................................................................ [ 48%]
+.......................................................................s [ 50%]
+....ssss................................................................ [ 52%]
+........................................................................ [ 54%]
+.....................ssssss...s...s...s...s...s...s..................... [ 56%]
+........F...........F..........................F........FFFF............ [ 59%]
+..................EEEEEEEEE..E.......................................... [ 61%]
+........................................................................ [ 63%]
+........................................................................ [ 65%]
+........................................................................ [ 67%]
+...........................................F............................ [ 69%]
+...............................................F........................ [ 71%]
+..........sssssss....................................................... [ 73%]
+........................................................................ [ 75%]
+........................................................................ [ 77%]
+........................................................................ [ 79%]
+........................................................................ [ 81%]
+........................................................................ [ 83%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+........................................................................ [ 89%]
+.................................................................FF..... [ 91%]
+........................................................................ [ 93%]
+........................................................................ [ 95%]
+........................................................................ [ 97%]
+........................................................................ [ 99%]
+..........                                                               [100%]
+=================================== ERRORS ====================================
+_ ERROR at setup of test_admission_reads_only_declared_panels_and_charges_no_fits _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_admission_reads_only_decl0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_admission_reads_only_decl0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_bounds_roles_and_original_gates_are_frozen[seconds_cap-61] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_bounds_roles_and_original_gates_are_frozen[fit_budget-95] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original1')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original1/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_bounds_roles_and_original_gates_are_frozen[information_gates-value2] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original2')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original2/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_bounds_roles_and_original_gates_are_frozen[primary-value3] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original3')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_bounds_roles_and_original3/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_____ ERROR at setup of test_feature_producer_and_source_bytes_are_bound ______
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_feature_producer_and_sour0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_feature_producer_and_sour0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_static_producer_source_is_portable_without_workspace_evidence[False] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_static_producer_source_is0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_static_producer_source_is0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_static_producer_source_is_portable_without_workspace_evidence[True] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_static_producer_source_is1')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_static_producer_source_is1/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+_ ERROR at setup of test_changed_static_producer_is_rejected_before_creating_attempt _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_changed_static_producer_i0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_changed_static_producer_i0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+____________ ERROR at setup of test_same_job_cannot_be_relaunched _____________
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_same_job_cannot_be_relaun0')
+
+    @pytest.fixture
+    def capsule(tmp_path):
+        original, static, semantics = (tmp_path / name for name in ("original", "static", "semantics"))
+        fixture = original / "source/fixture"
+        fixture.mkdir(parents=True)
+        (original / "selected-24").mkdir()
+        static.mkdir()
+        semantics.mkdir()
+        verification_sources = tmp_path / "verification-sources"
+        verification_sources.mkdir()
+        script = verification_sources / "native_modality_static_audit.py"
+        script.write_text("# static arithmetic producer\n")
+        archive, provenance = {}, {"panels": {}}
+        for index, (name, count) in enumerate(reference.PANELS.items()):
+            x = np.zeros((count, 650))
+            x[:, 0] = np.arange(count) + index / 10
+            y = np.arange(count, dtype=np.int64)
+            archive[name + "_inputs"], archive[name + "_labels"] = x, y
+            provenance["panels"][name] = [
+                {"input_sha256": reference.sha_bytes(row), "label": int(label)}
+                for row, label in zip(x, y, strict=True)
+            ]
+        # Loading this member with allow_pickle=False raises. Admission must leave it sealed.
+        archive["heldout_inputs"] = np.array([object()], dtype=object)
+        np.savez_compressed(fixture / "school.npz", **archive)
+        reference.write(fixture / "provenance.json", provenance)
+        reference.write(
+            original / "protocol.json",
+            {"fixture": {"school.npz": reference.sha(fixture / "school.npz")}},
+        )
+        reference.write(original / "summary.json", {"scope": "synthetic admission fixture"})
+        (original / "source/extract.py").write_text("# fixed body codec\n")
+        for name in ("initial", "final"):
+            (original / f"selected-24/{name}.npz").write_bytes(name.encode())
+        for name in ("eye.py", "collect.py"):
+            (semantics / name).write_text("# current semantic reference\n")
+        np.savez_compressed(static / "direct-current-arrays.npz", initial_sensory_s=np.zeros((61, 650)))
+        static_job = {
+            "script_sha256": reference.sha(script),
+            "source_data_pins": {
+                str(path.relative_to(original)): reference.sha(path)
+                for path in (
+                    original / "protocol.json",
+                    original / "summary.json",
+                    fixture / "school.npz",
+                    fixture / "provenance.json",
+                    original / "selected-24/initial.npz",
+                    original / "selected-24/final.npz",
+                )
+            },
+        }
+        reference.write(static / "job-protocol.json", static_job)
+        reference.write(
+            static / "result.json",
+            {
+                "verified": True,
+                "heldout_decoded": False,
+                "job_protocol_sha256": reference.sha(static / "job-protocol.json"),
+                "raw_arrays_sha256": reference.sha(static / "direct-current-arrays.npz"),
+            },
+        )
+        root = tmp_path / "prepared"
+>       reference.prepare(root, original, static, semantics)
+
+benchmarks\acquisition\test_native_information_controls.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\native_information_controls.py:263: in prepare
+    guard(root, protocol, runtime=False)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_same_job_cannot_be_relaun0/prepared')
+protocol = {'schema': 'cadence-native-information-reference-v1', 'panels': {'school': 24, 'independent_train': 18, 'development':...40], 'body': [640, 650]}, 'feature_modes': ['raw_full', 'balanced_full', 'scene', 'motion', 'fovea', 'body', ...], ...}
+runtime = False
+
+    def guard(root, protocol, *, runtime=True):
+        if any(protocol.get(key) != value for key, value in FIXED.items()):
+            raise ValueError("frozen native reference scope/config/bounds changed")
+        for name, expected in protocol["sources"].items():
+            if sha(root / "source" / name) != expected:
+                raise ValueError("frozen reference source/data changed: " + name)
+        if sha(Path(__file__)) != protocol["sources"]["native_information_controls.py"]:
+            raise ValueError("executed reference helper differs")
+        if protocol["runtime"] != {
+            "numpy": np.__version__,
+            "interpreter_sha256": sha(Path(sys.executable)),
+        }:
+            raise ValueError("reference runtime differs")
+        if runtime and any(os.environ.get(key) != value for key, value in THREADS.items()):
+            raise ValueError("reference thread settings differ")
+        job = json.loads((root / "job-protocol.json").read_text())
+        if job["protocol_sha256"] != sha(root / "protocol.json"):
+            raise ValueError("reference reviewed job binding differs")
+        # Static feature arrays are bound to the original24-only graph/checkpoints,
+        # and contain only61 admitted rows in school/TRAIN/development order.
+        static_job = json.loads((root / "source/static-job.json").read_text())
+        static_result = json.loads((root / "source/static-result.json").read_text())
+        original = json.loads((root / "source/original-protocol.json").read_text())
+        if (
+            not static_result["verified"]
+            or static_result["heldout_decoded"]
+            or static_result["job_protocol_sha256"] != sha(root / "source/static-job.json")
+            or static_result["raw_arrays_sha256"] != sha(root / "source/direct-current-arrays.npz")
+            or static_job["source_data_pins"]["protocol.json"]
+            != sha(root / "source/original-protocol.json")
+            or static_job["source_data_pins"]["summary.json"]
+            != sha(root / "source/original-summary.json")
+>           or static_job["source_data_pins"]["source/fixture/school.npz"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            != sha(root / "source/school.npz")
+            or static_job["source_data_pins"]["source/fixture/provenance.json"]
+            != sha(root / "source/provenance.json")
+            or static_job["script_sha256"] != sha(root / "source/static-script.py")
+            or static_job["source_data_pins"]["selected-24/initial.npz"]
+            != sha(root / "source/original-initial.npz")
+            or static_job["source_data_pins"]["selected-24/final.npz"]
+            != sha(root / "source/original-final.npz")
+            or original["fixture"]["school.npz"] != sha(root / "source/school.npz")
+        ):
+E       KeyError: 'source/fixture/school.npz'
+
+benchmarks\acquisition\native_information_controls.py:153: KeyError
+================================== FAILURES ===================================
+______________ test_introductory_python_snippets[docs/memory.md] ______________
+
+page = 'docs/memory.md'
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_introductory_python_snipp4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000022E7E8A18D0>
+
+    @pytest.mark.parametrize("page", PAGES)
+    def test_introductory_python_snippets(page, tmp_path, monkeypatch):
+        if page in REQUIRES:
+            pytest.importorskip(REQUIRES[page])
+        monkeypatch.chdir(tmp_path)
+        if page in INSTRUMENTS:
+            monkeypatch.syspath_prepend(str(ROOT / "benchmarks/instruments"))
+>       blocks = snippets(page)
+                 ^^^^^^^^^^^^^^
+
+<tmp>\cadence-lf\tests\test_documentation.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<tmp>\cadence-lf\tests\test_documentation.py:22: in snippets
+    return [code for marker, code in BLOCK.findall((ROOT / page).read_text()) if not marker]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x0000022E7D618690>
+input = b'# Memory\n\nA memory is anything the brain keeps from an earlier moment and can use in a later answer.\nEverything e...nInside a composed brain the working trace, efference copy and heard history are owned by\n[Memory](#working-trace).\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 33016: character maps to <undefined>
+
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+_____________ test_introductory_python_snippets[docs/settling.md] _____________
+
+page = 'docs/settling.md'
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_introductory_python_snipp9')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000022E10A26B90>
+
+    @pytest.mark.parametrize("page", PAGES)
+    def test_introductory_python_snippets(page, tmp_path, monkeypatch):
+        if page in REQUIRES:
+            pytest.importorskip(REQUIRES[page])
+        monkeypatch.chdir(tmp_path)
+        if page in INSTRUMENTS:
+            monkeypatch.syspath_prepend(str(ROOT / "benchmarks/instruments"))
+>       blocks = snippets(page)
+                 ^^^^^^^^^^^^^^
+
+<tmp>\cadence-lf\tests\test_documentation.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<tmp>\cadence-lf\tests\test_documentation.py:22: in snippets
+    return [code for marker, code in BLOCK.findall((ROOT / page).read_text()) if not marker]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x0000022E10A24390>
+input = b'# How the brain settles and learns\n\nThe mechanics below [`Brain.compose`](tune.md), for building or debugging a `N...weights, nudges and memories lack\nthis gradient form; the gradient of a squared residual adds a Jacobian transpose.\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 16963: character maps to <undefined>
+
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+____________ test_every_python_block_is_run_or_marked_illustrative ____________
+
+    def test_every_python_block_is_run_or_marked_illustrative():
+        """A new page with python blocks must join PAGES, or mark each block ``<!-- not-run -->``."""
+        covered = set(PAGES)
+>       unrun = [
+            page.relative_to(ROOT).as_posix()
+            for page in sorted((ROOT / "docs").rglob("*.md"))
+            if snippets(page.relative_to(ROOT).as_posix())
+            and page.relative_to(ROOT).as_posix() not in covered
+        ]
+
+tests\test_documentation.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\test_documentation.py:110: in <listcomp>
+    if snippets(page.relative_to(ROOT).as_posix())
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\test_documentation.py:22: in snippets
+    return [code for marker, code in BLOCK.findall((ROOT / page).read_text()) if not marker]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x0000022E109B07D0>
+input = b'# Memory\n\nA memory is anything the brain keeps from an earlier moment and can use in a later answer.\nEverything e...nInside a composed brain the working trace, efference copy and heard history are owned by\n[Memory](#working-trace).\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 33016: character maps to <undefined>
+
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+___________________ test_local_documentation_links_resolve ____________________
+
+    def test_local_documentation_links_resolve():
+        problems = []
+        for page in [
+            ROOT / "README.md",
+            ROOT / "MANIFESTO.md",
+            ROOT / "CONTRIBUTING.md",
+            ROOT / "AGENTS.md",
+            *sorted((ROOT / "docs").rglob("*.md")),
+        ]:
+            for target in re.findall(r"\[[^\]\n]*\]\(([^\s)]+)\)", page.read_text()):
+                if re.match(r"[a-z]+:", target):
+                    continue
+                path, _, anchor = unquote(target).partition("#")
+                destination = (page.parent / path).resolve() if path else page
+                if not destination.exists():
+                    problems.append(f"{page.name}: missing {target}")
+                elif anchor and destination.suffix == ".md":
+>                   content = destination.read_text()
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_documentation.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x0000022E7E91B290>
+input = b'# How the brain settles and learns\n\nThe mechanics below [`Brain.compose`](tune.md), for building or debugging a `N...weights, nudges and memories lack\nthis gradient form; the gradient of a squared residual adds a Jacobian transpose.\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 16963: character maps to <undefined>
+
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+_______ test_external_identity_index_has_no_claim_of_local_raw_archive ________
+
+    def test_external_identity_index_has_no_claim_of_local_raw_archive() -> None:
+        index = read("receipt-index.json")
+        assert index["artifacts"]
+        assert all(item["availability"] == "external_not_bundled" for item in index["artifacts"])
+        assert all("path" not in item for item in index["artifacts"])
+        assert all(re.fullmatch(r"[a-f0-9]{64}", item["sha256"]) for item in index["artifacts"])
+>       html = (HERE / "index.html").read_text()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\demo\test_bundle.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x0000022E387C5D10>
+input = b'<!doctype html>\n<html lang="en">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-w...df9abe0e099e3ac0152ae599670412aa69","bytes":9056,"availability":"external_not_bundled"}]}</script>\n</body>\n</html>\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x90 in position 19538: character maps to <undefined>
+
+..\..\..\..\..\..\..\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+______ test_archiving_seed_one_preserves_seed_ten_and_its_active_stages _______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000022E34E830D0>
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_archiving_seed_one_preser0')
+
+    def test_archiving_seed_one_preserves_seed_ten_and_its_active_stages(monkeypatch, tmp_path):
+        monkeypatch.syspath_prepend(str(Path(__file__).parent))
+        spec = importlib.util.spec_from_file_location(
+            "confirmation_archive_test", Path(__file__).with_name("online_half_step_confirmation.py")
+        )
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        (tmp_path / "custody").mkdir()
+        for seed in (1, 10):
+            for suffix in ("", "-old4", "-mixed"):
+                folder = tmp_path / f"seed-{seed}{suffix}"
+                folder.mkdir()
+                (folder / "progress.json").write_text(str(seed))
+>       receipt = module.archive_founder(tmp_path, 1)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_resources.py:123: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_archiving_seed_one_preser0')
+seed = 1
+
+    def archive_founder(root, seed):
+        # Numeric prefixes are not founder identities: seed-1 must never include
+        # the still-running seed-10, its stages or its evidence.
+        paths = [
+            root / name for name in (f"seed-{seed}", f"seed-{seed}-old4", f"seed-{seed}-mixed")
+            if (root / name).is_dir()
+        ]
+        hashes = {
+            str(p.relative_to(root)): harness.sha256(p)
+            for folder in paths
+            for p in sorted(folder.rglob("*"))
+            if p.is_file()
+        }
+        archive = root / f"seed-{seed}.tar.gz"
+        with tarfile.open(archive, "w:gz", compresslevel=9) as bundle:
+            for folder in paths:
+                bundle.add(folder, arcname=folder.name)
+        observed = {}
+        with tarfile.open(archive, "r:gz") as bundle:
+            for member in bundle.getmembers():
+                if member.isfile():
+                    observed[member.name] = hashlib.sha256(
+                        bundle.extractfile(member).read()
+                    ).hexdigest()
+        if observed != hashes:
+>           raise AssertionError("outer archive does not preserve every original member byte")
+E           AssertionError: outer archive does not preserve every original member byte
+
+benchmarks\acquisition\online_half_step_confirmation.py:369: AssertionError
+_ test_process_errors_stay_in_the_complete_denominator_without_fabricated_work _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_process_errors_stay_in_th0')
+
+    def test_process_errors_stay_in_the_complete_denominator_without_fabricated_work(tmp_path):
+        failed_campaign(tmp_path)
+>       result = verifier.verify(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_verifier.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\verify_confirmation.py:874: in verify
+    check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, message = 'frozen source hash differs: __init__.py'
+
+    def check(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: frozen source hash differs: __init__.py
+
+benchmarks\acquisition\verify_confirmation.py:40: ValueError
+_ test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[2] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_new_recipe_requires_match0')
+schema_index = 2
+
+    @pytest.mark.parametrize("schema_index", [2, 3, 4, 5])
+    def test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds(
+        tmp_path, schema_index
+    ):
+        census, protocol, original_protocol, original_summary, raw = candidate_campaign(
+            tmp_path, schema_index
+        )
+        reference = tmp_path / "reference-development"
+>       result = verifier.verify(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_verifier.py:333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\verify_confirmation.py:874: in verify
+    check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, message = 'frozen source hash differs: __init__.py'
+
+    def check(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: frozen source hash differs: __init__.py
+
+benchmarks\acquisition\verify_confirmation.py:40: ValueError
+_ test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[3] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_new_recipe_requires_match1')
+schema_index = 3
+
+    @pytest.mark.parametrize("schema_index", [2, 3, 4, 5])
+    def test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds(
+        tmp_path, schema_index
+    ):
+        census, protocol, original_protocol, original_summary, raw = candidate_campaign(
+            tmp_path, schema_index
+        )
+        reference = tmp_path / "reference-development"
+>       result = verifier.verify(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_verifier.py:333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\verify_confirmation.py:874: in verify
+    check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, message = 'frozen source hash differs: __init__.py'
+
+    def check(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: frozen source hash differs: __init__.py
+
+benchmarks\acquisition\verify_confirmation.py:40: ValueError
+_ test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[4] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_new_recipe_requires_match2')
+schema_index = 4
+
+    @pytest.mark.parametrize("schema_index", [2, 3, 4, 5])
+    def test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds(
+        tmp_path, schema_index
+    ):
+        census, protocol, original_protocol, original_summary, raw = candidate_campaign(
+            tmp_path, schema_index
+        )
+        reference = tmp_path / "reference-development"
+>       result = verifier.verify(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_verifier.py:333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\verify_confirmation.py:874: in verify
+    check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, message = 'frozen source hash differs: __init__.py'
+
+    def check(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: frozen source hash differs: __init__.py
+
+benchmarks\acquisition\verify_confirmation.py:40: ValueError
+_ test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[5] _
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_new_recipe_requires_match3')
+schema_index = 5
+
+    @pytest.mark.parametrize("schema_index", [2, 3, 4, 5])
+    def test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds(
+        tmp_path, schema_index
+    ):
+        census, protocol, original_protocol, original_summary, raw = candidate_campaign(
+            tmp_path, schema_index
+        )
+        reference = tmp_path / "reference-development"
+>       result = verifier.verify(tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\acquisition\test_confirmation_verifier.py:333: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+benchmarks\acquisition\verify_confirmation.py:874: in verify
+    check(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+condition = False, message = 'frozen source hash differs: __init__.py'
+
+    def check(condition, message):
+        if not condition:
+>           raise ValueError(message)
+E           ValueError: frozen source hash differs: __init__.py
+
+benchmarks\acquisition\verify_confirmation.py:40: ValueError
+__ test_hard_deadline_reaps_an_artificial_worker_and_keeps_all_denominators ___
+
+protocol = ({'schema': 'finite-recall/1', 'question': 'Can one continuing Brain.compose remember one of two observed token values...velopment founder and no seed substitution'}, ...}, '5e0535ce386005604a8535588a68026670f438f60fbf608f28a8ad5d5ec7d40a')
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_hard_deadline_reaps_an_ar0')
+
+    def test_hard_deadline_reaps_an_artificial_worker_and_keeps_all_denominators(protocol, tmp_path):
+        guard = chamber.guarded_process(
+            [sys.executable, "-c", "import time; print('started', flush=True); time.sleep(60)"],
+            tmp_path / "worker.log",
+            0.25,
+        )
+        assert guard["timed_out"] and guard["reaped"] and not guard["completed"]
+        assert guard["elapsed_seconds"] < 10
+        with pytest.raises(ProcessLookupError):
+>           os.kill(guard["pid"], 0)
+E           OSError: [WinError 87] The parameter is incorrect
+
+benchmarks\recall\test_finite_horizon.py:349: OSError
+________ test_a_smoke_life_writes_a_receipt_that_verifies_and_reports _________
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_a_smoke_life_writes_a_rec0')
+capsys = <_pytest.capture.CaptureFixture object at 0x0000022E346D8210>
+
+    def test_a_smoke_life_writes_a_receipt_that_verifies_and_reports(tmp_path, capsys):
+>       assert chamber.main(["--arm", "gru", "--seed", "1", "--out", str(tmp_path), "--smoke"]) == 0
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+benchmarks\stream_words\test_stream_words.py:250: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+argv = ['--arm', 'gru', '--seed', '1', '--out', '<home>\\AppData\\Local\\Temp\\pytest-of-user\\pytest-9\\test_a_smoke_life_writes_a_rec0', ...]
+
+    def main(argv: list[str] | None = None) -> int:
+        parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
+        parser.add_argument("--arm", choices=BRAIN_ARMS + LEARNER_ARMS)
+        parser.add_argument("--seed", type=int)
+        parser.add_argument("--out", type=Path, help="the directory of this life's receipt")
+        parser.add_argument("--protocol", type=Path, default=PROTOCOL)
+        parser.add_argument("--smoke", action="store_true", help="a tiny life; not a declared run")
+        parser.add_argument("--report", type=Path, help="tabulate a directory of receipts")
+        parser.add_argument("--verify", type=Path, help="check a receipt's digest")
+        parser.add_argument("--current", action="store_true", help="--verify against these sources")
+        args = parser.parse_args(argv)
+        if args.report is not None:
+            print(report(args.report))
+            return 0
+        if args.verify is not None:
+            ok, message = verify(args.verify, current=args.current)
+            print(message)
+            return 0 if ok else 1
+        if args.arm is None or args.seed is None or args.out is None:
+            parser.error("--arm, --seed and --out are required for a life")
+        protocol = load_protocol(args.protocol)
+        if args.arm in BRAIN_ARMS and args.arm not in protocol["arms"]:
+            parser.error(f"the protocol declares no arm {args.arm!r}")
+        sizes = {k: int(protocol[k]) for k in ("training_words", "probe_every", "evaluation_words")}
+        if args.smoke:
+            sizes = {"training_words": 40, "probe_every": 20, "evaluation_words": 20}
+        args.out.mkdir(parents=True, exist_ok=True)
+        target = args.out / f"{args.arm}-{args.seed}.json.gz"
+        if target.exists():
+            parser.error(f"{target} exists; a life is run once")
+        started = time.monotonic()
+        result: dict[str, Any] = {}
+>       signal.signal(signal.SIGALRM, timeout)
+                      ^^^^^^^^^^^^^^
+E       AttributeError: module 'signal' has no attribute 'SIGALRM'
+
+benchmarks\stream_words\stream_words.py:795: AttributeError
+_ test_positive_capacity_and_negative_learned_readers_preserve_their_separate_gates _
+
+    def test_positive_capacity_and_negative_learned_readers_preserve_their_separate_gates() -> None:
+        capacity_name = "founder-capacity-extended.json"
+        relevance_name = "heads-relevance-founder-extended.json"
+        for name in (capacity_name, relevance_name):
+            valid, message = verifier.verify(RESULTS / name)
+>           assert valid, (name, message)
+E           AssertionError: ('heads-relevance-founder-extended.json', 'malformed relevance readings')
+E           assert False
+
+benchmarks\attention\test_heads_evidence.py:107: AssertionError
+_____ test_offline_history_does_not_relax_the_current_source_prerequisite _____
+
+tmp_path = WindowsPath('<home>/AppData/Local/Temp/pytest-of-user/pytest-9/test_offline_history_does_not_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000022E7EAE8410>
+
+    def test_offline_history_does_not_relax_the_current_source_prerequisite(tmp_path, monkeypatch):
+        spec = importlib.util.spec_from_file_location(
+            "current_relevance_gate", HERE / "heads_relevance.py")
+        assert spec is not None and spec.loader is not None
+        runtime = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = runtime
+        spec.loader.exec_module(runtime)
+        declared = runtime.admission.protocol_path("heads-founder-extended-protocol.json")
+        installed = runtime.admission.sources(declared)
+        changed = tmp_path / "changed-heads.py"
+        changed.write_bytes((HERE / "heads.py").read_bytes() + b"\n# another installed source\n")
+        monkeypatch.setattr(runtime.admission, "sources", lambda: [
+            (name, changed if name == "benchmarks/attention/heads.py" else path)
+            for name, path in installed])
+    
+        def no_neural_phase(*args, **kwargs):
+            pytest.fail("offline evidence verification attempted a neural phase")
+    
+        monkeypatch.setattr(NeuralGraph, "settle_batch", no_neural_phase)
+        monkeypatch.setattr(NeuralGraph, "_equilibrate_local", no_neural_phase)
+        capacity = RESULTS / "founder-capacity-extended.json"
+        with pytest.raises(ValueError, match="source manifest differs"):
+            runtime.verify_capacity(capacity)
+        valid, message = verifier.verify(RESULTS / "heads-relevance-founder-extended.json")
+>       assert valid, message
+E       AssertionError: malformed relevance readings
+E       assert False
+
+benchmarks\attention\test_heads_evidence.py:143: AssertionError
+============================== warnings summary ===============================
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[cpu]
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  <tmp>\cadence-lf\tests\test_audit_checkpoint.py:64: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    cd.LearnerConfig(momentum=0.9, normalize=0.99, tolerance=1e-4),
+
+tests/test_audit_checkpoint.py: 2 warnings
+tests/test_audit_learning.py: 1 warning
+tests/test_calibration_backends.py: 3 warnings
+tests/test_checkpoint.py: 2 warnings
+tests/test_continuous.py: 2 warnings
+tests/test_qualified_learning.py: 1 warning
+  <tmp>\cadence-lf\src\cadence\checkpoint.py:194: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    saved_config = config or LearnerConfig(**_known_config(meta["config"]))
+
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  <tmp>\cadence-lf\tests\test_audit_checkpoint.py:79: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(d, labels)
+
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  <tmp>\cadence-lf\tests\test_audit_checkpoint.py:80: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    on_device.step(d, labels)
+
+tests/test_audit_learning.py::test_normalized_steps_move_every_synapse_by_about_eta[True]
+  <tmp>\cadence-lf\tests\test_audit_learning.py:68: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(eta=0.2, normalize=0.9 if use_normalize else 0.0, tolerance=1e-5)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  <tmp>\cadence-lf\tests\test_audit_learning.py:93: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(momentum=0.9, normalize=0.99, tolerance=1e-6)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  <tmp>\cadence-lf\tests\test_audit_learning.py:101: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    steady.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  <tmp>\cadence-lf\tests\test_audit_learning.py:102: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    resumed.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  <tmp>\cadence-lf\tests\test_audit_learning.py:114: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    steady.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  <tmp>\cadence-lf\tests\test_audit_learning.py:115: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    resumed.step(d, labels)
+
+tests/test_audit_learning.py::test_free_phase_reports_the_step_cap_only_through_its_step_count
+  <tmp>\cadence-lf\tests\test_audit_learning.py:196: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    _, report = learner.step(d, labels)
+
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float64]
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float32]
+  <tmp>\cadence-lf\tests\test_bias_qualification.py:253: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, wire.populations["output"], cd.LearnerConfig(momentum=0.6, normalize=0.7))
+
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[cpu-None]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float64]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float32]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+  <tmp>\cadence-lf\tests\test_calibration_backends.py:33: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    graph, wire.populations["output"], cd.LearnerConfig(
+
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+tests/test_public_configuration.py::test_the_description_has_four_sections_and_names_every_gene_as_compose_takes_it
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    return obj.__class__(**changes)
+
+tests/test_checkpoint.py::test_round_trip_reproduces_brains_and_state
+tests/test_checkpoint.py::test_load_can_change_backend_and_freeze
+  <tmp>\cadence-lf\tests\test_checkpoint.py:15: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(eta=0.4, eta_bias=0.1, momentum=0.5, normalize=0.5)
+
+tests/test_continuous.py::test_reward_updates_do_not_advance_imitation_optimizer_history[cpu]
+tests/test_continuous.py::test_reward_updates_do_not_advance_imitation_optimizer_history[torch]
+  <tmp>\cadence-lf\tests\test_continuous.py:116: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learning=cd.LearnerConfig(momentum=0.9, normalize=0.95),
+
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-fast]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-fast]
+  <tmp>\cadence-lf\tests\test_feedback_transaction.py:112: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learning=cd.LearnerConfig(
+
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-fast]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-fast]
+  <tmp>\cadence-lf\src\cadence\checkpoint.py:194: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    saved_config = config or LearnerConfig(**_known_config(meta["config"]))
+
+tests/test_initial_damping.py::test_qualified_only_and_unsupported_backend_refuse_before_phase
+  <tmp>\cadence-lf\tests\test_initial_damping.py:172: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (50) below free_steps (100): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    cd.Learner(brain, np.arange(36), cd.LearnerConfig(qualified=True, initial_damping=2))
+
+tests/test_learned_code.py::test_the_lesson_and_the_outcome_leave_the_region_to_its_own_rule
+  <tmp>\cadence-lf\tests\test_learned_code.py:657: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    report = brain.lesson(x, [1, 3])  # taught rows: the contrast moves the plastic synapses
+
+tests/test_learned_code.py::test_a_long_stream_leaves_the_code_alive
+  <tmp>\cadence-lf\tests\test_learned_code.py:993: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    brain.lesson(x, [token % ACTIONS])
+
+tests/test_learned_code.py::test_a_held_code_is_a_source_and_the_brain_keeps_the_models_step
+  <tmp>\cadence-lf\tests\test_learned_code.py:1241: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    brain.lesson(x, [1, 2])
+
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+  <tmp>\cadence-lf\tests\test_learner_calibration.py:15: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    cd.LearnerConfig(qualified=True, free_steps=32, tolerance=1e-9, **config),
+
+tests/test_learning.py::test_learner_separates_two_classes_and_the_rule_is_local
+  <tmp>\cadence-lf\tests\test_learning.py:39: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(drive[idx], y[idx])
+
+tests/test_learning_reports.py::test_refused_teacher_keeps_prior_accepted_reward_and_attempted_work
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (512): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_learning_reports.py::test_fit_cannot_publish_a_finite_accuracy_as_a_qualified_brain_score
+  <tmp>\cadence-lf\src\cadence\generic.py:3032: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    self.learner.step(drive[rows], labels[rows])
+
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[cpu]
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[torch]
+  <tmp>\cadence-lf\tests\test_numerical_readiness.py:48: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    [1], cd.LearnerConfig(momentum=.5, normalize=.5, eta_bias=1e308),
+
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[cpu]
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[torch]
+  <tmp>\cadence-lf\tests\test_numerical_readiness.py:48: RuntimeWarning: LearnerConfig with eta_bias (1e+308) above eta (0.2): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    [1], cd.LearnerConfig(momentum=.5, normalize=.5, eta_bias=1e308),
+
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[cpu-None]
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[torch-float64]
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[torch-float32]
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:100: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[cpu-None]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float64]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float32]
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:151: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[cpu-None]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float64]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float32]
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:151: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (512): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_refusal_preserves_parameters_optimizer_and_warm_state[free]
+tests/test_qualified_learning.py::test_refusal_preserves_parameters_optimizer_and_warm_state[nudged]
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:180: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_opposite_refusal_keeps_all_work_before_any_optimizer_write
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:217: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_composed_qualified_learning_saved_continuation_and_private_memory
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:334: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    brain = cd.Brain.compose(2, 36, modules=(4,), seed=0, learning=cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_finite_default_retains_its_update_and_reports_unqualified_phase_errors
+  <tmp>\cadence-lf\tests\test_qualified_learning.py:364: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    _, report = first.step(drive, labels)
+
+tests/test_rate_warning.py::test_either_large_normalized_rate_warns_at_the_call_site[0.0-eta_bias-LearnerConfig]
+tests/test_rate_warning.py::test_either_large_normalized_rate_warns_at_the_call_site[0.9-eta_bias-LearnerConfig]
+  <tmp>\cadence-lf\tests\test_rate_warning.py:22: RuntimeWarning: LearnerConfig with eta_bias (0.0500001) above eta (0.003): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    config = config_type(normalize=0.99, momentum=momentum, **rates)
+
+tests/test_recall_memory.py::test_two_thousand_dense_lessons_keep_the_map_finite_and_the_brain_acting
+  <tmp>\cadence-lf\tests\test_recall_memory.py:697: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    report = brain.lesson(x, [0])
+
+tests/test_recall_protocol.py::test_teacher_refusal_then_free_refusal_is_charged_without_reset
+  <tmp>\cadence-lf\benchmarks\recall\vanished_cue.py:41: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learning = LearnerConfig(
+
+tests/test_recall_protocol.py::test_teacher_refusal_then_free_refusal_is_charged_without_reset
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (1): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_recording.py::test_learning_records_free_and_nudged_phases
+  <tmp>\cadence-lf\tests\test_recording.py:88: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(drive, np.array([1]))
+
+tests/test_retention_chamber.py: 17 warnings
+  P:\projects\cadence\.venv\Lib\site-packages\numpy\__config__.py:155: UserWarning: Install `pyyaml` for better output
+    warnings.warn("Install `pyyaml` for better output", stacklevel=1)
+
+tests/test_settlement_reports.py::test_action_report_counts_actual_free_work_and_excludes_reward_eligibility[True]
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (12) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.196954): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.177259): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.159533): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+benchmarks/acquisition/test_protocol.py::test_candidate_arguments_cannot_silently_change_finite_baseline
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.02) above eta (0.01): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+benchmarks/acquisition/test_protocol.py::test_candidate_arguments_cannot_silently_change_finite_baseline
+  <tmp>\cadence-lf\benchmarks\acquisition\run.py:225: RuntimeWarning: LearnerConfig with eta_bias (0.02) above eta (0.01): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    cfg = LearnerConfig(**effective["learning"])
+
+benchmarks/acquisition/test_protocol.py::test_effective_genes_match_actual_wiring_bias_and_learning_without_changing_control[fixed-lateral-local-rms]
+  <home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.02) above eta (0.005): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+benchmarks/acquisition/test_protocol.py::test_effective_genes_match_actual_wiring_bias_and_learning_without_changing_control[fixed-lateral-local-rms]
+  <tmp>\cadence-lf\benchmarks\acquisition\run.py:225: RuntimeWarning: LearnerConfig with eta_bias (0.02) above eta (0.005): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    cfg = LearnerConfig(**effective["learning"])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_documentation.py::test_introductory_python_snippets[docs/memory.md]
+FAILED tests/test_documentation.py::test_introductory_python_snippets[docs/settling.md]
+FAILED tests/test_documentation.py::test_every_python_block_is_run_or_marked_illustrative
+FAILED tests/test_documentation.py::test_local_documentation_links_resolve - ...
+FAILED benchmarks/acquisition/demo/test_bundle.py::test_external_identity_index_has_no_claim_of_local_raw_archive
+FAILED benchmarks/acquisition/test_confirmation_resources.py::test_archiving_seed_one_preserves_seed_ten_and_its_active_stages
+FAILED benchmarks/acquisition/test_confirmation_verifier.py::test_process_errors_stay_in_the_complete_denominator_without_fabricated_work
+FAILED benchmarks/acquisition/test_confirmation_verifier.py::test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[2]
+FAILED benchmarks/acquisition/test_confirmation_verifier.py::test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[3]
+FAILED benchmarks/acquisition/test_confirmation_verifier.py::test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[4]
+FAILED benchmarks/acquisition/test_confirmation_verifier.py::test_new_recipe_requires_matching_passed_development_and_preserves_five_seeds[5]
+FAILED benchmarks/recall/test_finite_horizon.py::test_hard_deadline_reaps_an_artificial_worker_and_keeps_all_denominators
+FAILED benchmarks/stream_words/test_stream_words.py::test_a_smoke_life_writes_a_receipt_that_verifies_and_reports
+FAILED benchmarks/attention/test_heads_evidence.py::test_positive_capacity_and_negative_learned_readers_preserve_their_separate_gates
+FAILED benchmarks/attention/test_heads_evidence.py::test_offline_history_does_not_relax_the_current_source_prerequisite
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_admission_reads_only_declared_panels_and_charges_no_fits
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_bounds_roles_and_original_gates_are_frozen[seconds_cap-61]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_bounds_roles_and_original_gates_are_frozen[fit_budget-95]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_bounds_roles_and_original_gates_are_frozen[information_gates-value2]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_bounds_roles_and_original_gates_are_frozen[primary-value3]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_feature_producer_and_source_bytes_are_bound
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_static_producer_source_is_portable_without_workspace_evidence[False]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_static_producer_source_is_portable_without_workspace_evidence[True]
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_changed_static_producer_is_rejected_before_creating_attempt
+ERROR benchmarks/acquisition/test_native_information_controls.py::test_same_job_cannot_be_relaunched
+15 failed, 3425 passed, 87 skipped, 1 xfailed, 102 warnings, 10 errors in 1438.17s (0:23:58)
+rc=1 secs=1440

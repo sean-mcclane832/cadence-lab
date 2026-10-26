@@ -1,0 +1,13 @@
+modules=(64,) seed 0 cpu              1.16 ms/moment hit_last100 1.00 sweeps 10247
+modules=(64,) seed 0 cuda-float64    27.09 ms/moment hit_last100 1.00 sweeps 10247
+modules=(64,) seed 0 cuda-float32    27.50 ms/moment hit_last100 1.00 sweeps 10247
+modules=(64,) seed 1 cpu              0.87 ms/moment hit_last100 1.00 sweeps 10324
+modules=(64,) seed 1 cuda-float64    28.71 ms/moment hit_last100 1.00 sweeps 10324
+modules=(64,) seed 1 cuda-float32    27.62 ms/moment hit_last100 1.00 sweeps 10324
+modules=(512,) seed 0 cpu              4.35 ms/moment hit_last100 1.00 sweeps 10296
+modules=(512,) seed 0 cuda-float64    28.31 ms/moment hit_last100 1.00 sweeps 10296
+modules=(512,) seed 0 cuda-float32    28.96 ms/moment hit_last100 1.00 sweeps 10296
+modules=(512,) seed 1 cpu              4.33 ms/moment hit_last100 1.00 sweeps 10125
+modules=(512,) seed 1 cuda-float64    27.80 ms/moment hit_last100 1.00 sweeps 10125
+modules=(512,) seed 1 cuda-float32    28.53 ms/moment hit_last100 1.00 sweeps 10125
+receipt: P:\projects\cadence-lab\runs\backend_timing\receipt.json

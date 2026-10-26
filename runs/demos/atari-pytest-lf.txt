@@ -1,0 +1,4 @@
+    config or LearnerConfig(**_known_config(meta["config"])),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+4 passed, 10 warnings in 2.27s

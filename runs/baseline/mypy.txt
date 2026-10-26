@@ -1,0 +1,2 @@
+Success: no issues found in 23 source files
+rc=0 secs=26

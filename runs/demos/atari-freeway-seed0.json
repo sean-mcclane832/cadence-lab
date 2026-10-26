@@ -1,0 +1,103 @@
+{
+ "seed": 0,
+ "identity": {
+  "cadence_net": "0.80.0",
+  "python": "3.11.17",
+  "numpy": "2.4.6",
+  "machine": "AMD64",
+  "sources_sha256": {
+   "server.py": "a155a88c3a2f80a8a9b35b8d07c5cb99de1f993bd558efadec10b3909a8b7dc7",
+   "headless_control.py": "8ac9a667d238488c2bf27dc5f92cf11f5dbfb7ac92cb598fb40bcb6bf7409889"
+  }
+ },
+ "report": {
+  "Freeway:living": {
+   "phase": "playing",
+   "lessons": 500,
+   "takeover": {
+    "lessons": 500,
+    "agreement": 1.0,
+    "seconds": 42.3
+   },
+   "agreement_with_teacher_now": 1.0,
+   "teacher_returns": [
+    21.0,
+    21.0,
+    23.0,
+    21.0
+   ],
+   "teacher_mean": 21.5,
+   "episodes_lived": 2,
+   "returns": [
+    22.0,
+    21.0
+   ],
+   "late_mean": null,
+   "best": 22.0,
+   "faults": 0,
+   "refused": 0,
+   "last_error": null,
+   "decisions": 1959,
+   "env_steps": 8828,
+   "outcomes_learned": 1958,
+   "seconds": 155.4,
+   "think_seconds": {
+    "p50": 0.0577,
+    "p95": 0.083,
+    "p99": 0.0918,
+    "max": 3.8543
+   },
+   "think_seconds_scope": "last 20000 whole brain handlers; watching and play, including refusals/fault backoff; excludes emulator, retina, waiting and rendering"
+  },
+  "Freeway:frozen": {
+   "phase": "playing",
+   "lessons": 500,
+   "takeover": {
+    "lessons": 500,
+    "agreement": 1.0,
+    "seconds": 38.1
+   },
+   "agreement_with_teacher_now": 0.992,
+   "teacher_returns": [
+    21.0,
+    21.0,
+    23.0,
+    21.0
+   ],
+   "teacher_mean": 21.5,
+   "episodes_lived": 2,
+   "returns": [
+    23.0,
+    24.0
+   ],
+   "late_mean": null,
+   "best": 24.0,
+   "faults": 0,
+   "refused": 0,
+   "last_error": null,
+   "decisions": 6518,
+   "env_steps": 8744,
+   "outcomes_learned": 0,
+   "seconds": 150.1,
+   "think_seconds": {
+    "p50": 0.0135,
+    "p95": 0.0696,
+    "p99": 0.0858,
+    "max": 0.2708
+   },
+   "think_seconds_scope": "last 20000 whole brain handlers; watching and play, including refusals/fault backoff; excludes emulator, retina, waiting and rendering"
+  }
+ },
+ "verdicts": {
+  "Freeway": {
+   "takeover_living": true,
+   "takeover_frozen": true,
+   "no_faults": true,
+   "lived_episodes": false,
+   "no_collapse": false,
+   "expert_via_selfplay": false,
+   "living_holds_or_beats_frozen": false,
+   "PASS": false
+  }
+ }
+}

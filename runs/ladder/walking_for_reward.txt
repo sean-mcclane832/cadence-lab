@@ -1,0 +1,82 @@
+{
+ "seed": 3,
+ "world": "+1 when the foot changes, 0 when it repeats, paid at the next moment; the same drive every moment",
+ "walker_with_copy": {
+  "changed_foot_by_block": [
+   0.64,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "aroused_by_block": [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "income_by_block": [
+   0.64,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "last_64_beat": 1.0,
+  "last_64_aroused": 0.0,
+  "last_32_steps": "RLRLRLRLRLRLRLRLRLRLRLRLRLRLRLRL",
+  "work": {
+   "routine": 500,
+   "aroused": 100,
+   "sweeps_routine": 16000,
+   "sweeps_aroused": 2560,
+   "learning": 751
+  },
+  "greedy_twin_beat": 1.0,
+  "twin_continued_identically": true
+ },
+ "control_without_copy": {
+  "changed_foot_by_block": [
+   0.54,
+   0.33,
+   0.39,
+   0.42,
+   0.36,
+   0.35
+  ],
+  "aroused_by_block": [
+   1.0,
+   0.7,
+   0.66,
+   0.62,
+   0.68,
+   0.81
+  ],
+  "income_by_block": [
+   0.54,
+   0.33,
+   0.39,
+   0.42,
+   0.36,
+   0.35
+  ],
+  "last_64_beat": 0.35,
+  "last_64_aroused": 0.88,
+  "last_32_steps": "LLLLLLLLLLLRLLLLLLRLLLRRLLLRRRRR",
+  "work": {
+   "routine": 153,
+   "aroused": 447,
+   "sweeps_routine": 128,
+   "sweeps_aroused": 3936,
+   "learning": 3259
+  },
+  "greedy_twin_beat": 0.0,
+  "twin_continued_identically": true
+ },
+ "uniform_random_last_64_beat": 0.54
+}
+rc=0 secs=2

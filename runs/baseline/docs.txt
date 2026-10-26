@@ -1,0 +1,31 @@
+                destination = (page.parent / path).resolve() if path else page
+                if not destination.exists():
+                    problems.append(f"{page.name}: missing {target}")
+                elif anchor and destination.suffix == ".md":
+>                   content = destination.read_text()
+                              ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_documentation.py:133: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\pathlib.py:1059: in read_text
+    return f.read()
+           ^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <encodings.cp1252.IncrementalDecoder object at 0x000002E0592EE190>
+input = b'# How the brain settles and learns\r\n\r\nThe mechanics below [`Brain.compose`](tune.md), for building or debugging ...hts, nudges and memories lack\r\nthis gradient form; the gradient of a squared residual adds a Jacobian transpose.\r\n'
+final = True
+
+    def decode(self, input, final=False):
+>       return codecs.charmap_decode(input,self.errors,decoding_table)[0]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       UnicodeDecodeError: 'charmap' codec can't decode byte 0x81 in position 17246: character maps to <undefined>
+
+<home>\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py:23: UnicodeDecodeError
+=========================== short test summary info ===========================
+FAILED tests/test_documentation.py::test_introductory_python_snippets[docs/memory.md]
+FAILED tests/test_documentation.py::test_introductory_python_snippets[docs/settling.md]
+FAILED tests/test_documentation.py::test_every_python_block_is_run_or_marked_illustrative
+FAILED tests/test_documentation.py::test_local_documentation_links_resolve - ...
+4 failed, 13 passed in 16.14s
+secs=21

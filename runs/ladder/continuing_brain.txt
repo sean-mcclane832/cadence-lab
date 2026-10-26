@@ -1,0 +1,1864 @@
+{
+  "measurement_scope": "Per-action free-answer diagnostics; step settlement sweeps also include previous feedback, current teaching and eligibility. They exclude residual checks, memory, optimizer and recording overhead. No energy or total-cost claim.",
+  "stages": [
+    {
+      "phase": "bootstrap",
+      "executed_transitions": 16,
+      "correct_actions": 13,
+      "witnessed_mistakes": 3,
+      "corrective_lessons": 3,
+      "free_answer_sweeps": 512,
+      "free_answer_residual_checks": 32,
+      "max_free_answer_residual": 3.013404803464681e-11
+    },
+    {
+      "phase": "unchanged_environment",
+      "executed_transitions": 8,
+      "correct_actions": 6,
+      "witnessed_mistakes": 2,
+      "corrective_lessons": 0,
+      "free_answer_sweeps": 224,
+      "free_answer_residual_checks": 15,
+      "max_free_answer_residual": 0.002068906999950798
+    },
+    {
+      "phase": "changed_environment",
+      "executed_transitions": 8,
+      "correct_actions": 3,
+      "witnessed_mistakes": 5,
+      "corrective_lessons": 0,
+      "free_answer_sweeps": 192,
+      "free_answer_residual_checks": 14,
+      "max_free_answer_residual": 0.002700002991308348
+    },
+    {
+      "phase": "repair",
+      "executed_transitions": 16,
+      "correct_actions": 13,
+      "witnessed_mistakes": 3,
+      "corrective_lessons": 3,
+      "free_answer_sweeps": 512,
+      "free_answer_residual_checks": 32,
+      "max_free_answer_residual": 2.7122193380080262e-11
+    },
+    {
+      "phase": "continued_use",
+      "executed_transitions": 8,
+      "correct_actions": 7,
+      "witnessed_mistakes": 1,
+      "corrective_lessons": 0,
+      "free_answer_sweeps": 256,
+      "free_answer_residual_checks": 16,
+      "max_free_answer_residual": 9.614531393253856e-14
+    }
+  ],
+  "outcomes": [
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.134369070372344e-12
+        ],
+        "max_residual": 2.134369070372344e-12,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 4,
+        "sweeps": 39,
+        "nudged_sweeps": 7
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": 0,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.609024107869118e-15
+        ],
+        "max_residual": 2.609024107869118e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 47,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": 0,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.4522384950719243e-13
+        ],
+        "max_residual": 3.4522384950719243e-13,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 62,
+        "nudged_sweeps": 17
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.7989056345111294e-13
+        ],
+        "max_residual": 3.7989056345111294e-13,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 61,
+        "nudged_sweeps": 16
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          7.699924031712158e-12
+        ],
+        "max_residual": 7.699924031712158e-12,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          4.440892098500626e-16
+        ],
+        "max_residual": 4.440892098500626e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": 1,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 48,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 48,
+        "nudged_sweeps": 5
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.567634910770721e-13
+        ],
+        "max_residual": 1.567634910770721e-13,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.013404803464681e-11
+        ],
+        "max_residual": 3.013404803464681e-11,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 45,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.7763568394002505e-15
+        ],
+        "max_residual": 1.7763568394002505e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          6.677353114881157e-12
+        ],
+        "max_residual": 6.677353114881157e-12,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.3306690738754696e-16
+        ],
+        "max_residual": 3.3306690738754696e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 41,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          7.967071447012586e-12
+        ],
+        "max_residual": 7.967071447012586e-12,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          4.440892098500626e-16
+        ],
+        "max_residual": 4.440892098500626e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 41,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "bootstrap",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          7.295275494811904e-12
+        ],
+        "max_residual": 7.295275494811904e-12,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          6.661338147750939e-16
+        ],
+        "max_residual": 6.661338147750939e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 48,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.002068906999950798
+        ],
+        "max_residual": 0.002068906999950798,
+        "steps": 0,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 1,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 4,
+        "sweeps": 12,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.887379141862766e-15
+        ],
+        "max_residual": 1.887379141862766e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 3
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 41,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 40,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 40,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "unchanged_environment",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.002700002991308348
+        ],
+        "max_residual": 0.002700002991308348,
+        "steps": 0,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 1,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 4,
+        "sweeps": 9,
+        "nudged_sweeps": 3
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 40,
+        "nudged_sweeps": 2
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0015517376877355188
+        ],
+        "max_residual": 0.0015517376877355188,
+        "steps": 0,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 1,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 4,
+        "sweeps": 12,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 40,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "changed_environment",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.7755575615628914e-17
+        ],
+        "max_residual": 2.7755575615628914e-17,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 46,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": 1,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 40,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 47,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          4.5852210917018965e-14
+        ],
+        "max_residual": 4.5852210917018965e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 45,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.2212453270876722e-15
+        ],
+        "max_residual": 1.2212453270876722e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 41,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          4.75175454539567e-14
+        ],
+        "max_residual": 4.75175454539567e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 1,
+      "next_teacher": 1,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          6.661338147750939e-16
+        ],
+        "max_residual": 6.661338147750939e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 47,
+        "nudged_sweeps": 10
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 48,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.2240876635114546e-13
+        ],
+        "max_residual": 3.2240876635114546e-13,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          3.774758283725532e-15
+        ],
+        "max_residual": 3.774758283725532e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 1,
+      "observed_target": 0,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": 0,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.1324274851176597e-14
+        ],
+        "max_residual": 1.1324274851176597e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 47,
+        "nudged_sweeps": 8
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.7122193380080262e-11
+        ],
+        "max_residual": 2.7122193380080262e-11,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 8,
+        "sweeps": 53,
+        "nudged_sweeps": 5
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.220446049250313e-16
+        ],
+        "max_residual": 2.220446049250313e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          8.271161533457416e-14
+        ],
+        "max_residual": 8.271161533457416e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.220446049250313e-16
+        ],
+        "max_residual": 2.220446049250313e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.0658141036401503e-14
+        ],
+        "max_residual": 1.0658141036401503e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "repair",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.220446049250313e-16
+        ],
+        "max_residual": 2.220446049250313e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.220446049250313e-15
+        ],
+        "max_residual": 2.220446049250313e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          5.551115123125783e-17
+        ],
+        "max_residual": 5.551115123125783e-17,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          5.995204332975845e-15
+        ],
+        "max_residual": 5.995204332975845e-15,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          1.6653345369377348e-16
+        ],
+        "max_residual": 1.6653345369377348e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 42,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.398081733190338e-14
+        ],
+        "max_residual": 2.398081733190338e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 1,
+      "action": 1,
+      "observed_target": 1,
+      "reward": 1.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          0.0
+        ],
+        "max_residual": 0.0,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 44,
+        "nudged_sweeps": 6
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 0,
+      "action": 0,
+      "observed_target": 0,
+      "reward": 1.0,
+      "next_cue": 1,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          9.614531393253856e-14
+        ],
+        "max_residual": 9.614531393253856e-14,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 43,
+        "nudged_sweeps": 4
+      }
+    },
+    {
+      "phase": "continued_use",
+      "cue": 1,
+      "action": 0,
+      "observed_target": 1,
+      "reward": 0.0,
+      "next_cue": 0,
+      "next_teacher": null,
+      "free_answer": {
+        "operation": "act",
+        "scope": "free_answer",
+        "qualified": true,
+        "row_qualified": [
+          true
+        ],
+        "residual": [
+          2.220446049250313e-16
+        ],
+        "max_residual": 2.220446049250313e-16,
+        "steps": 32,
+        "budget": 1024,
+        "tolerance": 0.003,
+        "residual_checks": 2,
+        "damping_halvings": 0,
+        "stagnation_checks": 0
+      },
+      "step_settlement_work": {
+        "calls": 5,
+        "sweeps": 45,
+        "nudged_sweeps": 7
+      }
+    }
+  ],
+  "executed_transitions": 57,
+  "associative_writes": 57,
+  "memory_free_graph_control": {
+    "predictions": [
+      1,
+      1
+    ],
+    "changed_environment_labels": [
+      0,
+      1
+    ]
+  },
+  "saved_feedback_continuation_identical": true,
+  "free_queries_preserved_live_checkpoint": true
+}
+rc=0 secs=1
