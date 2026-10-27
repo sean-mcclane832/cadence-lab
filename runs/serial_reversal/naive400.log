@@ -78,7 +78,7 @@ P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit
 memory_off    seed  1: errors [18] slope +9.00 (0.3s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
-memory_off    seed  2: errors [17] slope +8.50 (0.3s)
+memory_off    seed  2: errors [17] slope +8.50 (0.4s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
 memory_off    seed  3: errors [19] slope +9.50 (0.3s)
@@ -108,7 +108,7 @@ P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit
 memory_off    seed 11: errors [17] slope +8.50 (0.3s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
-newborn       seed  0: errors [ 1] slope +0.50 (0.3s)
+newborn       seed  0: errors [ 1] slope +0.50 (0.4s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
 newborn       seed  1: errors [ 1] slope +0.50 (0.4s)
@@ -177,7 +177,7 @@ P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit
 cue           seed 10: errors [12] slope +6.00 (0.3s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
-cue           seed 11: errors [11] slope +5.50 (0.3s)
+cue           seed 11: errors [11] slope +5.50 (0.4s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
 cue_choice    seed  0: errors [10] slope +5.00 (0.6s)
@@ -282,7 +282,7 @@ P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit
 mlp_cue       seed  9: errors [ 7] slope +3.50 (0.3s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
-mlp_cue       seed 10: errors [ 8] slope +4.00 (0.3s)
+mlp_cue       seed 10: errors [ 8] slope +4.00 (0.2s)
 P:\projects\cadence-lab\experiments\serial_reversal.py:175: RankWarning: Polyfit may be poorly conditioned
   return float(np.polyfit(x, np.asarray(ys, dtype=float), 1)[0])
 mlp_cue       seed 11: errors [ 2] slope +1.00 (0.3s)

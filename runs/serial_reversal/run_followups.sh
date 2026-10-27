@@ -1,5 +1,5 @@
 #!/bin/bash
-# Follow-ups, 2026-10-27 ~01:00: probe block, issue #210 zero-payoff case, naive controls,
+# Follow-ups + rebuild on LF source, 2026-10-27. Each receipt hashes the exact source it ran on.
 # then rebuild the earlier receipts on the final source (defaults unchanged).
 cd P:/projects/cadence-lab
 PY=P:/projects/cadence/.venv/Scripts/python.exe
