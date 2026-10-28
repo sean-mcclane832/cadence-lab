@@ -1,0 +1,430 @@
+From 00864150dde7eb882ba40c3a0de2dcec3e4ffbd5 Mon Sep 17 00:00:00 2001
+From: sean-mcclane832 <swhall2008@gmail.com>
+Date: Tue, 27 Oct 2026 21:41:11 -0400
+Subject: [PATCH 1/2] Episodic memory: memory_extinction gene extinguishes a
+ payment that stopped (issue 210)
+
+A learned zero outcome of an action this place has paid directly is written as a known
+outcome when the records still expect at least theta of it. Records built only by replay
+or by a demonstration are never extinguished. Founder 0 (off): every brain and checkpoint
+is as in 0.89.0.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01S1RefwYiidX9Z2DHx4PZvk
+---
+ CHANGELOG.md                      |   8 +++
+ src/cadence/generic.py            |  53 +++++++++++++--
+ src/cadence/memories.py           |  58 +++++++++++++++-
+ tests/test_episodic_extinction.py | 106 ++++++++++++++++++++++++++++++
+ 4 files changed, 219 insertions(+), 6 deletions(-)
+ create mode 100644 tests/test_episodic_extinction.py
+
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index 0b98738..a5ad6f9 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -2,6 +2,14 @@
+ 
+ ## Unreleased
+ 
++- `Brain.compose(..., memory_choice=True, memory_extinction=theta)` (founder 0, off): a learned
++  zero outcome of an action this place has paid directly is written as a known outcome when the
++  records still expect at least `theta` of it, so a payment that stops is extinguished (issue
++  210). A record built by replay or by a demonstration alone is never extinguished: the key-door
++  corridor, the odour nursery's avoidance and taught songs write nothing under the gene. With
++  the gene off every brain and checkpoint is as in 0.89.0. Checkpoints of a brain with the gene
++  keep its store of direct payments (`memories/episodic/paid_memory/...`).
++
+ ## 0.89.0 — 2026-10-26
+ 
+ - Give the recall memory a position term, on by default. A key said what a moment was and
+diff --git a/src/cadence/generic.py b/src/cadence/generic.py
+index 981647a..d78f148 100644
+--- a/src/cadence/generic.py
++++ b/src/cadence/generic.py
+@@ -315,6 +315,7 @@ _EPISODIC_FOUNDERS: dict[str, Any] = {
+ }
+ _EPISODIC_SETTINGS = (
+     "memory_choice", "memory_context", "memory_replay", "memory_demonstrations",
++    "memory_extinction",
+     "memory_expansion", "memory_winners", "memory_fan_in",
+ )
+ 
+@@ -1152,6 +1153,8 @@ def _earlier_layout(
+             arrays[_MEMORY_PREFIXES[group] + rest] = data[name]
+         elif rest.startswith("context_memory/"):
+             arrays["temporal/" + rest[len("context_memory/"):]] = data[name]
++        elif rest.startswith("paid_memory/"):
++            arrays["paid/" + rest[len("paid_memory/"):]] = data[name]
+         elif rest in ("context", "decision") or rest.startswith("path/"):
+             arrays["episode/" + rest] = data[name]
+         else:
+@@ -1177,7 +1180,9 @@ def _validate_episodic_state(
+         return
+     if (
+         not isinstance(episodic, dict)
+-        or set(episodic) != {"choice", "context", "replay", "demonstrations", "context_memory"}
++        or set(episodic) - {"extinction", "paid_memory"}
++        != {"choice", "context", "replay", "demonstrations", "context_memory"}
++        or ("extinction" in episodic) != ("paid_memory" in episodic)
+         or episodic["choice"] is not True
+     ):
+         raise ValueError("invalid episodic metadata")
+@@ -1186,6 +1191,13 @@ def _validate_episodic_state(
+         raise ValueError("invalid saved memory_context")
+     replay = _count("saved memory_replay", episodic["replay"])
+     real("saved memory_demonstrations", episodic["demonstrations"], low=0)
++    if "extinction" in episodic:
++        real("saved memory_extinction", episodic["extinction"], low=0)
++        paid = episodic["paid_memory"]
++        if not isinstance(paid, dict) or paid.get("pre") != sensory:
++            raise ValueError("the record of direct payments is keyed by the observation code")
++    elif any(n.startswith("paid/") for n in data):
++        raise ValueError("saved direct payments require memory_extinction")
+     memory = meta.get("hippocampus")
+     if not isinstance(memory, dict) or memory.get("pre") != sensory:
+         raise ValueError(
+@@ -1555,6 +1567,7 @@ class Brain:
+         memory_context: float = 0.0,
+         memory_replay: int = 0,
+         memory_demonstrations: float = 0.0,
++        memory_extinction: float = 0.0,
+         memory_expansion: int = 0,
+         memory_winners: int = 32,
+         memory_fan_in: int | None = None,
+@@ -1658,6 +1671,7 @@ class Brain:
+             raise ValueError("memory_context must lie in [0, 1)")
+         memory_replay = _count("memory_replay", memory_replay)
+         memory_demonstrations = real("memory_demonstrations", memory_demonstrations, low=0)
++        memory_extinction = real("memory_extinction", memory_extinction, low=0)
+         memory_expansion = _count("memory_expansion", memory_expansion)
+         memory_winners = _count("memory_winners", memory_winners, low=1)
+         memory_fan_in = _count("memory_fan_in", 0 if memory_fan_in is None else memory_fan_in)
+@@ -1671,6 +1685,8 @@ class Brain:
+         separated = bool(memory_expansion)
+         if memory_choice and not episodic:
+             raise ValueError("memory_choice needs the episodic memory")
++        if memory_extinction and not memory_choice:
++            raise ValueError("memory_extinction needs memory_choice")
+         if not memory_choice and (
+             memory_context or memory_replay or memory_demonstrations or memory_expansion
+         ):
+@@ -1804,10 +1820,14 @@ class Brain:
+             )
+         if episodic:
+ 
+-            def store(keys: np.ndarray, offset: int) -> SynapticMemory:
++            def store(
++                keys: np.ndarray, offset: int, persistent: bool = False
++            ) -> SynapticMemory:
++                # a persistent store writes each record whole into the shared matrix
+                 return SynapticMemory(
+-                    keys, self.motor_index, consolidation=consolidation,
+-                    decay=memory_decay, rate=memory_rate, amplitude=memory_amplitude,
++                    keys, self.motor_index, consolidation=1.0 if persistent else consolidation,
++                    decay=memory_decay, rate=1.0 if persistent else memory_rate,
++                    amplitude=memory_amplitude,
+                     separator=PatternSeparator(
+                         len(keys), memory_expansion, memory_winners, seed=seed + offset,
+                         fan_in=memory_fan_in,
+@@ -1835,6 +1855,13 @@ class Brain:
+                     share=memory_context,
+                     steps=memory_replay,
+                     demonstrations=memory_demonstrations,
++                    extinction=memory_extinction,
++                    # the direct payments, keyed and separated as the place records are
++                    paid=store(
++                        np.arange(self.code_width) if coded else self.sensory_index, 0, True
++                    )
++                    if memory_extinction
++                    else None,
+                 )
+         self.rng = np.random.default_rng(seed)
+         # the validated observations a settle is being prepared for and their code, computed
+@@ -2334,7 +2361,13 @@ class Brain:
+         continuing life a reward is replayed in proportion to its surprise, the reward less
+         what the memory expected of the paid decision: into each decision's context record,
+         and into its place record as far as it was an exploration rather than the brain's
+-        best guess. Nothing has to mark the end of an attempt. Keys are separated
++        best guess. Nothing has to mark the end of an attempt. ``memory_extinction`` above
++        zero (founder 0, off) extinguishes a payment that stopped: a learned zero outcome in
++        the middle of an attempt is written, as a known outcome, when the records still expect
++        at least that much of the chosen action and a known outcome of that action itself has
++        paid in this place (kept in a persistent store of direct payments, keyed as the place
++        records). Credit an action holds only through replay or a demonstration is never
++        extinguished (issue 210). Keys are separated
+         (``memory_expansion`` 1,024 cells, ``memory_winners`` 24; a brain with a fixed code keys
+         on that code as it is, with no separation, and a learned code's keys are separated
+         as an observation's are). ``memory_fan_in`` above zero makes the separation
+@@ -4679,6 +4712,14 @@ class Brain:
+                         "the saved context records are keyed on other coordinates than the "
+                         "brain's observation code and its motor neurons"
+                     )
++                paid: SynapticMemory | None = None
++                if "paid_memory" in episodic:
++                    loaded = _load_memory(
++                        episodic["paid_memory"], data, neurons, "paid/", keys=coded,
++                    )
++                    if not isinstance(loaded, SynapticMemory):
++                        raise ValueError("the record of direct payments consolidates")
++                    paid = loaded
+                 records = EpisodicRecords(
+                     memory,
+                     temporal,
+@@ -4687,6 +4728,8 @@ class Brain:
+                     share=float(episodic["context"]),
+                     steps=int(episodic["replay"]),
+                     demonstrations=float(episodic["demonstrations"]),
++                    extinction=float(episodic.get("extinction", 0.0)),
++                    paid=paid,
+                 )
+                 result._episodic = records
+                 for name in ("context", "decision"):
+diff --git a/src/cadence/memories.py b/src/cadence/memories.py
+index 40439a8..f33b947 100644
+--- a/src/cadence/memories.py
++++ b/src/cadence/memories.py
+@@ -183,7 +183,11 @@ class EpisodicRecords:
+         share: float,
+         steps: int,
+         demonstrations: float,
++        extinction: float = 0.0,
++        paid: SynapticMemory | None = None,
+     ) -> None:
++        if (paid is None) != (extinction == 0.0):
++            raise ValueError("memory_extinction keeps a store of direct payments, and only then")
+         self.place = place
+         self.temporal = temporal
+         self.width = int(width)  # the place key's width; a context key adds the motor neurons
+@@ -192,6 +196,11 @@ class EpisodicRecords:
+         self.share = float(share)  # the share the past keeps per moment (``memory_context``)
+         self.steps = int(steps)  # the decisions a reward replays (``memory_replay``)
+         self.demonstrations = float(demonstrations)  # (``memory_demonstrations``)
++        # ``memory_extinction``: a learned zero outcome of an action this place has paid
++        # directly is written where the record still expects at least this much; ``paid``
++        # keeps, per place and action, whether a known outcome of the action itself paid
++        self.extinction = float(extinction)
++        self.paid = paid
+         self.context: np.ndarray | None = None
+         self.decision: np.ndarray | None = None
+         self.paths: list[list[Entry]] = []
+@@ -276,6 +285,11 @@ class EpisodicRecords:
+             "replay": int(self.steps),
+             "demonstrations": float(self.demonstrations),
+             "context_memory": None if self.temporal is None else self.temporal.to_dict(),
++            **(
++                {}
++                if self.paid is None
++                else {"extinction": self.extinction, "paid_memory": self.paid.to_dict()}
++            ),
+         }
+ 
+     def arrays(self) -> dict[str, np.ndarray]:
+@@ -283,6 +297,8 @@ class EpisodicRecords:
+         replay paths as padded arrays with each stream's length; the place records are the
+         associative store's."""
+         out: dict[str, np.ndarray] = {}
++        if self.paid is not None:
++            out.update({"paid_memory/" + k: v for k, v in self.paid.arrays().items()})
+         if self.temporal is not None:
+             out.update({"context_memory/" + k: v for k, v in self.temporal.arrays().items()})
+             if self.context is not None:
+@@ -448,11 +464,51 @@ class EpisodicRecords:
+         keys = self.decided(len(action))
+         # what the memory expected of the decision, read before its outcome is written; an
+         # attempt that ends is a closed episode, whose reward is replayed whole
+-        surprise = np.where(done, reward, reward - self.held(observations, keys, action))
++        expected = self.held(observations, keys, action)
++        surprise = np.where(done, reward, reward - expected)
++        extinct = self.extinct(observations, action, reward, known, learned, expected)
+         if known.any():
+             self.remember(observations, keys, action, reward, known, salience)
++        if extinct.any():
++            # a payment that stopped: the zero is an outcome after all
++            self.remember(observations, keys, action, np.zeros(len(reward)), extinct)
++        if self.paid is not None:
++            paid = known & (reward > 0)
++            if paid.any():
++                record_action(
++                    self.paid, observations, action, np.ones(len(reward)),
++                    np.zeros(len(reward)), paid, self.offsets,
++                )
+         self.replay(reward, surprise, done, learned, gamma=gamma)
+ 
++    def extinct(
++        self,
++        observations: np.ndarray,
++        action: np.ndarray,
++        reward: np.ndarray,
++        known: np.ndarray,
++        learned: np.ndarray,
++        expected: np.ndarray,
++    ) -> np.ndarray:
++        """The streams whose learned zero outcome extinguishes a record
++        (``memory_extinction``): an outcome not otherwise known, of an action whose record
++        still expects at least ``extinction`` and which a known outcome of its own has paid
++        in this place. A record built by replay or by a demonstration alone never
++        qualifies, so a corridor's replayed credit and a taught note stay as they are."""
++        out = np.zeros(len(reward), bool)
++        if self.paid is None:
++            return out
++        candidate = learned & ~known & (reward == 0) & (expected >= self.extinction)
++        if not candidate.any():
++            return out
++        read = np.asarray(self.paid.recall(observations)) / self.paid.amplitude
++        rows = np.arange(len(action))
++        if action.ndim == 2:
++            flag = read[rows[:, None], action + self.offsets[None, :]].min(axis=1)
++        else:
++            flag = read[rows, action]
++        return np.asarray(candidate & (flag >= 0.5))
++
+     def held(
+         self,
+         observations: np.ndarray,
+diff --git a/tests/test_episodic_extinction.py b/tests/test_episodic_extinction.py
+new file mode 100644
+index 0000000..8a11417
+--- /dev/null
++++ b/tests/test_episodic_extinction.py
+@@ -0,0 +1,106 @@
++"""``memory_extinction``: a payment that stops is extinguished; replayed or taught credit is not."""
++
++from __future__ import annotations
++
++import os
++
++import numpy as np
++import pytest
++
++import cadence as cd
++
++
++def episodic(*args, **options) -> cd.Brain:
++    return cd.Brain.compose(*args, **{"memory_choice": True, **options})
++
++
++def one_hot(index: int, width: int, rows: int = 1) -> np.ndarray:
++    x = np.zeros((rows, width))
++    x[:, index] = 1.0
++    return x
++
++
++def place(brain: cd.Brain, x: np.ndarray, action: int) -> float:
++    return float(brain.hippocampus.recall(x)[0, action])
++
++
++def test_the_gene_is_validated_and_off_by_default():
++    assert episodic(3, 2, seed=1).memories["episodic"].extinction == 0.0
++    assert episodic(3, 2, seed=1).memories["episodic"].paid is None
++    with pytest.raises(ValueError, match="memory_extinction needs memory_choice"):
++        cd.Brain.compose(3, 2, seed=1, memory_extinction=0.5)
++    with pytest.raises(ValueError):
++        episodic(3, 2, seed=1, memory_extinction=-0.1)
++    described = episodic(3, 2, seed=1, memory_extinction=0.5).describe()["memories"]["episodic"]
++    assert described["extinction"] == 0.5 and described["paid_memory"]["pre"] == 3
++
++
++def bandit(seed: int, **options) -> tuple[cd.Brain, list[float]]:
++    """Arm 0 pays for 120 trials, then arm 1; the unpaid arm pays nothing (issue 210)."""
++    brain = episodic(1, 2, modules=(16,), seed=seed, arousal=True, **options)
++    x = np.ones((1, 1))
++    action, hits = int(brain.live(x)[0]), []
++    for t in range(240):
++        target = 0 if t < 120 else 1
++        hits.append(float(action == target))
++        action = int(brain.live(x, reward=[1.0 if action == target else 0.0])[0])
++    return brain, hits
++
++
++def test_the_gene_off_is_the_released_brain_exactly():
++    released, hits = bandit(3)
++    off, same = bandit(3, memory_extinction=0.0)
++    assert hits == same
++    np.testing.assert_array_equal(
++        released.hippocampus.consolidated, off.hippocampus.consolidated
++    )
++
++
++def test_a_payment_that_stops_is_extinguished():
++    acquired = {name: 0 for name in ("released", "gene")}
++    for seed in range(6):
++        for name, options in (("released", {}), ("gene", {"memory_extinction": 0.5})):
++            brain, hits = bandit(seed, **options)
++            acquired[name] += np.mean(hits[-40:]) >= 0.8
++    assert acquired["gene"] == 6 and acquired["released"] < 6
++
++
++def test_a_taught_act_outlives_a_zero_outcome_with_the_gene():
++    brain = episodic(3, 3, seed=4, memory_context=0.0, memory_extinction=0.5)
++    start = one_hot(0, 3)
++    brain.step(start, teacher=[2])
++    shown = place(brain, start, 2)
++    assert shown >= 0.5
++    brain._moment = (start.copy(), np.array([2]))  # the shown action was the one executed
++    brain.learn(np.zeros(1), np.zeros(1, bool), start)  # nothing paid, the place unchanged
++    assert place(brain, start, 2) == pytest.approx(shown)
++
++
++def test_a_paid_act_is_extinguished_by_a_zero_outcome_with_the_gene():
++    for extinction, kept in ((0.0, True), (0.5, False)):
++        brain = episodic(3, 3, seed=4, memory_context=0.0, memory_extinction=extinction)
++        start = one_hot(0, 3)
++        brain.act(start)
++        brain._moment = (start.copy(), np.array([2]))
++        brain.learn(np.ones(1), np.zeros(1, bool), start)  # paid directly
++        paid = place(brain, start, 2)
++        assert paid >= 0.5
++        brain.act(start)
++        brain._moment = (start.copy(), np.array([2]))
++        brain.learn(np.zeros(1), np.zeros(1, bool), start)  # the payment did not come
++        assert (place(brain, start, 2) == pytest.approx(paid)) is kept
++
++
++def test_a_saved_brain_with_the_gene_continues_exactly(tmp_path):
++    brain, _ = bandit(1, memory_extinction=0.5)
++    path = brain.save(os.path.join(tmp_path, "brain.npz"))
++    first, second = cd.Brain.load(path), cd.Brain.load(path)
++    records = first.memories["episodic"]
++    assert records.extinction == 0.5
++    np.testing.assert_array_equal(
++        records.paid.consolidated, brain.memories["episodic"].paid.consolidated
++    )
++    x = np.ones((1, 1))
++    for reward in (None, 0.0, 0.0, 1.0, 0.0):
++        options = {} if reward is None else {"reward": [reward]}
++        assert int(first.live(x, **options)[0]) == int(second.live(x, **options)[0])
+-- 
+2.56.0.windows.3
+
+
+From 37c7e21f29c9f79f8a4ec37741e5d20409d1fecc Mon Sep 17 00:00:00 2001
+From: sean-mcclane832 <swhall2008@gmail.com>
+Date: Tue, 27 Oct 2026 21:54:50 -0400
+Subject: [PATCH 2/2] memory_extinction: a direct payment counts at 0.9 of a
+ whole write, not a neighbour's overlap
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01S1RefwYiidX9Z2DHx4PZvk
+---
+ src/cadence/memories.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/src/cadence/memories.py b/src/cadence/memories.py
+index f33b947..b8f0de0 100644
+--- a/src/cadence/memories.py
++++ b/src/cadence/memories.py
+@@ -507,7 +507,9 @@ class EpisodicRecords:
+             flag = read[rows[:, None], action + self.offsets[None, :]].min(axis=1)
+         else:
+             flag = read[rows, action]
+-        return np.asarray(candidate & (flag >= 0.5))
++        # a payment is written whole (1.0); a read well below it is a neighbouring place's
++        # payment carried over by the overlap of the keys, not this place's
++        return np.asarray(candidate & (flag >= 0.9))
+ 
+     def held(
+         self,
+-- 
+2.56.0.windows.3
+

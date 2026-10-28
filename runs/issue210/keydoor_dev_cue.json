@@ -1,0 +1,805 @@
+{
+ "rows": [
+  {
+   "seed": 0,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 24.69,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    14,
+    9,
+    24
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 1,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.07,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    8,
+    22,
+    9
+   ],
+   "fed": [
+    0.98,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 2,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.7,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    17,
+    14,
+    37
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 3,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.18,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    8,
+    4,
+    9
+   ],
+   "fed": [
+    0.98,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 4,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.09,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    4,
+    15,
+    78
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 5,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.4,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    8,
+    3,
+    7
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 6,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.84,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    31,
+    4,
+    38
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 7,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.22,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    12,
+    12,
+    17
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 0,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.1,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    9,
+    20,
+    29
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 1,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.83,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    21,
+    10,
+    16
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 2,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.33,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    6,
+    12,
+    27
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 3,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.14,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    13,
+    12,
+    13
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 4,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.08,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    50,
+    15,
+    69
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 5,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.14,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    9,
+    26,
+    47
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 6,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.84,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    2,
+    7,
+    32
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 7,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": false,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.53,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    13,
+    47,
+    31
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 0,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 30.34,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    16,
+    51,
+    168
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 1,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 28.59,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    9,
+    87,
+    74
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 2,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 27.41,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    38,
+    22,
+    42
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 3,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 27.16,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    26,
+    15,
+    84
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 4,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.07,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    3,
+    0,
+    43
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 5,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.73,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    39,
+    11,
+    17
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 6,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 28.63,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    38,
+    21,
+    112
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 7,
+   "delay": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.08,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    27,
+    12,
+    15
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 0,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 28.55,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    52,
+    12,
+    74
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 1,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 30.7,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    64,
+    56,
+    162
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 2,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 26.71,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    6,
+    29,
+    55
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 3,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 27.63,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    38,
+    4,
+    87
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 4,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 27.83,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    83,
+    12,
+    55
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    0.78
+   ]
+  },
+  {
+   "seed": 5,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 28.1,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    59,
+    97,
+    72
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 6,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 25.81,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    29,
+    6,
+    113
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "seed": 7,
+   "delay": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "cue": true,
+   "writes": 0,
+   "zeros": 0,
+   "seconds": 24.63,
+   "rules": [
+    "chest",
+    "lamp",
+    "chest"
+   ],
+   "lags": [
+    36,
+    2,
+    16
+   ],
+   "fed": [
+    1.0,
+    1.0,
+    1.0
+   ]
+  }
+ ],
+ "seconds": 133.1
+}

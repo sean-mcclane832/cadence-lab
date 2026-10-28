@@ -1,0 +1,7 @@
+80 lives, 103s, errors: 0
+| arm | exposure | rule | lives passing | median reversal lag | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- |
+| live | 300 | history | 14 of 20 | 56.5 | 0 / 2401 |
+| live | 1000 | history | 19 of 20 | 40.5 | 0 / 2560 |
+| step | 300 | history | 10 of 20 | 105.0 | 0 / 12890 |
+| step | 1000 | history | 11 of 20 | 119.0 | 0 / 18860 |

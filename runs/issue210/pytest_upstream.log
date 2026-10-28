@@ -1,0 +1,283 @@
+........................................................................ [  3%]
+.....................................................ssss.............x. [  7%]
+......................s....................................ss.ss.ss.ss.s [ 10%]
+s.ss...................ss............................................... [ 14%]
+........................................................................ [ 17%]
+.......s.s...................s.......................................... [ 21%]
+........................................................................ [ 24%]
+........................................................................ [ 28%]
+...................s.s.ss.........s................s...................s [ 32%]
+...........s......s....................................sss.............. [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+........................................................................ [ 46%]
+....................................s.............................s..s.. [ 49%]
+........................................................................ [ 53%]
+............s............sssssss........................................ [ 56%]
+.......................................s................................ [ 60%]
+........................................................................ [ 64%]
+................................ss...............s.s.s......ssssss...... [ 67%]
+........................................................................ [ 71%]
+....................................................................s... [ 74%]
+s.......................................................ssss............ [ 78%]
+........................................................................ [ 81%]
+........................................................................ [ 85%]
+.......................................................................s [ 89%]
+....ssss................................................................ [ 92%]
+........................................................................ [ 96%]
+.....................ssssss...s...s...s...s...s...s..................... [ 99%]
+......                                                                   [100%]
+============================== warnings summary ===============================
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[cpu]
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  P:\projects\cadence\tests\test_audit_checkpoint.py:64: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    cd.LearnerConfig(momentum=0.9, normalize=0.99, tolerance=1e-4),
+
+tests/test_audit_checkpoint.py: 2 warnings
+tests/test_audit_learning.py: 1 warning
+tests/test_calibration_backends.py: 3 warnings
+tests/test_checkpoint.py: 2 warnings
+tests/test_continuous.py: 2 warnings
+tests/test_qualified_learning.py: 1 warning
+  P:\projects\cadence\src\cadence\checkpoint.py:194: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    saved_config = config or LearnerConfig(**_known_config(meta["config"]))
+
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  P:\projects\cadence\tests\test_audit_checkpoint.py:79: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(d, labels)
+
+tests/test_audit_checkpoint.py::test_learner_round_trip_keeps_every_array_and_count[torch]
+  P:\projects\cadence\tests\test_audit_checkpoint.py:80: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    on_device.step(d, labels)
+
+tests/test_audit_learning.py::test_normalized_steps_move_every_synapse_by_about_eta[True]
+  P:\projects\cadence\tests\test_audit_learning.py:68: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(eta=0.2, normalize=0.9 if use_normalize else 0.0, tolerance=1e-5)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  P:\projects\cadence\tests\test_audit_learning.py:93: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(momentum=0.9, normalize=0.99, tolerance=1e-6)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  P:\projects\cadence\tests\test_audit_learning.py:101: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    steady.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  P:\projects\cadence\tests\test_audit_learning.py:102: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    resumed.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  P:\projects\cadence\tests\test_audit_learning.py:114: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    steady.step(d, labels)
+
+tests/test_audit_learning.py::test_bias_correction_continues_after_a_checkpoint_and_ignores_external_updates
+  P:\projects\cadence\tests\test_audit_learning.py:115: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    resumed.step(d, labels)
+
+tests/test_audit_learning.py::test_free_phase_reports_the_step_cap_only_through_its_step_count
+  P:\projects\cadence\tests\test_audit_learning.py:196: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    _, report = learner.step(d, labels)
+
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float64]
+tests/test_bias_qualification.py::test_refused_torch_bias_search_preserves_lazy_source_and_device_parameters[float32]
+  P:\projects\cadence\tests\test_bias_qualification.py:253: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, wire.populations["output"], cd.LearnerConfig(momentum=0.6, normalize=0.7))
+
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[cpu-None]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float64]
+tests/test_calibration_backends.py::test_admitted_calibration_preserves_backend_history_and_saved_next_lesson[torch-float32]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+  P:\projects\cadence\tests\test_calibration_backends.py:33: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    graph, wire.populations["output"], cd.LearnerConfig(
+
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float64]
+tests/test_calibration_backends.py::test_refused_torch_calibration_preserves_lazy_parameters_and_device_history[float32]
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+tests/test_public_configuration.py::test_the_description_has_four_sections_and_names_every_gene_as_compose_takes_it
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    return obj.__class__(**changes)
+
+tests/test_checkpoint.py::test_round_trip_reproduces_brains_and_state
+tests/test_checkpoint.py::test_load_can_change_backend_and_freeze
+  P:\projects\cadence\tests\test_checkpoint.py:15: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(eta=0.4, eta_bias=0.1, momentum=0.5, normalize=0.5)
+
+tests/test_continuous.py::test_reward_updates_do_not_advance_imitation_optimizer_history[cpu]
+tests/test_continuous.py::test_reward_updates_do_not_advance_imitation_optimizer_history[torch]
+  P:\projects\cadence\tests\test_continuous.py:116: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learning=cd.LearnerConfig(momentum=0.9, normalize=0.95),
+
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-fast]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-fast]
+  P:\projects\cadence\tests\test_feedback_transaction.py:112: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learning=cd.LearnerConfig(
+
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[cpu-fast]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-consolidating]
+tests/test_feedback_transaction.py::test_refused_reward_preserves_both_memories_and_retries_exactly_once[torch-fast]
+  P:\projects\cadence\src\cadence\checkpoint.py:194: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    saved_config = config or LearnerConfig(**_known_config(meta["config"]))
+
+tests/test_initial_damping.py::test_qualified_only_and_unsupported_backend_refuse_before_phase
+  P:\projects\cadence\tests\test_initial_damping.py:172: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (50) below free_steps (100): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    cd.Learner(brain, np.arange(36), cd.LearnerConfig(qualified=True, initial_damping=2))
+
+tests/test_learned_code.py::test_the_lesson_and_the_outcome_leave_the_region_to_its_own_rule
+  P:\projects\cadence\tests\test_learned_code.py:657: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    report = brain.lesson(x, [1, 3])  # taught rows: the contrast moves the plastic synapses
+
+tests/test_learned_code.py::test_a_long_stream_leaves_the_code_alive
+  P:\projects\cadence\tests\test_learned_code.py:993: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    brain.lesson(x, [token % ACTIONS])
+
+tests/test_learned_code.py::test_a_held_code_is_a_source_and_the_brain_keeps_the_models_step
+  P:\projects\cadence\tests\test_learned_code.py:1241: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    brain.lesson(x, [1, 2])
+
+tests/test_learner_calibration.py::test_zero_budget_qualified_calibration_refuses_without_parameter_or_history_writes
+  P:\projects\cadence\tests\test_learner_calibration.py:15: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    cd.LearnerConfig(qualified=True, free_steps=32, tolerance=1e-9, **config),
+
+tests/test_learning.py::test_learner_separates_two_classes_and_the_rule_is_local
+  P:\projects\cadence\tests\test_learning.py:39: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(drive[idx], y[idx])
+
+tests/test_learning_reports.py::test_refused_teacher_keeps_prior_accepted_reward_and_attempted_work
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (512): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_learning_reports.py::test_fit_cannot_publish_a_finite_accuracy_as_a_qualified_brain_score
+  P:\projects\cadence\src\cadence\generic.py:3032: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    self.learner.step(drive[rows], labels[rows])
+
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[cpu]
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[torch]
+  P:\projects\cadence\tests\test_numerical_readiness.py:48: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    [1], cd.LearnerConfig(momentum=.5, normalize=.5, eta_bias=1e308),
+
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[cpu]
+tests/test_numerical_readiness.py::test_rejected_update_keeps_optimizer_history_and_retry[torch]
+  P:\projects\cadence\tests\test_numerical_readiness.py:48: RuntimeWarning: LearnerConfig with eta_bias (1e+308) above eta (0.2): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    [1], cd.LearnerConfig(momentum=.5, normalize=.5, eta_bias=1e308),
+
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[cpu-None]
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[torch-float64]
+tests/test_qualified_learning.py::test_signed_slotted_lesson_qualifies_each_original_phase[torch-float32]
+  P:\projects\cadence\tests\test_qualified_learning.py:100: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[cpu-None]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float64]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float32]
+  P:\projects\cadence\tests\test_qualified_learning.py:151: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[cpu-None]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float64]
+tests/test_qualified_learning.py::test_one_unqualified_weighted_row_refuses_whole_slotted_lesson[torch-float32]
+  P:\projects\cadence\tests\test_qualified_learning.py:151: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (512): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_refusal_preserves_parameters_optimizer_and_warm_state[free]
+tests/test_qualified_learning.py::test_refusal_preserves_parameters_optimizer_and_warm_state[nudged]
+  P:\projects\cadence\tests\test_qualified_learning.py:180: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    config = cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_opposite_refusal_keeps_all_work_before_any_optimizer_write
+  P:\projects\cadence\tests\test_qualified_learning.py:217: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    learner = cd.Learner(graph, np.arange(36), cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_composed_qualified_learning_saved_continuation_and_private_memory
+  P:\projects\cadence\tests\test_qualified_learning.py:334: RuntimeWarning: LearnerConfig with normalize > 0 and eta or eta_bias above 0.05: RMS normalization can make parameter steps much larger than raw contrasts suggest and may saturate the readout. Consider smaller rates; see docs/teach.md#rates-under-normalization.
+    brain = cd.Brain.compose(2, 36, modules=(4,), seed=0, learning=cd.LearnerConfig(
+
+tests/test_qualified_learning.py::test_finite_default_retains_its_update_and_reports_unqualified_phase_errors
+  P:\projects\cadence\tests\test_qualified_learning.py:364: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    _, report = first.step(drive, labels)
+
+tests/test_rate_warning.py::test_either_large_normalized_rate_warns_at_the_call_site[0.0-eta_bias-LearnerConfig]
+tests/test_rate_warning.py::test_either_large_normalized_rate_warns_at_the_call_site[0.9-eta_bias-LearnerConfig]
+  P:\projects\cadence\tests\test_rate_warning.py:22: RuntimeWarning: LearnerConfig with eta_bias (0.0500001) above eta (0.003): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    config = config_type(normalize=0.99, momentum=momentum, **rates)
+
+tests/test_recall_memory.py::test_two_thousand_dense_lessons_keep_the_map_finite_and_the_brain_acting
+  P:\projects\cadence\tests\test_recall_memory.py:697: RuntimeWarning: lesson on the observations the brain just acted on: the act already wrote this moment to the recall memory, so the lesson reads the moment itself, its successor still empty. Teach before acting, as step(..., teacher=labels) orders them.
+    report = brain.lesson(x, [0])
+
+tests/test_recall_protocol.py::test_teacher_refusal_then_free_refusal_is_charged_without_reset
+  P:\projects\cadence\benchmarks\recall\vanished_cue.py:41: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (128) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    learning = LearnerConfig(
+
+tests/test_recall_protocol.py::test_teacher_refusal_then_free_refusal_is_charged_without_reset
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (0) below free_steps (1): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_recording.py::test_learning_records_free_and_nudged_phases
+  P:\projects\cadence\tests\test_recording.py:88: RuntimeWarning: finite teaching free phase used its entire free_steps budget; the lesson may have been learned from a state that did not settle (free_residual in the report holds the equation residual). Raise free_steps, lower the gain, or opt into qualified=True to refuse such lessons; see docs/settling.md#finite-free-phases-that-run-out-of-budget.
+    learner.step(drive, np.array([1]))
+
+tests/test_retention_chamber.py: 17 warnings
+  P:\projects\cadence\.venv\Lib\site-packages\numpy\__config__.py:155: UserWarning: Install `pyyaml` for better output
+    warnings.warn("Install `pyyaml` for better output", stacklevel=1)
+
+tests/test_settlement_reports.py::test_action_report_counts_actual_free_work_and_excludes_reward_eligibility[True]
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with qualified=True and nudged_steps (12) below free_steps (1024): qualified teaching checks every phase against the full equations within its budget, and a nudged budget sized for finite teaching refuses lessons the free budget would settle. Set nudged_steps comparable to free_steps; see docs/settling.md#qualified-teaching-budgets.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.196954): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.177259): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+tests/test_slots.py::test_a_slotted_net_learns_a_whole_pattern_at_once
+  C:\Users\SeanM\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\dataclasses.py:1503: RuntimeWarning: LearnerConfig with eta_bias (0.2) above eta (0.159533): the bias step dominates the synapse step. The default couples eta_bias to eta / 10; when lowering eta through dataclasses.replace, set eta_bias too, or pass eta_bias=None to re-derive it. See docs/settling.md#7-every-knob.
+    return obj.__class__(**changes)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+SKIPPED [4] tests\test_arousal_need_scale.py:613: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [1] tests\test_audit_settling.py:106: no MPS device
+SKIPPED [6] tests\test_batch_masks.py:124: MPS unavailable
+SKIPPED [3] tests\test_batch_masks.py:130: MLX requires block transport
+SKIPPED [3] tests\test_batch_masks.py:131: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [2] tests\test_behavior_temperature.py:79: longdouble has no wider exponent range on this platform
+SKIPPED [1] tests\test_brain.py:161: mlx not installed
+SKIPPED [1] tests\test_brain.py:207: mlx not installed
+SKIPPED [1] tests\test_calibration_backends.py:19: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [3] tests\test_contrast_precision.py:13: MPS unavailable
+SKIPPED [1] tests\test_contrast_precision.py:76: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [1] tests\test_core_contracts.py:103: mlx
+SKIPPED [1] tests\test_core_contracts.py:210: mlx
+SKIPPED [2] tests\test_damping_stagnation.py:13: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [1] tests\test_damping_stagnation.py:108: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [3] tests\test_device_moments.py:51: MPS unavailable
+SKIPPED [1] tests\test_generic_settling.py:26: MPS hardware unavailable
+SKIPPED [2] tests\test_grouped_temperature.py:48: mlx not installed
+SKIPPED [1] tests\test_input_contracts.py:74: mlx not installed
+SKIPPED [5] tests\test_learned_code.py:227: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [2] tests\test_learned_code.py:280: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [1] tests\test_learning.py:343: mlx not installed
+SKIPPED [2] tests\test_numerical_readiness.py:12: could not import 'mlx': No module named 'mlx'
+SKIPPED [3] tests\test_numerical_readiness.py:153: could not import 'mlx': No module named 'mlx'
+SKIPPED [6] tests\test_observation_code.py:248: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [2] tests\test_qualified_learning.py:13: could not import 'mlx.core': No module named 'mlx'
+SKIPPED [4] tests\test_recall_memory.py:263: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [1] tests\test_reset_arousal.py:317: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [4] tests\test_reset_arousal.py:544: acts and array contents were recorded on the NumPy solver; this run uses the compiled dense kernel (CADENCE_FUSED=0 selects the NumPy loop)
+SKIPPED [6] tests\test_system1_cuda.py:73: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:160: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:190: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:214: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:233: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:256: MPS hardware unavailable
+SKIPPED [1] tests\test_system1_cuda.py:284: MPS hardware unavailable
+XFAIL tests/test_audit_bias.py::test_free_hidden_neurons_are_mostly_responsive - builders start biases at zero: about half of the free hidden neurons sit at or below rest and publish nothing (audit 2026-09-15, open)
+1941 passed, 80 skipped, 1 xfailed, 98 warnings in 846.78s (0:14:06)
+exit 0
