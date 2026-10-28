@@ -70,6 +70,16 @@ Predictions (norecall, 150 blocks unless stated):
   Null: if state <= frame + 5 points on dir4, the settled state does not linearly carry the
   direction and the 13-vs-6 gap needs another explanation. That would be the result.
 pos32 is reported alongside with no separate predictions (its recall slots are a third carrier).
+
+AMENDMENT (after a 1-block smoke test of the code on seed 10, before the main run). At block 0
+the frame probe already decodes dir4 at 0.98: an untrained player's games are short and the
+ball's direction is predictable from where it is (first descent). So "untrained brain on its own
+games" is a weak control, because probe accuracy depends on the game distribution as much as on
+the brain. Added: a shadow untrained brain (the same seed's brain before any lesson) is fed the
+exact observation stream of every probe game, in step, its own actions ignored. Its settled
+state and trace are probed on the same moments and targets (feature sets untrained_state,
+frame_untrained_state, frame_untrained_trace). P3 is judged on this matched control. All
+comparisons are on the same moments; the frame and two_frame probes set the floor and ceiling.
 """
 
 from __future__ import annotations
@@ -109,24 +119,33 @@ def _classic():
     return breakout, run
 
 
-def collect(player, seed: int, block: int) -> dict:
-    """Frozen copy plays probe games; record the env truth and the brain's state per moment."""
+def _trace(p) -> np.ndarray:
+    wm = p.brain.working_memory
+    return wm.trace[0].copy() if wm is not None and len(wm.trace) else np.zeros(32)
+
+
+def collect(player, seed: int, block: int, untrained) -> dict:
+    """Frozen copy plays probe games; record the env truth and the brain's state per moment.
+    A shadow untrained brain is fed the same observations in step (its actions ignored)."""
     breakout, run = _classic()
     p = copy.deepcopy(player)
+    u = copy.deepcopy(untrained)
     env = breakout.Breakout(seed=int(np.random.SeedSequence([seed, block, 99]).generate_state(1)[0]))
     rec = {k: [] for k in ("bx", "by", "lx", "ly", "dir", "ep", "frame", "prev", "trace", "act",
-                           "agree")}
+                           "agree", "u_trace", "u_act")}
     n = eps = 0
     while (n < PROBE_MOMENTS or eps < PROBE_MIN_EPS) and eps < PROBE_MAX_EPS:
-        env.reset(); p.new_episode(); k = 0
+        env.reset(); p.new_episode(); u.new_episode(); k = 0
         while True:
             g = env.g
             obs, prev = env.observe(), env.previous()
-            wm = p.brain.working_memory
-            trace = wm.trace[0].copy() if wm is not None and len(wm.trace) else np.zeros(32)
+            trace, u_trace = _trace(p), _trace(u)
             label = env.coach()
             a = p.play(obs, prev)
+            u.play(obs, prev)
             st = p.brain.basal_ganglia.state
+            rec["u_trace"].append(u_trace)
+            rec["u_act"].append(np.asarray(u.brain.basal_ganglia.state.activation).reshape(-1).copy())
             rec["bx"].append(int(g.ball_x)); rec["by"].append(int(g.ball_y))
             rec["lx"].append(int(g.last_x)); rec["ly"].append(int(g.last_y))
             rec["dir"].append(int(g.ball_dir)); rec["ep"].append(eps)
@@ -220,6 +239,11 @@ def analyse(rec: dict) -> dict:
         "frame_state": np.hstack([rec["frame"], state]),
         "frame_trace": np.hstack([rec["frame"], rec["trace"]]),
     }
+    u = rec["u_act"]
+    u_state = np.hstack([u[:, ASSOC], u[:, PFC], u[:, MOTOR]])
+    feats["untrained_state"] = u_state
+    feats["frame_untrained_state"] = np.hstack([rec["frame"], u_state])
+    feats["frame_untrained_trace"] = np.hstack([rec["frame"], rec["u_trace"]])
     eps = np.unique(rec["ep"])
     # spread episodes over folds evenly (episode lengths vary; interleave by index)
     groups = np.searchsorted(eps, rec["ep"])
@@ -242,14 +266,16 @@ def life(job):
     arm, seed, blocks = job
     breakout, run = _classic()
     player = run.make(arm, seed, dict(run.CADENCE), run.MLP_LR)
+    untrained = copy.deepcopy(player)  # the same seed's brain before any lesson
     env = breakout.Breakout(seed=seed)
     t0 = time.time()
     out = {"arm": arm, "seed": seed, "score": [], "checkpoints": {}}
     raw = {}
 
     def checkpoint(block):
-        rec = collect(player, seed, block)
-        raw.update({f"b{block}_{k}": v for k, v in rec.items() if k in ("bx", "by", "lx", "ly", "dir", "ep", "act", "trace")})
+        rec = collect(player, seed, block, untrained)
+        raw.update({f"b{block}_{k}": v for k, v in rec.items()
+                    if k in ("bx", "by", "lx", "ly", "dir", "ep", "act", "trace", "u_act", "u_trace")})
         res = analyse(rec)
         les = lesion_scores(player, seed, block)
         res["lesion"] = {c: float(np.mean(v)) for c, v in les.items()}
@@ -257,7 +283,8 @@ def life(job):
         out["checkpoints"][str(block)] = res
         pr = res["probes"]["dir4"]
         print(arm, seed, "block", block, "dir4 frame", pr["frame"]["acc"], "state", pr["state"]["acc"],
-              "frame_trace", pr["frame_trace"]["acc"], "maj", pr["frame"]["majority"],
+              "frame_trace", pr["frame_trace"]["acc"],
+              "frame_untrained_state", pr["frame_untrained_state"]["acc"], "maj", pr["frame"]["majority"],
               "lesion", {c: round(v, 2) for c, v in res["lesion"].items()},
               f"{time.time() - t0:.0f}s", flush=True)
 
@@ -338,7 +365,7 @@ def summarize():
             m = lambda k: np.round(np.mean(t[k]), 3)
             print(f" block {b:>3}: dir4 maj {m('dir4/majority')} frame {m('dir4/frame')} two {m('dir4/two_frame')}"
                   f" state {m('dir4/state')} pfc {m('dir4/pfc')} f+state {m('dir4/frame_state')}"
-                  f" f+trace {m('dir4/frame_trace')} | bricks intact {m('lesion/intact')} wm0 {m('lesion/wm0')}"
+                  f" f+trace {m('dir4/frame_trace')} f+untrained {m('dir4/frame_untrained_state')} | bricks intact {m('lesion/intact')} wm0 {m('lesion/wm0')}"
                   f" cold {m('lesion/cold')} both {m('lesion/both')}")
         print(" spearman", a.get("spearman_state_dir4_vs_bricks"))
 
