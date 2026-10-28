@@ -96,6 +96,17 @@ designs were confounded and are redone (v1 stays in the receipt, reported as con
               (press rate over the first 50 acquisition trials; trials to acquisition, 400 if
               never). Prediction (animals): pre acquires more slowly.
 Same arms, seeds 0-23, COST 0.5 everywhere else, same "shows" rule.
+
+v3, declared 2026-10-28 01:40 after reading v2, before running: blocking was the one clean
+positive, so two checks on it.
+  unblock     Kamin unblocking (the prediction-error control). Group block: A reinforced (+1),
+              then AB reinforced (+1), as in blocking. Group unblock: A reinforced (+1), then AB
+              reinforced with a bigger reward (+2), so the compound brings a surprise B can
+              explain. Test B alone in extinction, as before. Animals (and prediction-error
+              learners): unblock presses more to B than block. A learner that only tracks
+              co-occurrence would treat the groups the same.
+  arm cadence32  the default brain with modules=(32,) instead of (16,), on every effect, as a
+              robustness check of the whole battery (no new prediction: the same directions).
 Statistics: per-seed values, group means with the standard error, and the number of seeds in
 which the predicted direction holds (paired by seed: same seed, same brain founder, so each
 pair differs only by the group's history). An effect "shows" when the mean difference is in the
@@ -130,10 +141,10 @@ def obs(stimuli: tuple[int, ...], context: int) -> np.ndarray:
 
 
 class CadenceAgent:
-    def __init__(self, seed: int, memory_choice: bool) -> None:
+    def __init__(self, seed: int, memory_choice: bool, modules: tuple[int, ...] = (16,)) -> None:
         import cadence as cd
 
-        self.brain = cd.Brain.compose(6, 2, modules=(16,), seed=seed, arousal=True,
+        self.brain = cd.Brain.compose(6, 2, modules=modules, seed=seed, arousal=True,
                                       memory_choice=memory_choice)
         self.pending: float | None = None
         self.refusals = 0
@@ -195,11 +206,13 @@ class MLPAgent:
 def make(arm: str, seed: int):
     if arm == "mlp":
         return MLPAgent(seed)
+    if arm == "cadence32":
+        return CadenceAgent(seed, memory_choice=False, modules=(32,))
     return CadenceAgent(seed, memory_choice=(arm == "cadence_mc"))
 
 
 def trials(agent, n: int, stimuli: tuple[int, ...] | None, context: int, p: float,
-           rng: np.random.Generator) -> list[int]:
+           rng: np.random.Generator, reward: float = REWARD) -> list[int]:
     """n trials: a stimulus moment (if stimuli) then an inter-trial moment. A press on the
     stimulus is reinforced with probability p (p=0: extinction). Returns presses on stimuli."""
     presses = []
@@ -208,7 +221,7 @@ def trials(agent, n: int, stimuli: tuple[int, ...] | None, context: int, p: floa
         if stimuli is not None:
             a = agent.moment(obs(stimuli, context))
             paid = a == PRESS and rng.random() < p
-            agent.outcome(REWARD if paid else (COST if a == PRESS else 0.0))
+            agent.outcome(reward if paid else (COST if a == PRESS else 0.0))
             presses.append(a)
         a = agent.moment(blank)
         agent.outcome(COST if a == PRESS else 0.0)
@@ -292,6 +305,11 @@ def life(effect: str, group: str, arm: str, seed: int) -> dict:
         acq = trials(agent, PHASE, (A,), X, 1.0, rng)
         out.update(test=rate(acq[:50]), to_acquire=first_run(acq, 0.8, above=True) or PHASE,
                    train_late=rate(acq[-50:]))
+    elif effect == "unblock":
+        trials(agent, PHASE, (A,), X, 1.0, rng)
+        p2 = trials(agent, PHASE, (A, B), X, 1.0, rng, reward=2.0 if group == "unblock" else REWARD)
+        test = trials(agent, TEST, (B,), X, 0.0, rng)
+        out.update(train_late=rate(p2[-50:]), test=rate(test))
     elif effect == "latent2":
         if group == "pre":
             preexpose(agent, PHASE, X)
@@ -347,6 +365,7 @@ GROUPS = {
     "latent": ("pre", "none"),
     "latent2": ("pre", "none"),
     "pree2": ("pair",),
+    "unblock": ("block", "unblock"),
 }
 # (effect, group expected higher on `metric`, group expected lower, metric)
 PREDICTIONS = [
@@ -360,8 +379,9 @@ PREDICTIONS = [
     ("latent", "pre", "none", "to_acquire"),
     ("latent2", "none", "pre", "test"),
     ("latent2", "pre", "none", "to_acquire"),
+    ("unblock", "unblock", "block", "test"),
 ]
-ARMS = ("cadence", "cadence_mc", "mlp")
+ARMS = ("cadence", "cadence_mc", "mlp", "cadence32")
 
 
 def _job(spec: tuple) -> dict:
@@ -399,7 +419,7 @@ def summarize(rows: list[dict]) -> dict:
     for r in rows:
         if r.get("effect") == "pree2" and "error" not in r:
             pairs2.setdefault(r["arm"], []).append(r)
-    for arm, rs in pairs2.items():
+    for arm, rs in sorted(pairs2.items()):
         ok = [r for r in rs if r["reached"] is not None]
         for metric, hi, lo in (("to_ext", "to_ext05", "to_ext1"), ("test", "test05", "test1")):
             if len(ok) < 2:

@@ -1,4 +1,4 @@
-# A classic animal-learning battery (v1)
+# A classic animal-learning battery
 
 Five famous effects from animal conditioning, each run as an operant analog on one continuing
 Cadence brain (Cadence 0.89.0 as released, founder genes) and on a plain MLP Q-learner. The
@@ -30,6 +30,7 @@ predicted direction by more than two standard errors.
 | effect | what animals do | cadence | cadence + memory_choice | MLP |
 | --- | --- | --- | --- | --- |
 | **Kamin blocking** | pretrained A blocks learning about B | **yes**: B 0.31 vs 0.74 control, 20/24 | yes, weaker: 0.55 vs 0.71, 11/24 (9 ties) | yes, near floor: 0.06 vs 0.18, 24/24 |
+| **Unblocking** | a bigger reward in phase 2 lets B be learned | **yes**: B 0.73 vs 0.31 blocked, 21/24 | yes: 0.71 vs 0.55, 16/24 | yes, near floor: 0.13 vs 0.06 |
 | Partial reinforcement extinction (PREE) | 50% training extinguishes later | **no, the reverse trend**: 100 vs 121 trials (n.s.) | **reverse**: 150 vs 285 trials, 5/24 | no: 10.7 vs 10.8 |
 | ABA renewal | response returns in the training context | no: 0.36 vs 0.35 (AAA) | no: 0.45 vs 0.51 | no: 0.12 vs 0.10 |
 | Spontaneous recovery | response returns after time passes | **no, by construction** (24/24 identical) | no, identical | no (no time) |
@@ -52,6 +53,33 @@ The default Cadence brain blocks clearly. Having already learned that A predicts
 learns little about B. The MLP blocks too, which is the textbook prediction-error result, but it
 presses so little in any extinction test (it extinguishes in about 10 trials) that its numbers sit
 near the floor.
+
+### Unblocking: shown (the prediction-error control)
+
+Added as v3 after blocking turned out to be the clean positive. Same as the block group, but the
+compound AB pays +2 instead of +1 in phase 2, so the compound brings a surprise that B can
+explain. A prediction-error learner should then learn B; a learner tracking co-occurrence
+would treat both groups alike.
+
+| arm | B, unblock (+2) | B, block (+1) | difference | seeds in direction |
+| --- | --- | --- | --- | --- |
+| cadence | 0.73 | 0.31 | +0.42 +/- 0.06 | 21/24 (2 ties) |
+| cadence_mc | 0.71 | 0.55 | +0.16 +/- 0.06 | 16/24 (6 ties) |
+| mlp | 0.13 | 0.06 | +0.07 +/- 0.01 | 16/24 (8 ties) |
+| cadence, modules=(32,) | 0.70 | 0.37 | +0.33 +/- 0.07 | 18/24 (4 ties) |
+
+With the surprise restored, B comes back to the unblocked control's level (0.73 against 0.74
+in the blocking control). Together, blocking and unblocking pin the default Cadence brain's
+learning down as prediction-error driven, the Rescorla-Wagner signature.
+
+### Robustness: modules=(32,)
+
+The default brain with a twice-larger module (arm `cadence32`, v3) gives the same picture on
+every effect: blocking 0.37 vs 0.70 (20/24) and unblocking (above); no PREE (pree2: 110 vs 144
+trials, reverse direction); no renewal (ABA 0.39, AAA 0.38); no spontaneous recovery (0.36 later
+vs 0.38 now; here waiting changed 5 lives, in the wrong direction); latent inhibition v2
+borderline on trials to acquire (186 vs 130, +56 +/- 28, just over two standard errors) and not
+on early presses.
 
 ### Partial reinforcement extinction: not shown, and Cadence leans the other way
 
@@ -117,9 +145,10 @@ the 400 trials).
 
 ## Reading
 
-- **Blocking is the clean positive.** One continuing Cadence brain shows Kamin blocking strongly
-  (20 of 24 seeds), which is the signature of learning from prediction error rather than from
-  co-occurrence.
+- **Blocking and unblocking are the clean positive.** One continuing Cadence brain shows Kamin
+  blocking strongly (20 of 24 seeds), and raising the reward in phase 2 undoes it (21 of 24).
+  That pair is the signature of learning from prediction error rather than from co-occurrence,
+  and it holds at modules=(32,).
 - **The extinction-side effects all fail.** PREE, renewal and spontaneous recovery are the
   effects that made animal-learning theory decide extinction is *new learning* (an inhibitory
   memory tied to context and time) rather than erasing the old association. Cadence behaves
