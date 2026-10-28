@@ -39,6 +39,16 @@ A composed brain takes its precision on load:
 
 - [`experiments/backend_timing.py`](experiments/backend_timing.py): the same brain on CPU
   (NumPy + Numba), CUDA float64 and CUDA float32. Write-up: [`notes/backend_timing.md`](notes/backend_timing.md).
+- [`experiments/serial_reversal.py`](experiments/serial_reversal.py): the paying arm flips 10
+  to 30 times in one life. Does a continuing brain get faster at switching, as animals do?
+  Write-up: [`notes/serial_reversal.md`](notes/serial_reversal.md).
+- [`experiments/issue210/`](experiments/issue210/): the preservation checks of upstream issue
+  #210 (zero outcomes never extinguish a paid record) and a narrower extinction rule that keeps
+  them. Write-up: [`notes/issue210_checks.md`](notes/issue210_checks.md).
+- [`experiments/animal_battery.py`](experiments/animal_battery.py): five classic conditioning
+  effects (Kamin blocking, partial reinforcement extinction, ABA renewal, spontaneous recovery,
+  latent inhibition) on a continuing Cadence brain and an MLP. Write-up:
+  [`notes/animal_battery.md`](notes/animal_battery.md).
 - `runs/ladder/`, `runs/demos/`, `runs/baseline/`: outputs from the upstream examples, the
   cadence-demos test suites and the Cadence test suite on Windows 10 (Python 3.11).
 

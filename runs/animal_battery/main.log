@@ -1,0 +1,42 @@
+1008 lives, 628.5s, errors: 0
+| effect | metric | arm | higher (pred.) | lower (pred.) | diff +/- se | seeds in direction | shows |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| pree | test | cadence | p05 0.28 | p1 0.56 | -0.28 +/- 0.05 | 4/24 (1 ties) | no |
+| pree | test | cadence_mc | p05 0.26 | p1 0.59 | -0.33 +/- 0.04 | 2/24 (0 ties) | no |
+| pree | test | mlp | p05 0.05 | p1 0.10 | -0.05 +/- 0.00 | 0/24 (1 ties) | no |
+| pree | to_extinction | cadence | p05 26.38 | p1 78.46 | -52.08 +/- 9.35 | 1/24 (1 ties) | no |
+| pree | to_extinction | cadence_mc | p05 32.12 | p1 153.75 | -121.62 +/- 23.55 | 1/24 (0 ties) | no |
+| pree | to_extinction | mlp | p05 10.04 | p1 10.58 | -0.54 +/- 0.28 | 1/24 (18 ties) | no |
+| blocking | test | cadence | control 0.74 | block 0.31 | +0.43 +/- 0.06 | 20/24 (2 ties) | yes |
+| blocking | test | cadence_mc | control 0.71 | block 0.55 | +0.16 +/- 0.07 | 11/24 (9 ties) | yes |
+| blocking | test | mlp | control 0.18 | block 0.06 | +0.11 +/- 0.01 | 24/24 (0 ties) | yes |
+| renewal | test | cadence | ABA 0.36 | AAA 0.35 | +0.01 +/- 0.04 | 8/24 (9 ties) | no |
+| renewal | test | cadence_mc | ABA 0.45 | AAA 0.51 | -0.06 +/- 0.05 | 9/24 (5 ties) | no |
+| renewal | test | mlp | ABA 0.12 | AAA 0.10 | +0.03 +/- 0.02 | 14/24 (3 ties) | no |
+| renewal | test | cadence | ABA 0.36 | ABB 0.33 | +0.03 +/- 0.02 | 5/24 (18 ties) | no |
+| renewal | test | cadence_mc | ABA 0.45 | ABB 0.37 | +0.07 +/- 0.02 | 14/24 (10 ties) | yes |
+| renewal | test | mlp | ABA 0.12 | ABB 0.08 | +0.05 +/- 0.01 | 14/24 (8 ties) | yes |
+| recovery | test | cadence | later 0.35 | now 0.35 | +0.00 +/- 0.00 | 0/24 (24 ties) | no |
+| recovery | test | cadence_mc | later 0.51 | now 0.51 | +0.00 +/- 0.00 | 0/24 (24 ties) | no |
+| recovery | test | mlp | later 0.10 | now 0.10 | +0.00 +/- 0.00 | 0/24 (24 ties) | no |
+| latent | test | cadence | none 0.17 | pre 0.08 | +0.09 +/- 0.05 | 17/24 (1 ties) | no |
+| latent | test | cadence_mc | none 0.54 | pre 0.28 | +0.26 +/- 0.07 | 18/24 (1 ties) | yes |
+| latent | test | mlp | none 0.48 | pre 0.34 | +0.14 +/- 0.08 | 16/24 (0 ties) | no |
+| latent | to_acquire | cadence | pre 200.00 | none 145.96 | +54.04 +/- 13.38 | 14/24 (10 ties) | yes |
+| latent | to_acquire | cadence_mc | pre 118.29 | none 51.67 | +66.62 +/- 13.60 | 20/24 (1 ties) | yes |
+| latent | to_acquire | mlp | pre 50.38 | none 41.04 | +9.33 +/- 8.19 | 15/24 (0 ties) | no |
+| latent2 | test | cadence | none 0.17 | pre 0.19 | -0.02 +/- 0.06 | 13/24 (4 ties) | no |
+| latent2 | test | cadence_mc | none 0.54 | pre 0.40 | +0.15 +/- 0.07 | 14/24 (4 ties) | yes |
+| latent2 | test | mlp | none 0.48 | pre 0.55 | -0.07 +/- 0.10 | 12/24 (2 ties) | no |
+| latent2 | to_acquire | cadence | pre 223.17 | none 189.29 | +33.88 +/- 29.77 | 12/24 (1 ties) | no |
+| latent2 | to_acquire | cadence_mc | pre 65.08 | none 51.67 | +13.42 +/- 9.10 | 14/24 (2 ties) | no |
+| latent2 | to_acquire | mlp | pre 33.54 | none 41.04 | -7.50 +/- 7.91 | 12/24 (1 ties) | no |
+| pree2 | to_ext | cadence | p05 99.83 | p1 121.12 | -21.29 +/- 22.80 | 8/24 (0 ties) | no |
+| pree2 | test | cadence | p05 0.62 | p1 0.64 | -0.03 +/- 0.03 | 11/24 (2 ties) | no |
+| pree2 | to_ext | cadence_mc | p05 149.58 | p1 285.08 | -135.50 +/- 41.76 | 5/24 (0 ties) | no |
+| pree2 | test | cadence_mc | p05 0.62 | p1 0.74 | -0.12 +/- 0.03 | 3/24 (1 ties) | no |
+| pree2 | to_ext | mlp | p05 10.67 | p1 10.75 | -0.08 +/- 0.29 | 6/24 (9 ties) | no |
+| pree2 | test | mlp | p05 0.10 | p1 0.15 | -0.05 +/- 0.01 | 1/24 (3 ties) | no |
+
+receipt: P:\projects\cadence-lab\runs\animal_battery\receipt.json (True canonical form, digest, sources agree)
+BATTERY_DONE
