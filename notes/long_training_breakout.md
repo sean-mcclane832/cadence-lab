@@ -22,13 +22,18 @@ Two-frame MLP > position-term Cadence 12/12 (+6.2), > no-recall 11/12 (+5.9). Po
 
 ## Reading
 
-- **The settle is a working memory.** A memoryless learner with one frame stops near 6 bricks; it
-  cannot know the ball's direction. Every Cadence arm, including the one with recall switched off,
-  climbs past 13. The relaxed state carries the previous moment forward, and that alone is worth
-  about 7 bricks here.
-- **But it is a lossy one.** Handing a plain MLP the second frame explicitly beats every Cadence
-  arm by about 6 after long training. What the settle carries is real but noisier than the frame
-  itself. At 30 blocks this gap did not exist; the short run hid it.
+- **Cadence has the previous moment built in.** A memoryless learner with one frame stops near 6
+  bricks; it cannot know the ball's direction. Every Cadence arm, including the one with recall
+  switched off, climbs past 13. The [settle probe](settle_probe.md) shows where that comes from: the
+  working-memory copy of the last frame that `compose` wires in by default. It is architectural, not
+  learned (an untrained brain carries direction just as well, 0.97 vs 0.98), and zeroing it drops play
+  to about 2 bricks.
+- **The information is nearly complete; the use of it is not.** The probe reads direction from frame
+  plus settled state at 0.98, against 0.99 for two real frames. Yet a plain MLP given the second frame
+  beats every Cadence arm by about 6 after long training. The gap is in how Cadence learns to use what
+  it has, not in what it has. At 30 blocks this gap did not exist; the short run hid it.
+  (Corrected 2026-10-28 after the probe; the first version of this note called the settle a lossy
+  learned memory.)
 - **Recall memory adds nothing on top of the settle in this task**, with or without the 0.89.0
   position term. Its lean over plain recall on seeds 10-21 (+3, 7/12, p = 0.09) did not survive 24 more
   seeds: pooled 36 seeds, 17/36 wins, median -1.02, p = 0.68. Null.
