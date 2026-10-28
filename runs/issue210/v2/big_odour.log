@@ -1,0 +1,15 @@
+480 lives, 945s, errors: 0
+| arm | exposure | rule | lives passing | median reversal lag | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- |
+| live | 300 | lib | 38 of 40 | 57.5 | 0 / 4598 |
+| live | 300 | off | 38 of 40 | 57.5 | 0 / 0 |
+| live | 300 | owner | 37 of 40 | 57.5 | 20 / 4585 |
+| live | 1000 | lib | 34 of 40 | 51.5 | 0 / 5076 |
+| live | 1000 | off | 34 of 40 | 51.5 | 0 / 0 |
+| live | 1000 | owner | 34 of 40 | 48.0 | 17 / 5010 |
+| step | 300 | lib | 20 of 40 | 100.0 | 0 / 25481 |
+| step | 300 | off | 20 of 40 | 100.0 | 0 / 0 |
+| step | 300 | owner | 4 of 40 | 97.0 | 262 / 24234 |
+| step | 1000 | lib | 23 of 40 | 106.0 | 0 / 37561 |
+| step | 1000 | off | 23 of 40 | 106.0 | 0 / 0 |
+| step | 1000 | owner | 5 of 40 | 111.0 | 335 / 35569 |

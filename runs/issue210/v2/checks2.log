@@ -1,0 +1,12 @@
+180 lives, 337s, errors: 0
+| task | rule | mean score | seeds | identical to off | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- |
+| bandit4 | lib | 0.946 | 24 | 24 of 24 | 0 / 2733 |
+| bandit4 | off | 0.946 | 24 | 24 of 24 | 0 / 0 |
+| bandit4 | owner | 0.946 | 24 | 24 of 24 | 0 / 2733 |
+| delayed | lib | 1.000 | 12 | 12 of 12 | 0 / 576000 |
+| delayed | off | 1.000 | 12 | 12 of 12 | 0 / 0 |
+| delayed | owner | 1.000 | 12 | 12 of 12 | 0 / 576000 |
+| taughtcue | lib | 1.000 | 24 | 24 of 24 | 0 / 144 |
+| taughtcue | off | 1.000 | 24 | 24 of 24 | 0 / 0 |
+| taughtcue | owner | 1.000 | 24 | 24 of 24 | 0 / 144 |

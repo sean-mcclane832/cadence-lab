@@ -1,0 +1,7 @@
+24 lives, 248s, errors: 0
+| mode | pay | rule | completions / 1000 lived | greedy at end (seeds > 0) | sampled at end | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- | --- |
+| hidden | end | lib | 40.2 | 0.0 (0) | 22.8 | 8979 / 115172 |
+| hidden | shaped | lib | 45.6 | 0.0 (0) | 32.3 | 10596 / 98082 |
+| observed | end | lib | 67.4 | 144.3 (4) | 58.5 | 0 / 111908 |
+| observed | shaped | lib | 95.3 | 108.3 (4) | 57.0 | 0 / 58773 |

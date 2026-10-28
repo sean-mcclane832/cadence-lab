@@ -179,3 +179,84 @@ Small seed counts (6 to 24 per cell). One theta (0.5). The `direct` prototype ke
 flags on exact observation codes; the library gene keys them in an associative store (same
 results on the bandit, songs and, with the 0.9 flag, the chains, checked). Taught recall, the delayed response, the crafting
 chains taught and alone, and V5 corrective were not rerun.
+
+## v2 (2026-10-28, overnight): the remaining checks, bigger panels, a theta sweep
+
+Declared before running in `runs/issue210/run_v2.sh`, `run_v2b.sh`,
+`experiments/issue210/checks2.py` and `experiments/issue210/serial_gene.py`. Rules: `off`
+(0.89.0), `owner` (his gene as described, rebuilt), `lib` (`memory_extinction`, flag 0.9).
+
+### The remaining in-repo checks
+
+| check (from the repository's tests) | seeds | off | owner | lib |
+| --- | --- | --- | --- | --- |
+| delayed response from reward (hit rate) | 8-19 | 1.000 | identical, 0 writes | identical, 0 writes |
+| continuing contextual bandit, `actor_gamma=0` (hit rate) | 0-23 | 0.946 | identical, 0 writes | identical, 0 writes |
+| taught cue recall (`test_the_temporal_context_recalls_a_cue_that_is_gone`, 3 lessons) | 0-23 | 1.000 | identical, 0 writes | identical, 0 writes |
+
+These match the owner's own report for his gene ("identical lives"). Taught cue recall is at
+ceiling, so it is a weak check. The crafting chains (taught and alone) and V5 corrective could
+not be run: they are not in the repository, like the songs chamber.
+
+### Bigger fresh-seed panel (theta 0.5)
+
+| check | off (0.89.0) | owner | lib |
+| --- | --- | --- | --- |
+| #210 bandit, fail 0: B acquired (48 seeds, 200-247) | **19/48** | 44/48 | **44/48** |
+| same, fail -1 | 48/48 | identical | identical |
+| songs (reconstruction, 48 seeds; gate 0.639) | 0.630 | **0.568** | 0.630, identical, 0 writes |
+| key-door delay 2: acquire / adapt / return; returns <= 50 (20 seeds) | 6.5 / 9.0 / 37.0; 14 of 20 | 7.0 / 11.5 / 48.5; 10 of 20 | identical, 0 writes |
+| key-door delay 5 | 15.0 / 17.0 / 52.5; 10 of 20 | 17.0 / 36.0 / **124.0**; **4 of 20** | identical, 0 writes |
+| odour nursery `live` 300 / 1000: lives passing (40 seeds) | 38, 34 | 37, 34 | identical, 0 writes |
+| odour nursery `step` 300 / 1000 | 20, 23 | **4, 5** | identical, 0 writes |
+
+The songs reconstruction again misses its own gate even for 0.89.0 (0.630 vs 0.639); what
+matters is that `lib` leaves it exactly as it is and the owner's rule lowers it.
+
+### Theta sweep (lib)
+
+| check | 0.25 | 0.5 | 0.75 |
+| --- | --- | --- | --- |
+| #210 bandit, fail 0: B acquired (48 seeds) | **47/48** (619 writes) | 44/48 (269) | 35/48 (80) |
+| songs, key-door, odour nursery, bandit fail -1, observed chain | identical to 0.89.0, 0 writes | identical, 0 writes | identical, 0 writes |
+| hidden chain, end pay: lived / sampled at end (seeds 300-305; off 36.2 / 36.3) | 40.2 / 22.8 (8,979 writes) | 39.8 / 28.8 (4,827) | 38.5 / 31.8 (2,543) |
+| hidden chain, shaped pay (off 42.9 / 35.2) | 45.6 / 32.3 | 46.5 / 41.5 | 45.9 / 43.3 |
+
+Theta only moves the two places where the gene writes at all: the bandit (lower theta, more
+lives fixed) and the hidden chain (lower theta, more writes; the sampled policy at the end drops
+with end pay). Everywhere else every theta is byte-for-byte 0.89.0. 0.5 stays a reasonable
+middle; 0.25 fixes the bandit almost completely at a larger cost on the aliased chain.
+
+### Aliasing: a context-keyed flag does not help (negative)
+
+`libctx` (rules.py, a prototype): `lib` plus a second condition, that the action was also paid
+after a similar history (cosine >= 0.9 between the decision's context key and a context key where
+it paid). Declared keep criterion: bandit within 2 lives of `lib`, hidden-chain writes down by at
+least half. Result: the bandit is unchanged (77/84 over seeds 0-11, 100-123, 200-247, same as
+`lib`), and the hidden chain's writes are **exactly** `lib`'s on all 12 seeds (end 4,786 + 4,827,
+shaped 5,498 + 5,598). A diagnostic on seed 100 shows why: at the 812 candidate writes, the context
+key's best match to a paid context is 0.983 to 0.9998 (median 0.9994). The temporal records'
+key barely separates the chain's stages, so no threshold on it is a principled fix. Not kept,
+nothing added to the library. The aliasing case stays open; it needs a key that does carry the
+stage (the owner's #189/#211 questions).
+
+### Serial reversal with the gene (failures pay 0, 30 flips, 12 seeds)
+
+| arm | flip 1 | flip 10 | flips 26-30 | slope < 0 |
+| --- | --- | --- | --- | --- |
+| memory_choice (0.89.0) | 18.1 | 14.7 | 14.4 | 5/12 |
+| memory_choice + gene (0.5) | 17.6 | 13.2 | **7.8** | **12/12** |
+| cue_choice (cue workaround) | 17.2 | 2.2 | 2.0 | 12/12 |
+
+The 0.89.0 and cue rows reproduce `notes/serial_reversal.md` exactly. With the gene the
+learning-set curve comes back in every seed (errors per flip roughly halve over the life), but
+it stays well above the cue arm: the gene makes reversals possible, not fast.
+
+### Summary of v2
+
+- No new place where `lib` writes: on every check found in the repository and on bigger panels
+  (48 / 20 / 40 seeds) it is identical to 0.89.0 except on the #210 bandit (fixed, 19/48 -> 44/48)
+  and the hidden chain (writes, small mixed effects).
+- The owner's rule reproduces his reported costs on the bigger panels (key-door delay 5, odour
+  nursery through `step`, songs).
+- Still not checked: crafting chains, V5 corrective, the original songs chamber (not public).

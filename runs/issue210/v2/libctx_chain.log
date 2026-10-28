@@ -1,0 +1,5 @@
+24 lives, 287s, errors: 0
+| mode | pay | rule | completions / 1000 lived | greedy at end (seeds > 0) | sampled at end | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- | --- |
+| hidden | end | libctx | 39.7 | 0.0 (0) | 28.0 | 9613 / 230461 |
+| hidden | shaped | libctx | 46.2 | 0.2 (1) | 38.8 | 11096 / 195608 |

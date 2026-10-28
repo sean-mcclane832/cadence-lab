@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[2]
 RUNS = ROOT / "runs" / "issue210"
 SOURCES = [
     (f"experiments/issue210/{name}", ROOT / "experiments" / "issue210" / name)
-    for name in ("rules.py", "chambers.py", "keydoor.py", "odour.py", "chain.py", "summarize.py")
+    for name in ("rules.py", "chambers.py", "keydoor.py", "odour.py", "chain.py", "summarize.py",
+                 "checks2.py", "serial_gene.py")
 ] + [("patches/issue210-memory-extinction.patch", ROOT / "patches" / "issue210-memory-extinction.patch")]
 RUN_FILES = [
     "dev.json", "dev_history.json", "dev_lib.json", "keydoor_dev.json", "keydoor_dev_cue.json",
@@ -26,6 +27,12 @@ RUN_FILES = [
     "confirm_odour.json", "confirm_chain.json", "dev_lib09.json", "confirm_bandit_lib09.json",
     "confirm_chain_direct.json", "confirm_chain_lib09_observed.json",
     "confirm_chain_lib09_hidden.json",
+    # v2, 2026-10-28
+    "v2/checks2.json", "v2/big_chambers.json", "v2/big_keydoor.json", "v2/big_odour.json",
+    "v2/theta0.25_chambers.json", "v2/theta0.25_keydoor.json", "v2/theta0.25_odour.json",
+    "v2/theta0.25_chain.json", "v2/theta0.75_chambers.json", "v2/theta0.75_keydoor.json",
+    "v2/theta0.75_odour.json", "v2/theta0.75_chain.json", "v2/theta0.5_chain.json",
+    "v2/libctx_bandit.json", "v2/libctx_chain.json", "v2/serial_gene.json",
 ]
 
 
@@ -36,7 +43,7 @@ def main() -> None:
         print(ok, message)
         sys.exit(0 if ok else 1)
     body = {
-        "schema": "cadence-lab/issue210-checks/v1",
+        "schema": "cadence-lab/issue210-checks/v2",
         "cadence": cd.__version__,
         "upstream_commit": "81345d8",
         "runs": {name: json.loads((RUNS / name).read_text(encoding="utf-8"))["rows"] for name in RUN_FILES},

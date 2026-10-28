@@ -1,0 +1,5 @@
+40 lives, 174s, errors: 0
+| delay | arm | acquire A | adapt B | return A | returns within 50 | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2 | lib | 6.5 | 9.0 | 37.0 | 14 of 20 | 0 / 30285 |
+| 5 | lib | 15.0 | 17.0 | 52.5 | 10 of 20 | 0 / 36969 |

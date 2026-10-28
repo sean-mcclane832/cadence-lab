@@ -1,0 +1,20 @@
+624 lives, 59s, errors: 0
+| rule | cue | fail | B acquired | B lag (median) | return acquired | return lag | zero writes / zeros |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| lib | no | -1 | 48/48 | 34.0 | 48/48 | 28.0 | 0 / 0 |
+| off | no | -1 | 48/48 | 34.0 | 48/48 | 28.0 | 0 / 0 |
+| owner | no | -1 | 48/48 | 34.0 | 48/48 | 28.0 | 0 / 0 |
+| off | yes | -1 | 48/48 | 36.0 | 48/48 | 29.0 | 0 / 0 |
+| lib | no | +0 | 44/48 | 90.0 | 47/48 | 40.0 | 269 / 2894 |
+| off | no | +0 | 19/48 | 104.0 | 47/48 | 34.0 | 0 / 0 |
+| owner | no | +0 | 44/48 | 90.0 | 47/48 | 40.0 | 269 / 2894 |
+| off | yes | +0 | 25/48 | 100.5 | 48/48 | 37.5 | 0 / 0 |
+
+songs control mean 0.539, gate 0.639
+| arm | mean score | seeds >= gate | zero writes / zeros |
+| --- | --- | --- | --- |
+| memory_choice, rule lib | 0.630 fail | 16/48 | 0 / 2880 |
+| control (memory_choice=False) | 0.539 fail | 9/48 | 0 / 0 |
+| memory_choice, rule off | 0.630 fail | 16/48 | 0 / 0 |
+| memory_choice, rule off, cue | 0.794 PASS | 48/48 | 0 / 0 |
+| memory_choice, rule owner | 0.568 fail | 10/48 | 1441 / 2880 |

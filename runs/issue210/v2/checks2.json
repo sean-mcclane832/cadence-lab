@@ -1,0 +1,1625 @@
+{
+ "rows": [
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 8,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 9,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 10,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 11,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 12,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 13,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 14,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 15,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 16,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 17,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 18,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 19,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 8,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 9,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 10,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 11,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 12,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 13,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 14,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 15,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 16,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 17,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 18,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 19,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 8,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 9,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 10,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 11,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 12,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 13,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 14,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 15,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 16,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 17,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 18,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "delayed",
+   "seed": 19,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 48000
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 0,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 1,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.785,
+   "task": "bandit4",
+   "seed": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 3,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 4,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 6,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.495,
+   "task": "bandit4",
+   "seed": 7,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 8,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.825,
+   "task": "bandit4",
+   "seed": 9,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 10,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 11,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 12,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 13,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 14,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 15,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.89,
+   "task": "bandit4",
+   "seed": 16,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 17,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 18,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 19,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.765,
+   "task": "bandit4",
+   "seed": 20,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 0.97,
+   "task": "bandit4",
+   "seed": 21,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 22,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 23,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 0,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 138
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 1,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 108
+  },
+  {
+   "score": 0.785,
+   "task": "bandit4",
+   "seed": 2,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 116
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 3,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 64
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 4,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 114
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 5,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 106
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 6,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 83
+  },
+  {
+   "score": 0.495,
+   "task": "bandit4",
+   "seed": 7,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 258
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 8,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 109
+  },
+  {
+   "score": 0.825,
+   "task": "bandit4",
+   "seed": 9,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 199
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 10,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 29
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 11,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 70
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 12,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 106
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 13,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 146
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 14,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 125
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 15,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 97
+  },
+  {
+   "score": 0.89,
+   "task": "bandit4",
+   "seed": 16,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 84
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 17,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 78
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 18,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 84
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 19,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 73
+  },
+  {
+   "score": 0.765,
+   "task": "bandit4",
+   "seed": 20,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 175
+  },
+  {
+   "score": 0.97,
+   "task": "bandit4",
+   "seed": 21,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 112
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 22,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 116
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 23,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 143
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 0,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 138
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 1,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 108
+  },
+  {
+   "score": 0.785,
+   "task": "bandit4",
+   "seed": 2,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 116
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 3,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 64
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 4,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 114
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 5,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 106
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 6,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 83
+  },
+  {
+   "score": 0.495,
+   "task": "bandit4",
+   "seed": 7,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 258
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 8,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 109
+  },
+  {
+   "score": 0.825,
+   "task": "bandit4",
+   "seed": 9,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 199
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 10,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 29
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 11,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 70
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 12,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 106
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 13,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 146
+  },
+  {
+   "score": 0.99,
+   "task": "bandit4",
+   "seed": 14,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 125
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 15,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 97
+  },
+  {
+   "score": 0.89,
+   "task": "bandit4",
+   "seed": 16,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 84
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 17,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 78
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 18,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 84
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 19,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 73
+  },
+  {
+   "score": 0.765,
+   "task": "bandit4",
+   "seed": 20,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 175
+  },
+  {
+   "score": 0.97,
+   "task": "bandit4",
+   "seed": 21,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 112
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 22,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 116
+  },
+  {
+   "score": 1.0,
+   "task": "bandit4",
+   "seed": 23,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 143
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 0,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 1,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 2,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 3,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 4,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 5,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 6,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 7,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 8,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 9,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 10,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 11,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 12,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 13,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 14,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 15,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 16,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 17,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 18,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 19,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 20,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 21,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 22,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 23,
+   "rule": "off",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 0
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 0,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 1,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 2,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 3,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 4,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 5,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 6,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 7,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 8,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 9,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 10,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 11,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 12,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 13,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 14,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 15,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 16,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 17,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 18,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 19,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 20,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 21,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 22,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 23,
+   "rule": "owner",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 0,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 1,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 2,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 3,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 4,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 5,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 6,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 7,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 8,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 9,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 10,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 11,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 12,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 13,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 14,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 15,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 16,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 17,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 18,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 19,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 20,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 21,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 22,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  },
+  {
+   "score": 1.0,
+   "task": "taughtcue",
+   "seed": 23,
+   "rule": "lib",
+   "theta": 0.5,
+   "writes": 0,
+   "zeros": 6
+  }
+ ],
+ "seconds": 336.5
+}

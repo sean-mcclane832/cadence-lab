@@ -14,6 +14,13 @@
            so only a payment that stopped is extinguished.
   lib      the library gene `memory_extinction` (P:/projects/cadence-210fix, the `direct`
            rule kept in an associative store); needs PYTHONPATH on that copy's src.
+  libctx   (v2, 2026-10-28) the library gene `lib`, plus a context flag: the zero is written
+           only if this action was also paid directly after a similar history, i.e. the
+           decision's context key (the temporal records' key, which carries the recent
+           observations and the efference copy) has cosine similarity >= CTX_MATCH to a context
+           key at which a known outcome of this action paid. Aimed at the hidden chain, where
+           the observation is the same at every stage but the history is not. A prototype in
+           this process (a list of paid context keys per action), not a library change.
   history  ours, narrower: as `direct`, but judged and written in the context records only:
            the context record of this decision (keyed by its temporal history) must hold
            >= theta, and the zero is written there alone, the place record left as it is.
@@ -40,7 +47,7 @@ RELEASED_OUTCOME = memories.EpisodicRecords.outcome
 RELEASED_LEARN = generic.Brain.learn
 RELEASED_COMPOSE = generic.Brain.compose
 
-STATE: dict[str, Any] = {"rule": "off", "theta": 0.5, "writes": 0, "zeros": 0}
+STATE: dict[str, Any] = {"rule": "off", "theta": 0.5, "writes": 0, "zeros": 0, "ctx_match": 0.9}
 
 
 def _next_key(self: generic.Brain, next_observations: Any) -> np.ndarray | None:
@@ -130,7 +137,7 @@ def outcome(self, observations, action, reward, done, learned, *, gamma, woken=F
 def compose():  # type: ignore[no-untyped-def]
     """`Brain.compose` for the present rule: with `lib`, the library gene of
     P:/projects/cadence-210fix (`memory_extinction=theta`) on every memory_choice brain."""
-    if STATE["rule"] != "lib":
+    if STATE["rule"] not in ("lib", "libctx"):
         return RELEASED_COMPOSE
     theta = STATE["theta"]
 
@@ -152,13 +159,69 @@ def _counted_extinct(self, observations, action, reward, known, learned, expecte
     return out
 
 
+def _ctx_flag(self, action: np.ndarray) -> np.ndarray:
+    """Per row: was this action paid directly after a history like this decision's?"""
+    keys = self.decided(len(action))
+    paid = getattr(self, "_paid_contexts", {})
+    out = np.ones(len(action), bool)
+    if self.temporal is None or keys is None:
+        return out
+    keys = np.asarray(keys, float)
+    for row in range(len(action)):
+        k = keys[row]
+        norm = np.linalg.norm(k)
+        best = 0.0
+        for a in _slot_actions(action, row):
+            stored = paid.get(a)
+            if not stored or norm == 0:
+                best = 0.0
+                break
+            m = np.asarray(stored)
+            sims = m @ k / (np.linalg.norm(m, axis=1) * norm + 1e-12)
+            best = float(sims.max())
+        out[row] = best >= STATE["ctx_match"]
+    return out
+
+
+def _ctx_extinct(self, observations, action, reward, known, learned, expected):  # type: ignore[no-untyped-def]
+    out = RELEASED_EXTINCT(self, observations, action, reward, known, learned, expected)
+    if out.any():
+        out = out & _ctx_flag(self, np.asarray(action))
+    STATE["zeros"] += int((learned & ~known & (reward == 0)).sum())
+    STATE["writes"] += int(out.sum())
+    return out
+
+
+def _ctx_outcome(self, observations, action, reward, done, learned, *, gamma, woken=False, salience=None):  # type: ignore[no-untyped-def]
+    reward_a = np.asarray(reward, float)
+    done_a = np.asarray(done, bool)
+    learned_a = np.asarray(learned, bool)
+    marked = np.zeros(len(reward_a), bool) if salience is None else np.asarray(salience) > 0
+    known = learned_a & ((reward_a != 0) | done_a | woken | marked)
+    keys = self.decided(len(action)) if self.temporal is not None else None
+    RELEASED_OUTCOME(self, observations, action, reward, done, learned, gamma=gamma, woken=woken,
+                     salience=salience)
+    if keys is not None:
+        paid = getattr(self, "_paid_contexts", None)
+        if paid is None:
+            paid = {}
+            self._paid_contexts = paid
+        for row in np.flatnonzero(known & (reward_a > 0)):
+            for a in _slot_actions(np.asarray(action), row):
+                paid.setdefault(a, []).append(np.asarray(keys[row], float).copy())
+
+
 def apply(rule: str, theta: float = 0.5) -> None:
     STATE.update(rule=rule, theta=float(theta), writes=0, zeros=0)
     if RELEASED_EXTINCT is not None:
-        memories.EpisodicRecords.extinct = _counted_extinct if rule == "lib" else RELEASED_EXTINCT
-    if rule == "lib" and RELEASED_EXTINCT is None:
+        memories.EpisodicRecords.extinct = {"lib": _counted_extinct, "libctx": _ctx_extinct}.get(
+            rule, RELEASED_EXTINCT)
+    if rule in ("lib", "libctx") and RELEASED_EXTINCT is None:
         raise RuntimeError("rule lib needs the cadence-210fix library on PYTHONPATH")
-    if rule in ("off", "lib"):
+    if rule == "libctx":
+        memories.EpisodicRecords.outcome = _ctx_outcome
+        generic.Brain.learn = RELEASED_LEARN
+    elif rule in ("off", "lib"):
         memories.EpisodicRecords.outcome = RELEASED_OUTCOME
         generic.Brain.learn = RELEASED_LEARN
     else:
