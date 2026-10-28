@@ -30,13 +30,14 @@ Two-frame MLP > position-term Cadence 12/12 (+6.2), > no-recall 11/12 (+5.9). Po
   arm by about 6 after long training. What the settle carries is real but noisier than the frame
   itself. At 30 blocks this gap did not exist; the short run hid it.
 - **Recall memory adds nothing on top of the settle in this task**, with or without the 0.89.0
-  position term. The position term's lean over plain recall (+3, 7/12) is worth a seed-doubled rerun
-  before anyone calls it either way.
+  position term. Its lean over plain recall on seeds 10-21 (+3, 7/12, p = 0.09) did not survive 24 more
+  seeds: pooled 36 seeds, 17/36 wins, median -1.02, p = 0.68. Null.
 - **Short runs mislead in both directions.** At 30 blocks the two-frame reference and Cadence were
-  level, and the position term was a clean null. Both readings moved with 10x training. Learning
-  curves should be checked for a plateau before ranking players.
+  level; 10x training opened a 6-brick gap. And 12 seeds at 300 blocks made the position term look
+  like +3 until 24 more seeds erased it. Check curves for a plateau and use enough seeds before
+  ranking players.
 
 ## Next
 
-- 24 more seeds of pos32 vs pos0 at 300 blocks, to settle the position-term lean.
+- ~~24 more seeds of pos32 vs pos0 at 300 blocks~~ done: null (cadence-arcade `classic/runs/long10x-more`).
 - Probe what the settle carries: decode last-moment ball direction from the settled state.
