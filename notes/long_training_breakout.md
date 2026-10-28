@@ -41,3 +41,6 @@ Two-frame MLP > position-term Cadence 12/12 (+6.2), > no-recall 11/12 (+5.9). Po
 
 - ~~24 more seeds of pos32 vs pos0 at 300 blocks~~ done: null (cadence-arcade `classic/runs/long10x-more`).
 - Probe what the settle carries: decode last-moment ball direction from the settled state.
+  Done: [settle_probe.md](settle_probe.md). Direction is linearly readable (0.98 vs 0.71 from the
+  frame), but the carrier is the default working-memory copy, an untrained brain carries it just as
+  well, and zeroing the copy drops play to ~2 bricks.

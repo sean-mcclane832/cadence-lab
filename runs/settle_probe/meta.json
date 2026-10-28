@@ -1,0 +1,24 @@
+{
+ "cadence": "0.89.0",
+ "python": "3.11.17",
+ "blocks": 150,
+ "checkpoints": [
+  0,
+  10,
+  30,
+  75,
+  150
+ ],
+ "probe_moments": 3000,
+ "lesion_eps": 10,
+ "l2": 0.001,
+ "folds": 5,
+ "arms": [
+  "norecall",
+  "pos32"
+ ],
+ "seeds": [
+  10,
+  13
+ ]
+}
