@@ -18,7 +18,7 @@ RUNS = ROOT / "runs" / "issue210"
 SOURCES = [
     (f"experiments/issue210/{name}", ROOT / "experiments" / "issue210" / name)
     for name in ("rules.py", "chambers.py", "keydoor.py", "odour.py", "chain.py", "summarize.py",
-                 "checks2.py", "serial_gene.py")
+                 "checks2.py", "serial_gene.py", "mark.py")
 ] + [("patches/issue210-memory-extinction.patch", ROOT / "patches" / "issue210-memory-extinction.patch")]
 RUN_FILES = [
     "dev.json", "dev_history.json", "dev_lib.json", "keydoor_dev.json", "keydoor_dev_cue.json",
@@ -32,7 +32,7 @@ RUN_FILES = [
     "v2/theta0.25_chambers.json", "v2/theta0.25_keydoor.json", "v2/theta0.25_odour.json",
     "v2/theta0.25_chain.json", "v2/theta0.75_chambers.json", "v2/theta0.75_keydoor.json",
     "v2/theta0.75_odour.json", "v2/theta0.75_chain.json", "v2/theta0.5_chain.json",
-    "v2/libctx_bandit.json", "v2/libctx_chain.json", "v2/serial_gene.json",
+    "v2/libctx_bandit.json", "v2/libctx_chain.json", "v2/serial_gene.json", "v2/mark.json",
 ]
 
 

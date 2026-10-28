@@ -260,3 +260,21 @@ it stays well above the cue arm: the gene makes reversals possible, not fast.
 - The owner's rule reproduces his reported costs on the bigger panels (key-door delay 5, odour
   nursery through `step`, songs).
 - Still not checked: crafting chains, V5 corrective, the original songs chamber (not public).
+
+### Against the owner's documented remedy, the explicit mark
+
+On 22 October (0.85.1, PR #222) the owner added `live(..., reward=[0.0], salience=[s])`: the
+caller marks a pending zero outcome as known. #210 stays open for *automatic* extinction. Same
+48-seed bandit (`experiments/issue210/mark.py`, 0.89.0 as released):
+
+| arm | B acquired | return |
+| --- | --- | --- |
+| no mark (0.89.0) | 19/48 | 47/48 |
+| every zero marked, salience 0.005 | **48/48** | 48/48 |
+| `memory_extinction=0.5` (no marks) | 44/48 | 47/48 |
+
+When the caller knows which zeros are real failures, the mark fixes this bandit completely, with
+no library change. The gene's only case is the automatic one: a brain that has to decide by itself
+which zeros extinguish. There it fixes most of the bandit and leaves songs, key-door and the odour
+nursery untouched, but it still writes on aliased corridors (the hidden chain), which the owner
+lists among the cases an automatic rule must preserve.
