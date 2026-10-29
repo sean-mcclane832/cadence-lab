@@ -71,6 +71,17 @@ def segments(cond: str, seed: int) -> list[tuple[str, int, int]]:
         return [("both", 1000, -1)] + test
     if cond == "coin":
         return [("coin", 1000, -1)] + test
+    # amendment 1: two-flip lives; the test flip goes back to arm 1 after N moments of it paying
+    if cond == "tf200":
+        return [("arm", 200, 1), ("arm", 100, 0), ("arm", WINDOW, 1)]
+    if cond == "tf500":
+        return [("arm", 500, 1), ("arm", 100, 0), ("arm", WINDOW, 1)]
+    if cond == "tf_matched":  # arm histories matched to serial's test flip (~500 / ~600), 2 flips
+        return [("arm", 500, 1), ("arm", 600, 0), ("arm", WINDOW, 1)]
+    if cond == "both_unfav":  # test block pays the arm chosen most in the both phase, flip to the other
+        return [("both", 1000, -1), ("arm", 100, "fav"), ("arm", WINDOW, "unfav")]
+    if cond == "both_fav":  # test block pays the less chosen arm, flip back to the favourite
+        return [("both", 1000, -1), ("arm", 100, "unfav"), ("arm", WINDOW, "fav")]
     if cond == "serial":
         env = SerialBandit(reversals=10, seed=seed)  # v1 schedule, 10 flips
         lengths = np.diff([0] + env.flips + [env.life])
@@ -86,9 +97,17 @@ def run(arm: str, cond: str, seed: int, *, snapshot: bool = False) -> dict:
     brain = make_brain(arm, seed)
     rng = np.random.default_rng(seed + 555)
     hits, flips, t = [], [], 0
+    choices = []
     snap = None
+    resolved = {}
     action = live(brain, OBS)
     for i, (kind, n, pay) in enumerate(segs):
+        if isinstance(pay, str):
+            if not resolved:
+                fav = int(np.mean(choices) >= 0.5)
+                resolved = {"fav": fav, "unfav": 1 - fav}
+            pay = resolved[pay]
+            segs[i] = (kind, n, pay)
         if i > 0 and kind == "arm" and segs[i - 1][0] == "arm" and segs[i - 1][2] != pay:
             flips.append(t)
         if snapshot and i == len(segs) - 1:
@@ -104,11 +123,14 @@ def run(arm: str, cond: str, seed: int, *, snapshot: bool = False) -> dict:
                 hit = a == pay
                 r = 1.0 if hit else -1.0
             hits.append(hit)
+            choices.append(a)
             action = live(brain, OBS, r)
             t += 1
     h = np.asarray(hits, dtype=float)
     test = flips[-1]
+    pre = choices[:segs[0][1]]
     out = {"arm": arm, "cond": cond, "seed": seed, "flips": flips, "life": t,
+           "first_segment_arm1_share": float(np.mean(pre)), "flip_to": int(segs[-1][2]),
            "test_errors": int(WINDOW - h[test:test + WINDOW].sum()),
            "pre_flip_errors": [int(WINDOW - h[f - WINDOW:f].sum()) for f in flips],
            "post_flip_errors": [int(WINDOW - h[f:f + WINDOW].sum()) for f in flips]}
@@ -150,24 +172,27 @@ def main() -> None:
     ap.add_argument("--seeds", type=int, nargs="+", default=list(range(12)))
     ap.add_argument("--arms", nargs="+", default=["continuing", "memory_choice"])
     ap.add_argument("--out", default=None)
+    ap.add_argument("--conds", nargs="+", default=["naive", "stable", "serial", "both_pay", "coin"])
     args = ap.parse_args()
     outdir = ROOT / "runs" / "serial_reversal_recheck"
     outdir.mkdir(parents=True, exist_ok=True)
     rows = []
+    CONDS = args.conds  # noqa: N806
 
     if args.part == "controls":
         for arm in args.arms:
-            for cond in ("naive", "stable", "serial", "both_pay", "coin"):
+            for cond in CONDS:
                 for seed in args.seeds:
                     t0 = time.perf_counter()
                     row, _ = run(arm, cond, seed)
                     row["elapsed_s"] = round(time.perf_counter() - t0, 2)
                     rows.append(row)
-                    print(f"{arm:13s} {cond:9s} seed {seed:2d}: test errors {row['test_errors']:2d}  "
+                    print(f"{arm:13s} {cond:10s} seed {seed:2d}: test errors {row['test_errors']:2d}  "
+                          f"seg1 arm1 share {row['first_segment_arm1_share']:.2f} flip to {row['flip_to']}  "
                           f"pre-flip {row['pre_flip_errors']}  post {row['post_flip_errors']}", flush=True)
         print()
         for arm in args.arms:
-            for cond in ("naive", "stable", "serial", "both_pay", "coin"):
+            for cond in CONDS:
                 e = [r["test_errors"] for r in rows if r["arm"] == arm and r["cond"] == cond]
                 print(f"SUMMARY {arm:13s} {cond:9s} test errors mean {np.mean(e):5.2f} "
                       f"median {np.median(e):4.1f}  {e}")

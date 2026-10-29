@@ -99,3 +99,26 @@ the brain gets faster with practice, but "learned that the rule flips" is the wr
 ## Results
 
 (pending)
+
+## Amendment 1 (written after the first controls, before these runs)
+
+What the first controls showed: in `both_pay` the brain locks onto one arm (arm-1 choice share
+0.02-0.05 or 0.81-0.98 per seed), so whether the test flip went *back* to that favourite decided
+the result. Two extra conditions (`both_fav`, `both_unfav`) split it, and they suggest a simpler
+mechanism than learning to learn: **savings**, a flip back to an arm with a long paid history is
+fast, with no reversal experience needed.
+
+At the serial test flip (flip 11, to arm 1), arm 1 has about 500 paid moments behind it and arm 0
+about 600. New conditions, two flips per life, test flip back to arm 1:
+
+| condition | arm 1 pays | then arm 0 pays | then flip to arm 1 |
+| --- | --- | --- | --- |
+| tf200 | 200 | 100 | test |
+| tf500 | 500 | 100 | test |
+| tf_matched | 500 | 600 | test (histories matched to serial, 2 flips instead of 11) |
+
+Predictions:
+- A1. Savings reading: `tf_matched` within 1.5 errors of `serial` (2.17 / 3.25), and errors fall
+  from `tf200` to `tf500`.
+- A2. Learning-to-learn reading: `tf_matched` at least 3 errors above `serial`.
+- In between (1.5-3 above serial): both contribute.
