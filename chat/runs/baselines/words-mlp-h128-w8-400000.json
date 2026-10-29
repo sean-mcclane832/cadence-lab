@@ -1,0 +1,147 @@
+{
+ "kind": "mlp",
+ "params": 216892,
+ "chars": 400000,
+ "val": {
+  "acc": 0.8151311775472849,
+  "bpc": {
+   "0.5": 0.9230209530530812,
+   "0.8": 0.7696719254116728,
+   "1.0": 0.7520917991870126,
+   "1.2": 0.7712268938109372,
+   "1.5": 0.8682941992152149
+  }
+ },
+ "T": "1.0",
+ "test_acc": 0.8246830901698158,
+ "test_bpc": 0.721434131003711,
+ "test_reply": {
+  "valid": 0.95,
+  "by_intent": {
+   "ilike": 0.75,
+   "bye": 1.0,
+   "mood_good": 1.0,
+   "color": 1.0,
+   "robot": 1.0,
+   "name": 0.9473684210526315,
+   "pet": 1.0,
+   "botname": 1.0,
+   "food": 1.0,
+   "place": 1.0,
+   "cando": 1.0,
+   "mood_bad": 1.0,
+   "doyoulike": 0.3888888888888889,
+   "greet": 1.0,
+   "howareyou": 1.0,
+   "thanks": 1.0
+  },
+  "samples": [
+   [
+    "i really like dog",
+    "cool, i like dog too."
+   ],
+   [
+    "good night",
+    "good night!"
+   ],
+   [
+    "i am okay",
+    "that is good to hear."
+   ],
+   [
+    "what is your favorite color?",
+    "my favorite color is blue."
+   ],
+   [
+    "are you smart?",
+    "i am a small brain made of numbers."
+   ],
+   [
+    "call me max",
+    "nice to meet you, max."
+   ],
+   [
+    "my pet is a dog",
+    "i like dogs."
+   ],
+   [
+    "what are you?",
+    "i am a bot called cadence."
+   ],
+   [
+    "what is your favorite food?",
+    "pizza, and cake."
+   ],
+   [
+    "are you smart?",
+    "i am a small brain made of numbers."
+   ],
+   [
+    "i want to go to the city",
+    "have fun in the city!"
+   ],
+   [
+    "what can you do?",
+    "i can talk a little."
+   ]
+  ]
+ },
+ "novel": {
+  "valid": 0.0,
+  "by_intent": {
+   "novel_name": 0.0,
+   "novel_like": 0.0
+  },
+  "samples": [
+   [
+    "i am hugo",
+    "that is good to hear."
+   ],
+   [
+    "i love kites",
+    "why do you like pizza?"
+   ],
+   [
+    "my name is zoe",
+    "nice to meet you, maria."
+   ],
+   [
+    "i really like kites",
+    "oh, i do not like running."
+   ],
+   [
+    "my name is zoe",
+    "nice to meet you, maria."
+   ],
+   [
+    "i love berlin",
+    "why do you like pizza?"
+   ],
+   [
+    "i am zoe",
+    "that is good to hear."
+   ],
+   [
+    "i really like noodles",
+    "oh, i do not like running."
+   ],
+   [
+    "my name is pablo",
+    "nice to meet you, maria."
+   ],
+   [
+    "i love berlin",
+    "why do you like pizza?"
+   ],
+   [
+    "my name is pablo",
+    "nice to meet you, maria."
+   ],
+   [
+    "i really like berlin",
+    "oh, i do not like running."
+   ]
+  ]
+ },
+ "seconds": 20.2
+}

@@ -41,12 +41,32 @@ CONFIGS = {
     "s8_b32": {"window": 8, "streams": 32, "genes": {**NORM, "episodic": False}},
     "s8_b16_m128": {"window": 8, "streams": 16, "genes": {**NORM, "episodic": False, "modules": (128,)}},
     "s12_b16": {"window": 12, "streams": 16, "genes": {**NORM, "episodic": False}},
+    "s8_b16_e1": {"window": 8, "streams": 16, "eta": 0.001, "genes": {**NORM, "episodic": False}},
+    "s8_b16_e03": {"window": 8, "streams": 16, "eta": 0.0003, "genes": {**NORM, "episodic": False}},
+    "s8_b16_e1_cap2": {"window": 8, "streams": 16, "eta": 0.001, "scale_cap": 2.0,
+                       "genes": {**NORM, "episodic": False}},
+    "s8_b16_e03_r1k": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024,
+                       "genes": {**NORM, "episodic": False}},
+    "main_cold": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": True,
+                  "genes": {**NORM, "episodic": False}},
+    "main_cold_e1": {"window": 8, "streams": 16, "eta": 0.001, "reset_every": 1024, "cold": True,
+                     "genes": {**NORM, "episodic": False}},
     "s10": {"window": 10, "genes": {**NORM, "episodic": False}},
     "w6_nohist": {"window": 6, "genes": {**NORM}, "loop": "step"},
     "w6_nohist_m128": {"window": 6, "genes": {**NORM, "modules": (128,)}},
     "w8_nohist_m128": {"window": 8, "genes": {**NORM, "modules": (128,)}},
 }
 TEMPS = (0.05, 0.1, 0.2, 0.3, 0.5, 0.8, 1.2)
+
+
+def cold(brain) -> None:
+    """With ``brain.chat_cold`` set, the next settle starts from rest instead of from the
+    stream's last settled state (the warm start). The working trace and every memory are
+    kept. This uses a private attribute (``basal_ganglia._free``), the same lever the lab's
+    settle probe used for its "cold" lesion: a warm-started stream can fall into a bad
+    settled state and stay there (see PROGRESS.md, stage 3)."""
+    if getattr(brain, "chat_cold", False):
+        brain.basal_ganglia._free = None
 
 
 def encoder(window: int):
@@ -77,12 +97,14 @@ def score_tokens(brain, ids, window, warm) -> dict:
     hist: list[int] = []
     for c in warm:
         hist.append(c)
+        cold(brain)
         brain.act(enc(hist), greedy=True)
     hits = n = rh = rn = 0
     nll = np.zeros(len(TEMPS))
     in_reply = False
     for t in range(len(ids) - 1):
         hist.append(ids[t])
+        cold(brain)
         a = int(brain.act(enc(hist), greedy=True)[0])
         y = ids[t + 1]
         hits += a == y
@@ -105,6 +127,7 @@ def say(brain, hist, prompt, window, max_len=20, temperature=None, rng=None) -> 
 
     def step(c: int) -> int:
         hist.append(c)
+        cold(brain)
         a = int(brain.act(enc(hist), greedy=True)[0])
         if temperature is not None:
             p = probs(brain, temperature)
@@ -154,6 +177,17 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
     window = cfg["window"]
     enc = encoder(window)
     brain = cd.Brain.load(resume) if resume else compose(cfg, seed)
+    if "eta" in cfg or "scale_cap" in cfg:
+        # smaller teaching steps than the normalized point's 0.003 / 0.0003 (compose does
+        # not take eta while teaching= sets it, so the learner's config is replaced)
+        import dataclasses
+        c = brain.learner.config
+        brain.learner.config = dataclasses.replace(
+            c, eta=cfg.get("eta", c.eta), eta_bias=cfg.get("eta", c.eta) / 10,
+            scale_cap=cfg.get("scale_cap", c.scale_cap))
+        c = brain.learner.config
+        log(json.dumps({"event": "learner", "eta": c.eta, "eta_bias": c.eta_bias, "scale_cap": c.scale_cap}))
+    brain.chat_cold = bool(cfg.get("cold"))
     log(json.dumps({"event": "start", "cfg": cfg, "version": cd.__version__, "vocab": W.V,
                     "neurons": brain.connectome.n, "synapses": brain.connectome.synapses,
                     "parameters": brain.parameters(), "start": start}))
@@ -177,12 +211,16 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
             ys.append(ids[(i + 1) % len(ids)])
         x, y = np.array(xs), np.array(ys)
         t += 1
+        if cfg.get("reset_every") and t % cfg["reset_every"] == 0:
+            brain.reset()  # clear the streams' traces; the weights carry on
         if cfg.get("loop") == "step":
             a = brain.step(x, teacher=y)
         else:
             # upstream's supervised-only stream: teach the present observation, then a
             # greedy act advances the stream (no reward eligibility, no outcome records)
+            cold(brain)
             brain.lesson(x, y)
+            cold(brain)
             a = brain.act(x, greedy=True)
         hits += int((np.asarray(a).reshape(-1) == y).sum())
         lessons += int(brain.last_learning.get("demonstration_accepted_presentations", B))
@@ -190,7 +228,9 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
         pos += B
         if pos % probe_every < B or pos >= start + tokens:
             path = brain.save(out / "brain.npz")
-            ev = evaluate(cd.Brain.load(path), window)
+            probe = cd.Brain.load(path)
+            probe.chat_cold = brain.chat_cold
+            ev = evaluate(probe, window)
             T = min(ev["text"]["bpt"], key=ev["text"]["bpt"].get)
             log(json.dumps({"event": "probe", "tokens": pos, "epochs": round(pos / len(ids), 2),
                             "seconds": round(time.monotonic() - t0, 1),

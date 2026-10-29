@@ -1,0 +1,147 @@
+{
+ "kind": "mlp",
+ "params": 17570,
+ "chars": 1000000,
+ "val": {
+  "acc": 0.7699341623994148,
+  "bpc": {
+   "0.5": 1.2233059212453878,
+   "0.8": 1.0445430643541014,
+   "1.0": 1.0478354508719803,
+   "1.2": 1.0910002676071524,
+   "1.5": 1.1936120997728428
+  }
+ },
+ "T": "0.8",
+ "test_acc": 0.7754179522135323,
+ "test_bpc": 0.9892718346804249,
+ "test_reply": {
+  "valid": 0.0,
+  "by_intent": {
+   "ilike": 0.0,
+   "bye": 0.0,
+   "mood_good": 0.0,
+   "color": 0.0,
+   "robot": 0.0,
+   "name": 0.0,
+   "pet": 0.0,
+   "botname": 0.0,
+   "food": 0.0,
+   "place": 0.0,
+   "cando": 0.0,
+   "mood_bad": 0.0,
+   "doyoulike": 0.0,
+   "greet": 0.0,
+   "howareyou": 0.0,
+   "thanks": 0.0
+  },
+  "samples": [
+   [
+    "i really like dog",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "good night",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i am okay",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "what is your favorite color?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "are you smart?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "call me max",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "my pet is a dog",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "what are you?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "what is your favorite food?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "are you smart?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i want to go to the city",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "what can you do?",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ]
+  ]
+ },
+ "novel": {
+  "valid": 0.0,
+  "by_intent": {
+   "novel_name": 0.0,
+   "novel_like": 0.0
+  },
+  "samples": [
+   [
+    "i am hugo",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i love kites",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "my name is zoe",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i really like kites",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "my name is zoe",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i love berlin",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i am zoe",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i really like noodles",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "my name is pablo",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i love berlin",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "my name is pablo",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ],
+   [
+    "i really like berlin",
+    "i am a smally like to hello meet you: i am a smally like to "
+   ]
+  ]
+ },
+ "seconds": 16.8
+}

@@ -1,0 +1,147 @@
+{
+ "kind": "gru",
+ "params": 21410,
+ "chars": 1000000,
+ "val": {
+  "acc": 0.9094732991953182,
+  "bpc": {
+   "0.5": 0.47686179750427055,
+   "0.8": 0.42033200642918184,
+   "1.0": 0.4391522458059104,
+   "1.2": 0.4839303624213102,
+   "1.5": 0.5867635113664136
+  }
+ },
+ "T": "0.8",
+ "test_acc": 0.9090191576379422,
+ "test_bpc": 0.3972397698333262,
+ "test_reply": {
+  "valid": 0.42333333333333334,
+  "by_intent": {
+   "ilike": 0.0,
+   "bye": 1.0,
+   "mood_good": 0.35294117647058826,
+   "color": 1.0,
+   "robot": 0.65,
+   "name": 0.0,
+   "pet": 0.0,
+   "botname": 0.7777777777777778,
+   "food": 1.0,
+   "place": 0.0,
+   "cando": 1.0,
+   "mood_bad": 0.041666666666666664,
+   "doyoulike": 0.16666666666666666,
+   "greet": 0.0,
+   "howareyou": 0.0,
+   "thanks": 1.0
+  },
+  "samples": [
+   [
+    "i really like dog",
+    "any time!"
+   ],
+   [
+    "good night",
+    "good night!"
+   ],
+   [
+    "i am okay",
+    "what is your favorite food?"
+   ],
+   [
+    "what is your favorite color?",
+    "i like blue."
+   ],
+   [
+    "are you smart?",
+    "i am a bot called cadence."
+   ],
+   [
+    "call me max",
+    "hi loodsng?"
+   ],
+   [
+    "my pet is a dog",
+    "i like blue."
+   ],
+   [
+    "what are you?",
+    "i am a bot called cadence."
+   ],
+   [
+    "what is your favorite food?",
+    "my favorite food is pizza."
+   ],
+   [
+    "are you smart?",
+    "i am a bot called cadence."
+   ],
+   [
+    "i want to go to the city",
+    "hi loodsng?"
+   ],
+   [
+    "what can you do?",
+    "i can try to help."
+   ]
+  ]
+ },
+ "novel": {
+  "valid": 0.0,
+  "by_intent": {
+   "novel_name": 0.0,
+   "novel_like": 0.0
+  },
+  "samples": [
+   [
+    "i am hugo",
+    "great!"
+   ],
+   [
+    "i love kites",
+    "that is too bad."
+   ],
+   [
+    "my name is zoe",
+    "have fun in the park"
+   ],
+   [
+    "i really like kites",
+    "nice, i am glad."
+   ],
+   [
+    "my name is zoe",
+    "have fun in the park"
+   ],
+   [
+    "i love berlin",
+    "hi loodsng?"
+   ],
+   [
+    "i am zoe",
+    "have fun in the park"
+   ],
+   [
+    "i really like noodles",
+    "you are welcome."
+   ],
+   [
+    "my name is pablo",
+    "what is your favorite food?"
+   ],
+   [
+    "i love berlin",
+    "hi loodsng?"
+   ],
+   [
+    "my name is pablo",
+    "what is your favorite food?"
+   ],
+   [
+    "i really like berlin",
+    "hi loodsng?"
+   ]
+  ]
+ },
+ "seconds": 33.8
+}

@@ -1,0 +1,2 @@
+{"event": "learner", "eta": 0.0003, "eta_bias": 2.9999999999999997e-05, "scale_cap": 8.0}
+{"event": "start", "cfg": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": true, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "main_cold"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 114269, "start": 300000}

@@ -40,11 +40,14 @@ def main() -> None:
     ap.add_argument("--temperature", type=float, default=None,
                     help="sample replies at this temperature (default: greedy)")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--warm", action="store_true",
+                    help="warm-started settles even if the brain was trained cold")
     ap.add_argument("--say", nargs="*", help="non-interactive: these prompts, in one conversation")
     a = ap.parse_args()
     cfg = json.loads((a.brain.parent / "cfg.json").read_text(encoding="utf-8"))
     brain = cd.Brain.load(a.brain)
     brain.reset()
+    brain.chat_cold = bool(cfg.get("cold")) and not a.warm
     rng = np.random.default_rng(a.seed)
     hist: list[int] = []
     window = cfg["window"]

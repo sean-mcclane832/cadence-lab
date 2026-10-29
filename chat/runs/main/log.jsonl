@@ -1,1 +1,4 @@
 {"event": "start", "cfg": {"window": 8, "streams": 16, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "s8_b16"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 114269, "start": 100000}
+{"event": "probe", "tokens": 120000, "epochs": 1.46, "seconds": 85.5, "train_acc": 0.379, "lesson_share": 0.624, "val_acc": 0.1196, "val_reply_acc": 0.131, "val_bpt": 6.699, "T": "0.1", "valid_reply": 0.058, "novel_valid": 0.0}
+{"event": "probe", "tokens": 160000, "epochs": 1.94, "seconds": 276.9, "train_acc": 0.031, "lesson_share": 0.97, "val_acc": 0.1275, "val_reply_acc": 0.0771, "val_bpt": 7.537, "T": "0.05", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "tokens": 200000, "epochs": 2.43, "seconds": 553.5, "train_acc": 0.062, "lesson_share": 0.938, "val_acc": 0.0006, "val_reply_acc": 0.0, "val_bpt": 7.606, "T": "1.2", "valid_reply": 0.0, "novel_valid": 0.0}

@@ -127,3 +127,46 @@ Whole, grammatical sentences from the training repertoire, often the wrong one f
 prompt (greetings/byes/thanks at 0%). It has learned the replies better than the mapping
 from prompt to reply. `s8_b16` continues as the main brain from its 100k checkpoint
 (`runs/main/`).
+
+## Stage 3: the collapse, and what it actually was (02:45-03:25)
+
+`s8_b16` continued from 100k as the main brain **collapsed**: val token accuracy 0.75 ->
+0.12 -> 0.0006 within 1.2 more epochs, train accuracy 0.03, lessons on 97% of rows. Two
+tuning arms (128-unit region, 12-token window) went the same way. I missed the warning: the
+train accuracy had already dipped at the 100k probe.
+
+Tuning arms, all from the healthy 100k checkpoint (val acc per 20k probe):
+
+| Arm | val token acc | reading |
+| --- | --- | --- |
+| eta 0.003 (the normalized point) | 0.12, 0.13, 0.0006 | weights broken: cold settle also 0.15 |
+| eta 0.001 | 0.72, **0.17, 0.18** | looked collapsed, but see below |
+| eta 0.001, `scale_cap` 2 | 0.72, 0.76, 0.76, 0.77, 0.50 | going |
+| eta 0.0003 | 0.75, 0.75, 0.75, 0.76, 0.77, 0.75, 0.75, **0.48, 0.48**, 0.75 | stable weights, flipping probes |
+| eta 0.0003 + reset streams every 1,024 steps | 0.74, 0.75, 0.74 (train acc 0.74 vs 0.48 without) | |
+
+Two diagnostics explained it:
+
+- **No drift in a frozen brain.** One stream, 8,000 tokens, no learning: accuracy per
+  500-token bin stays at 0.74-0.78 the whole way, with or without resets ([drift.py](drift.py)).
+- **The warm start traps streams.** Each settle starts from the stream's last settled state.
+  The eta 0.001 brain at 160k scores 0.18 warm, **0.77 when every settle starts from rest**
+  (working trace and weights untouched), 0.75 when reset at each `you:`. Its weights were
+  fine; its stream had fallen into a bad settled state that the warm start kept it in. The
+  flipping 0.75/0.48 probes of the eta 0.0003 brain are the same thing. On the healthy brain
+  cold settles are also better (0.775 vs 0.755). The real weight collapse (eta 0.003) stays
+  broken cold (0.15).
+
+This is the opposite of the Breakout settle probe, where removing the warm start cost almost
+nothing. On text, the warm start is a liability. There is no public switch for it, so the
+brain is run with `basal_ganglia._free = None` before each settle (the settle probe's
+"cold" lever, private API, documented in `wordbrain.cold`).
+
+Cold settles during training, from the eta 0.0003 brain at 300k: train acc 0.48 -> 0.79,
+val 0.78, bits per token 2.0 -> **1.17**, valid replies 0.52 in the first 3k tokens. That is the
+recipe for the main brain from here on: `main_cold` = window 8, 16 streams, normalized
+teaching at eta 0.0003, surprise lessons, resets every 1,024 steps, cold settles, no
+associative store. One brain, continued from the eta 0.0003 brain's 300k checkpoint, in
+`runs/main_cold/`.
+
+Char baseline added: GRU (hidden 64, 1M chars) 0.91 char accuracy, 0.40 bpc, 42% valid replies.
