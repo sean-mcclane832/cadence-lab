@@ -42,6 +42,10 @@ A composed brain takes its precision on load:
 - [`experiments/serial_reversal.py`](experiments/serial_reversal.py): the paying arm flips 10
   to 30 times in one life. Does a continuing brain get faster at switching, as animals do?
   Write-up: [`notes/serial_reversal.md`](notes/serial_reversal.md).
+- [`experiments/serial_reversal_recheck.py`](experiments/serial_reversal_recheck.py): is that
+  speed-up learning to learn? Age, savings, arousal and working-memory controls (pre-registered).
+  Partly: about half is savings on previously paid arms. Write-up:
+  [`notes/serial_reversal_recheck.md`](notes/serial_reversal_recheck.md).
 - [`experiments/issue210/`](experiments/issue210/): the preservation checks of upstream issue
   #210 (zero outcomes never extinguish a paid record) and a narrower extinction rule that keeps
   them. Write-up: [`notes/issue210_checks.md`](notes/issue210_checks.md).

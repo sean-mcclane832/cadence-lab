@@ -1,0 +1,29 @@
+continuing    wm0 seed  0: errors [9, 7, 4, 6, 3, 3, 2, 5, 6, 2] slope -0.47
+continuing    wm0 seed  1: errors [7, 8, 9, 7, 9, 5, 4, 3, 3, 2] slope -0.75
+continuing    wm0 seed  2: errors [10, 8, 5, 9, 4, 3, 9, 3, 4, 3] slope -0.62
+continuing    wm0 seed  3: errors [8, 7, 6, 3, 3, 3, 2, 2, 2, 3] slope -0.62
+continuing    wm0 seed  4: errors [9, 14, 8, 6, 4, 8, 7, 3, 6, 4] slope -0.72
+continuing    wm0 seed  5: errors [8, 7, 4, 4, 3, 4, 5, 2, 2, 3] slope -0.52
+continuing    wm0 seed  6: errors [10, 6, 5, 5, 5, 5, 3, 3, 2, 2] slope -0.70
+continuing    wm0 seed  7: errors [7, 9, 9, 5, 3, 3, 3, 2, 3, 2] slope -0.78
+continuing    wm0 seed  8: errors [5, 5, 3, 7, 5, 2, 3, 4, 2, 3] slope -0.30
+continuing    wm0 seed  9: errors [7, 4, 3, 3, 2, 6, 2, 2, 4, 2] slope -0.30
+continuing    wm0 seed 10: errors [7, 7, 9, 4, 4, 3, 2, 3, 6, 3] slope -0.48
+continuing    wm0 seed 11: errors [11, 10, 7, 6, 3, 3, 7, 3, 2, 2] slope -0.93
+memory_choice wm0 seed  0: errors [9, 7, 7, 5, 5, 4, 4, 5, 2, 2] slope -0.68
+memory_choice wm0 seed  1: errors [10, 7, 7, 8, 6, 3, 4, 3, 4, 2] slope -0.78
+memory_choice wm0 seed  2: errors [10, 7, 5, 6, 4, 3, 5, 5, 3, 3] slope -0.58
+memory_choice wm0 seed  3: errors [8, 8, 5, 5, 5, 3, 4, 2, 3, 2] slope -0.66
+memory_choice wm0 seed  4: errors [7, 6, 7, 6, 7, 4, 4, 5, 3, 3] slope -0.46
+memory_choice wm0 seed  5: errors [10, 6, 7, 6, 5, 5, 3, 4, 3, 2] slope -0.71
+memory_choice wm0 seed  6: errors [11, 8, 6, 7, 4, 5, 5, 3, 4, 2] slope -0.78
+memory_choice wm0 seed  7: errors [8, 7, 8, 6, 4, 4, 4, 3, 2, 4] slope -0.62
+memory_choice wm0 seed  8: errors [8, 6, 4, 6, 6, 4, 4, 4, 2, 2] slope -0.55
+memory_choice wm0 seed  9: errors [8, 7, 6, 6, 4, 5, 4, 3, 3, 2] slope -0.62
+memory_choice wm0 seed 10: errors [8, 7, 4, 5, 6, 6, 4, 4, 3, 5] slope -0.35
+memory_choice wm0 seed 11: errors [10, 8, 7, 7, 7, 7, 3, 6, 6, 4] slope -0.52
+
+SUMMARY continuing    wm0 first3  7.28 last3  3.00 slope -0.599 neg 12/12
+SUMMARY memory_choice wm0 first3  7.33 last3  3.28 slope -0.608 neg 12/12
+
+receipt: P:\projects\cadence-lab\runs\serial_reversal_recheck\wm0.json (canonical form, digest, sources agree)

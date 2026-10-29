@@ -96,9 +96,6 @@ built-in, non-learned state. **Partly** if a non-reversal control (both_pay or c
 the brain gets faster with practice, but "learned that the rule flips" is the wrong reading.
 **Retracted** if `stable` (pure age) matches serial, or the wm0 copy is the carrier.
 
-## Results
-
-(pending)
 
 ## Amendment 1 (written after the first controls, before these runs)
 
@@ -122,3 +119,102 @@ Predictions:
   from `tf200` to `tf500`.
 - A2. Learning-to-learn reading: `tf_matched` at least 3 errors above `serial`.
 - In between (1.5-3 above serial): both contribute.
+
+## Results (cadence 0.91.1, seeds 0-11, test errors in the first 20 moments after the test flip)
+
+All three parts were rerun on the final script so the receipts verify (`controls.json`,
+`lesions.json`, `wm0.json`). The reruns matched the first runs to the digit.
+
+### Controls
+
+| condition | continuing | memory_choice | serial lower, paired seeds (cont / mc) |
+| --- | --- | --- | --- |
+| naive | 9.00 | 9.67 | 12/12, 12/12 |
+| stable (1,100 moments, no flip) | 7.42 | 8.92 | 12/12, 12/12 |
+| **serial (flip 11)** | **2.17** | **3.25** | |
+| both_pay | 4.42 | 3.08 | |
+| both_unfav (flip to the arm it never used) | 7.83 | 8.25 | 11/12, 12/12 |
+| both_fav (flip back to its favourite) | 2.42 | 1.50 | 4/12 (1 tie), 0/12 (3 ties) |
+| coin (paying arm random per moment) | 16.00 | 15.67 | |
+| tf200 (2 flips) | 6.50 | 7.00 | |
+| tf500 (2 flips) | 5.25 | 6.58 | |
+| **tf_matched (2 flips, arm histories as serial)** | **5.25** | **6.67** | 12/12, 11/12 (1 tie) |
+
+Pre-flip errors (last 20 moments before every flip) are 0 in every serial life, both arms, all
+seeds: no stability trade. In `both_fav` they are 1.4 / 2.2: after 100 moments of the other arm
+the brain was still partly choosing its favourite, so that flip "back" was half done before it
+started. That makes `both_fav` a weak comparison, and `tf_matched` (pre-flip 0) the clean one.
+
+### Lesions at the test flip (mean over 12 seeds)
+
+| brain | intact | store_clear | consolidated_zero | wm0 | arousal_reset | arousal_swap | store_swap |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| continuing serial | 2.17 | 2.17 | 2.17 | 2.08 | 20.00 | 5.00 | 4.00 |
+| continuing naive | 9.00 | 8.67 | 8.92 | 9.08 | 20.00 | 5.17 | 8.75 |
+| memory_choice serial | 3.25 | 2.67 | 2.83 | 3.25 | 20.00 | 5.08 | 3.75 |
+| memory_choice naive | 9.67 | 9.00 | 9.33 | 7.50 | 20.00 | 9.08 | 9.17 |
+
+(continuing serial store_swap 4.00 is one seed at 19; the other 11 average 2.6.)
+
+### Working-memory copy off from birth (v1 serial run, `working_memory_amplitude=0`)
+
+continuing first3 7.28, last3 3.00, slope -0.599, negative 12/12. memory_choice 7.33 / 3.28,
+-0.608, 12/12. v1 with the copy: 7.19 / 3.53 / -0.559 and 8.36 / 3.64 / -0.678.
+
+### Predictions, scored
+
+- P1 holds (2.17 is a bit faster than the 2.5-4.5 range; it is flip 11, not 10).
+- P2 holds (9.00 / 9.67).
+- P3 mostly holds: `stable` is not fast (7.42 / 8.92), but continuing gains 1.6 errors from age alone,
+  just under the >= 8 I wrote.
+- P4 as written says "non-reversal": both_pay 4.42 / 3.08 is <= 5. But the split shows why: it
+  is all flips back to the favourite. Flips to the arm it never used stay near naive (7.83 / 8.25).
+  `coin` is far worse than naive (16), against my prior that it would be fast.
+- P5 holds clearly. The built-in copy is not the carrier: wm0 at test 2.08 vs 2.17, and with
+  the copy silenced from birth the curve is unchanged, 12/12 in both arms.
+- P6: `arousal_reset` breaks switching (20, every seed, both brains). `arousal_swap` moves part
+  of the gap: continuing serial +2.83 of a 6.83 gap (41%, under my 50% line), and the naive brain
+  given the serial arousal drops 3.83 (56%). memory_choice: +1.83 (29%) and -0.58.
+- P7 holds: the store is not where the gap lives.
+- P8 holds: pre-flip errors 0.
+- A1/A2: `tf_matched` is 3.08 (continuing) and 3.42 (memory_choice) above serial, just past the
+  A2 line, 12/12 and 11/12 seeds. tf200 -> tf500 falls only a little (6.50 -> 5.25, 7.00 -> 6.58).
+
+## Verdict: partly
+
+Rule check: `serial` does not beat every non-reversal control by 3 (both_fav is as fast or
+faster), so by the pre-registered rule this is **partly**, not survives. With the both_fav caveat
+above, my reading of what is left:
+
+- **Not an artifact of the built-in copy.** Silencing it from birth leaves the curve untouched.
+  The 10/28 problem does not repeat here. In a constant-observation task the copy has nothing to carry.
+- **Not age, not noise.** An age-matched brain without flips is near naive, and the serial brain
+  makes no extra errors inside blocks.
+- **About half of the drop is not "learning that the rule flips".** Splitting the naive-to-serial
+  gap (continuing 6.8 errors / memory_choice 6.4): age about 1.6 / 0.75, savings from a paid
+  history on the destination arm (tf_matched) about 2.2 / 2.25, the extra flips about 3.1 / 3.4.
+  Once the arm being switched back to has paid before, switching back is faster, with no
+  reversal practice needed.
+- **What the extra flips add is real, and part of it is arousal.** With arm histories matched,
+  11 flips still beat 2 by about 3 errors in 23/24 seed pairs. Part of that sits in the arousal
+  state (its running reward and error references): transplanting a naive brain's arousal into
+  the serial brain costs it 41% (continuing) / 29% (memory_choice) of the gap, and the other way round
+  a naive brain gains 56% (continuing). The arousal references are adapted by experience, so
+  this is learning in a weak sense, a surprise gauge tuned by a history of rare losses. It is not a
+  win-stay/lose-shift rule held in the weights. `coin` fits that: a life full of random losses
+  turns the gauge down and the brain stops switching (16 errors, worse than naive).
+
+So the v1 sentence "Cadence brains show a learning-set curve" overstates it. Better: Cadence
+brains get faster at reversals with practice. About half of that is savings on arms that have paid
+before (plus a little age). The rest comes from the flips themselves, partly through arousal
+references tuned by rare, flip-locked losses. That is neither a pure artifact nor the animal
+learning-set reading.
+
+## Limits
+
+- `tf_matched` matches how much each arm paid, not when: serial's arm-1 history is spread
+  over recent blocks, tf_matched's is one early block. Some of the "extra flips" share may be
+  recency of the destination arm's history, which would push more of the curve toward savings.
+- One task, constant observation, 12 seeds, `modules=(16,)`, founder genes, one test flip.
+- The swap lesions transplant the whole arousal state (age included); I did not split which
+  reference matters. The cue arms were not retested; the cue is experimenter-made either way.

@@ -1,5 +1,13 @@
 # Serial reversal (v1)
 
+> **Correction (2026-10-29, [recheck](serial_reversal_recheck.md), cadence 0.91.1, 12 seeds):** the
+> curve reproduces exactly, and it is not the built-in working-memory copy (silenced from birth:
+> slope still negative 12/12), not age, and not noise. But "learning-set curve" overstates it. About
+> half the drop is savings: switching back to an arm that has paid before is faster without any
+> reversal practice (a 2-flip life with matched arm histories: 5.25 errors vs 9.00 naive). The extra flips add
+> about 3 errors on top (2.17 vs 5.25, 12/12 seeds), and part of that sits in the arousal state's
+> running references, not in a learned switch rule. Read "Reading" below with that in mind.
+
 Does a Cadence brain get faster at reversals with practice? Animals do (Harlow's learning sets;
 macaques end near one error per reversal). Deep nets trained continually tend not to (loss of
 plasticity, Dohare et al. 2024). The single-reversal bandit (`notes/bandit_reversal.md`) found the
@@ -110,9 +118,11 @@ reversal is often not acquired. Over many flips (`--fail 0`, 10 and 30 reversals
 
 ## Reading
 
-- Cadence brains with the associative store show a learning-set curve in this task: errors per
+- Cadence brains with the associative store get faster at reversals in this task: errors per
   reversal halve over 10 flips, in every seed, with or without a cue, and the gain survives a long
-  stable block. That's the animal-like signature the single-reversal test couldn't show.
+  stable block. (Corrected 2026-10-29: I first called this the animal learning-set signature. The
+  recheck finds about half of it is savings on previously paid arms plus age, and part of the
+  rest is arousal tuning; see [the recheck](serial_reversal_recheck.md).)
 - A plain online MLP shows the opposite (flat or worse, worse than naive after the probe), as the
   loss-of-plasticity literature predicts. Continual backprop partly fixes it.
 - A newborn at every flip is still the fastest in absolute terms (about 2 errors). Its youth
