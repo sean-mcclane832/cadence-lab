@@ -1,0 +1,2 @@
+{"event": "learner", "eta": 0.0001, "eta_bias": 1e-05, "scale_cap": 8.0}
+{"event": "start", "cfg": {"window": 8, "streams": 16, "eta": 0.0001, "reset_every": 1024, "cold": true, "retune": {"learning_nudged_steps": 32}, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "main_nudge32"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 114269, "start": 600000}

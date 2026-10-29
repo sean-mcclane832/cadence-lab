@@ -66,7 +66,13 @@ def main() -> None:
             p = wb.W.detok([t for t in toks if t in wb.W.INDEX])
         if not p:
             return
-        r = speak(brain, hist, p, window, temperature=a.temperature, rng=rng)
+        try:
+            r = speak(brain, hist, p, window, temperature=a.temperature, rng=rng)
+        except RuntimeError:
+            # a refused settle: Cadence would not commit to an answer within its budget
+            brain.reset()
+            hist.clear()
+            r = "(no answer: the brain did not settle; its stream was reset)"
         print(f"bot: {r}", flush=True)
 
     if a.say is not None:

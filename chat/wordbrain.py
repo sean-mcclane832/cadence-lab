@@ -51,6 +51,19 @@ CONFIGS = {
                   "genes": {**NORM, "episodic": False}},
     "main_cold_e1": {"window": 8, "streams": 16, "eta": 0.001, "reset_every": 1024, "cold": True,
                      "genes": {**NORM, "episodic": False}},
+    "cold_m128": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": True,
+                  "genes": {**NORM, "episodic": False, "modules": (128,)}},
+    "cold_e03_scratch": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": True,
+                         "genes": {**NORM, "episodic": False}},
+    "main_cold_anneal": {"window": 8, "streams": 16, "eta": 0.0001, "reset_every": 1024, "cold": True,
+                         "genes": {**NORM, "episodic": False}},
+    # upstream 0.91 copy pathway: recall memory with direct read -> motor synapses that start
+    # as the identity from each token's current-position input coordinate to its action
+    "copy8": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": True,
+              "genes": {**NORM, "episodic": False, "recall": True, "recall_copy": 2.0,
+                        "recall_tokens": [7 * W.V + j for j in range(W.V)]}},
+    "main_nudge32": {"window": 8, "streams": 16, "eta": 0.0001, "reset_every": 1024, "cold": True,
+                     "retune": {"learning_nudged_steps": 32}, "genes": {**NORM, "episodic": False}},
     "s10": {"window": 10, "genes": {**NORM, "episodic": False}},
     "w6_nohist": {"window": 6, "genes": {**NORM}, "loop": "step"},
     "w6_nohist_m128": {"window": 6, "genes": {**NORM, "modules": (128,)}},
@@ -177,6 +190,8 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
     window = cfg["window"]
     enc = encoder(window)
     brain = cd.Brain.load(resume) if resume else compose(cfg, seed)
+    if cfg.get("retune"):
+        brain.retune(**cfg["retune"])
     if "eta" in cfg or "scale_cap" in cfg:
         # smaller teaching steps than the normalized point's 0.003 / 0.0003 (compose does
         # not take eta while teaching= sets it, so the learner's config is replaced)
@@ -196,7 +211,7 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
     brain.reset()
     hists: list[list[int]] = [[] for _ in range(B)]
     t0 = time.monotonic()
-    hits = lessons = since = 0
+    hits = lessons = since = refusals = 0
     pos = start
     t = start // B
     while pos < start + tokens:
@@ -219,9 +234,17 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
             # upstream's supervised-only stream: teach the present observation, then a
             # greedy act advances the stream (no reward eligibility, no outcome records)
             cold(brain)
-            brain.lesson(x, y)
-            cold(brain)
-            a = brain.act(x, greedy=True)
+            try:
+                brain.lesson(x, y)
+                cold(brain)
+                a = brain.act(x, greedy=True)
+            except RuntimeError as exc:
+                # a refused settle (budget exhausted) changes nothing; count it, clear the
+                # streams and go on with the next moment
+                refusals += 1
+                log(json.dumps({"event": "refusal", "tokens": pos, "error": str(exc)[:160]}))
+                brain.reset()
+                a = np.full(B, -1)
         hits += int((np.asarray(a).reshape(-1) == y).sum())
         lessons += int(brain.last_learning.get("demonstration_accepted_presentations", B))
         since += B
@@ -230,14 +253,19 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
             path = brain.save(out / "brain.npz")
             probe = cd.Brain.load(path)
             probe.chat_cold = brain.chat_cold
-            ev = evaluate(probe, window)
+            try:
+                ev = evaluate(probe, window)
+            except RuntimeError as exc:
+                log(json.dumps({"event": "probe_refused", "tokens": pos, "error": str(exc)[:160]}))
+                continue
             T = min(ev["text"]["bpt"], key=ev["text"]["bpt"].get)
             log(json.dumps({"event": "probe", "tokens": pos, "epochs": round(pos / len(ids), 2),
                             "seconds": round(time.monotonic() - t0, 1),
                             "train_acc": round(hits / since, 3), "lesson_share": round(lessons / since, 3),
                             "val_acc": round(ev["text"]["acc"], 4), "val_reply_acc": round(ev["text"]["reply_acc"], 4),
                             "val_bpt": round(ev["text"]["bpt"][T], 3), "T": T,
-                            "valid_reply": round(ev["reply"]["valid"], 3), "novel_valid": round(ev["novel"]["valid"], 3)}))
+                            "valid_reply": round(ev["reply"]["valid"], 3), "novel_valid": round(ev["novel"]["valid"], 3),
+                            "refusals": refusals}))
             (out / f"eval-{pos}.json").write_text(json.dumps(ev, indent=1), encoding="utf-8", newline="\n")
             if pos % (probe_every * 5) < B:
                 brain.save(out / f"brain-{pos}.npz")

@@ -1,2 +1,7 @@
 {"event": "learner", "eta": 0.0003, "eta_bias": 2.9999999999999997e-05, "scale_cap": 8.0}
 {"event": "start", "cfg": {"window": 8, "streams": 16, "eta": 0.0003, "reset_every": 1024, "cold": true, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "main_cold"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 114269, "start": 300000}
+{"event": "probe", "tokens": 320000, "epochs": 3.89, "seconds": 124.9, "train_acc": 0.788, "lesson_share": 0.214, "val_acc": 0.7718, "val_reply_acc": 0.8397, "val_bpt": 1.095, "T": "0.1", "valid_reply": 0.575, "novel_valid": 0.0}
+{"event": "probe", "tokens": 360000, "epochs": 4.37, "seconds": 358.3, "train_acc": 0.791, "lesson_share": 0.212, "val_acc": 0.7767, "val_reply_acc": 0.847, "val_bpt": 1.093, "T": "0.1", "valid_reply": 0.575, "novel_valid": 0.0}
+{"event": "probe", "tokens": 400000, "epochs": 4.86, "seconds": 635.1, "train_acc": 0.789, "lesson_share": 0.213, "val_acc": 0.773, "val_reply_acc": 0.8409, "val_bpt": 1.19, "T": "0.1", "valid_reply": 0.5, "novel_valid": 0.0}
+{"event": "probe", "tokens": 440000, "epochs": 5.34, "seconds": 931.1, "train_acc": 0.79, "lesson_share": 0.212, "val_acc": 0.7785, "val_reply_acc": 0.847, "val_bpt": 1.141, "T": "0.1", "valid_reply": 0.592, "novel_valid": 0.0}
+{"event": "probe", "tokens": 480000, "epochs": 5.83, "seconds": 1242.7, "train_acc": 0.788, "lesson_share": 0.214, "val_acc": 0.7602, "val_reply_acc": 0.8188, "val_bpt": 1.239, "T": "0.1", "valid_reply": 0.475, "novel_valid": 0.0}

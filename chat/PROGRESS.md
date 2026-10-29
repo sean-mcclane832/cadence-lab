@@ -170,3 +170,68 @@ associative store. One brain, continued from the eta 0.0003 brain's 300k checkpo
 `runs/main_cold/`.
 
 Char baseline added: GRU (hidden 64, 1M chars) 0.91 char accuracy, 0.40 bpc, 42% valid replies.
+
+## Stage 4: one brain, trained long (03:25-04:10)
+
+The brain: `main_cold` from the eta 0.0003 brain's 300k checkpoint (that brain is itself the
+`s8_b16` life continued from 100k). At 480k a **settle refusal** ("did not settle within 1024
+steps ... no action issued") killed the process; the loop now logs refusals, resets the
+streams and carries on (`refusals` in the log; one more at 612k, survived). From 480k it
+continues at eta 0.0001 (`main_cold_anneal`, `runs/main_anneal/`).
+
+| tokens (epochs) | val token acc | val bits/token | valid replies (120 val) |
+| --- | --- | --- | --- |
+| 320k (3.9) | 0.772 | 1.10 | 0.58 |
+| 400k (4.9) | 0.773 | 1.19 | 0.50 |
+| 480k (5.8) | 0.760 | 1.24 | 0.48 |
+| 560k, eta 0.0001 (6.8) | 0.776 | 1.25 | 0.55 |
+| 600k (7.3) | 0.790 | 1.28 | 0.58 |
+
+Side arms (each one run, not seeds):
+- **128-unit region**, cold, from scratch: 0.65 at 80k vs 0.56 for a matched 64-unit brain,
+  but 0.76 at 400k, no better than the main brain at the same budget. Dropped.
+- **eta 0.001, cold**: crashed on a refusal at 320k (before refusal handling).
+- Annealing 0.0003 -> 0.0001 gave at most +0.015.
+
+### Held-out test, main brain at 600k tokens (`eval_final.py`, test split, 300 exchanges)
+
+One brain, one seed, not an average. Context ablation = same brain, older window positions
+blanked (an input it never saw in training, so a crude lesion, but the direction is clear):
+
+| window kept | token acc | bits/token | reply-token acc | valid replies | novel-name copy |
+| --- | --- | --- | --- | --- | --- |
+| **8 (as trained)** | **0.787** | **1.25** | 0.84 | **0.66** | 0.00 |
+| 4 | 0.61 | 2.78 | 0.52 | 0.05 | 0 |
+| 2 | 0.48 | 4.41 | 0.36 | 0 | 0 |
+| 1 | 0.29 | 5.42 | 0.23 | 0 | 0 |
+
+Same test, word baselines: 8-gram 0.82 / 0.72 bits / 86% valid; MLP on the same 8-token
+window (hidden 128) 0.82 / 0.72 / **95%**; GRU (hidden 64, undertrained at 400k tokens)
+0.80 / 0.85 / 59%. None of them can copy a never-seen name either (all 0.00).
+
+Valid replies by intent (test): fixed persona answers 1.00 (name, color, food, robot, how
+are you, thanks); greetings 0.83, moods 0.82-0.83; **slot replies that must reuse a word
+from the prompt are weak**: name 0.26, place 0.29, pet 0.17, "do you like X" 0.11,
+"i like X" 0.08; bye 0.07 (it says "hi").
+
+Test conversation samples (greedy, one continuing conversation, the brain hears its own
+replies):
+
+```
+you: what is your favorite color?   bot: my favorite color is blue.
+you: are you smart?                 bot: i am a small brain made of numbers.
+you: call me max                    bot: nice to meet you, max.
+you: what are you?                  bot: i am cadence, a small brain.
+you: i am okay                      bot: nice, i am glad.
+you: my pet is a dog                bot: a snake? that is cool.
+you: i want to go to the city       bot: what will you do in the park?
+you: what can you do?               bot: not much, kate happened.
+you: good night                     bot: hi you soon nice glad pizza welcome fish color fish color ...
+you: my name is zoe                 bot: nice to meet you, sam.       (zoe never seen)
+```
+
+Reading: Cadence learned the shape of the replies and the fixed question-answer pairs, and
+the 8-token context does govern what it says (cut it to 4 and valid replies fall from 66% to
+5%). What it does worst is carry a word from the prompt into the reply, which is the core of
+conversation. A plain MLP on the identical input does that (95%). The gap is in learning,
+not information: the window holds the word.

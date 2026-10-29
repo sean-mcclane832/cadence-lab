@@ -28,8 +28,11 @@ import wordbrain as WB  # noqa: E402
 import words as W  # noqa: E402
 
 
+ORIG_ENCODER = WB.encoder
+
+
 def cut_encoder(window: int, keep: int):
-    full = WB.encoder(window)
+    full = ORIG_ENCODER(window)
 
     def enc(hist):
         x = full(hist)

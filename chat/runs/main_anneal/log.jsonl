@@ -1,0 +1,8 @@
+{"event": "learner", "eta": 0.0001, "eta_bias": 1e-05, "scale_cap": 8.0}
+{"event": "start", "cfg": {"window": 8, "streams": 16, "eta": 0.0001, "reset_every": 1024, "cold": true, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "main_cold_anneal"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 114269, "start": 480000}
+{"event": "probe", "tokens": 520000, "epochs": 6.32, "seconds": 352.9, "train_acc": 0.791, "lesson_share": 0.211, "val_acc": 0.7761, "val_reply_acc": 0.8397, "val_bpt": 1.23, "T": "0.1", "valid_reply": 0.517, "novel_valid": 0.0, "refusals": 0}
+{"event": "probe", "tokens": 560000, "epochs": 6.8, "seconds": 709.8, "train_acc": 0.789, "lesson_share": 0.212, "val_acc": 0.7761, "val_reply_acc": 0.8384, "val_bpt": 1.253, "T": "0.05", "valid_reply": 0.55, "novel_valid": 0.0, "refusals": 0}
+{"event": "probe", "tokens": 600000, "epochs": 7.29, "seconds": 1088.3, "train_acc": 0.795, "lesson_share": 0.207, "val_acc": 0.7895, "val_reply_acc": 0.847, "val_bpt": 1.284, "T": "0.1", "valid_reply": 0.575, "novel_valid": 0.0, "refusals": 0}
+{"event": "refusal", "tokens": 612000, "error": "brain did not settle within 1024 steps: residual=0.0169295, tolerance=0.003; no action issued"}
+{"event": "probe", "tokens": 640000, "epochs": 7.77, "seconds": 1447.0, "train_acc": 0.793, "lesson_share": 0.209, "val_acc": 0.7761, "val_reply_acc": 0.8335, "val_bpt": 1.29, "T": "0.05", "valid_reply": 0.525, "novel_valid": 0.0, "refusals": 1}
+{"event": "refusal", "tokens": 654016, "error": "brain did not settle within 1024 steps: residual=0.0147414, tolerance=0.003; no action issued"}
