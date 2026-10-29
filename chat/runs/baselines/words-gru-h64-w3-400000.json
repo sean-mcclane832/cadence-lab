@@ -1,0 +1,147 @@
+{
+ "kind": "gru",
+ "params": 60988,
+ "chars": 400000,
+ "val": {
+  "acc": 0.7937766931055522,
+  "bpc": {
+   "0.5": 1.028072406898894,
+   "0.8": 0.8946012002512591,
+   "1.0": 0.9175982239415189,
+   "1.2": 0.9986602443594723,
+   "1.5": 1.2231514256697382
+  }
+ },
+ "T": "0.8",
+ "test_acc": 0.7986127720640995,
+ "test_bpc": 0.8500354562595942,
+ "test_reply": {
+  "valid": 0.59,
+  "by_intent": {
+   "ilike": 0.0,
+   "bye": 0.5714285714285714,
+   "mood_good": 1.0,
+   "color": 1.0,
+   "robot": 1.0,
+   "name": 0.3157894736842105,
+   "pet": 0.21739130434782608,
+   "botname": 0.8333333333333334,
+   "food": 0.5,
+   "place": 0.14285714285714285,
+   "cando": 1.0,
+   "mood_bad": 0.9166666666666666,
+   "doyoulike": 0.0,
+   "greet": 1.0,
+   "howareyou": 0.0,
+   "thanks": 1.0
+  },
+  "samples": [
+   [
+    "i really like dog",
+    "why do you like running?"
+   ],
+   [
+    "good night",
+    "hello, nice to see you."
+   ],
+   [
+    "i am okay",
+    "that is good to hear."
+   ],
+   [
+    "what is your favorite color?",
+    "my favorite color is blue."
+   ],
+   [
+    "are you smart?",
+    "i am a bot."
+   ],
+   [
+    "call me max",
+    "nice to meet you, sam."
+   ],
+   [
+    "my pet is a dog",
+    "i like rabbits."
+   ],
+   [
+    "what are you?",
+    "i am a bot called cadence."
+   ],
+   [
+    "what is your favorite food?",
+    "my favorite color is blue."
+   ],
+   [
+    "are you smart?",
+    "i am a bot."
+   ],
+   [
+    "i want to go to the city",
+    "have fun in the beach!"
+   ],
+   [
+    "what can you do?",
+    "i can talk a little."
+   ]
+  ]
+ },
+ "novel": {
+  "valid": 0.0,
+  "by_intent": {
+   "novel_name": 0.0,
+   "novel_like": 0.0
+  },
+  "samples": [
+   [
+    "i am hugo",
+    "that is too bad."
+   ],
+   [
+    "i love kites",
+    "why do you like cat?"
+   ],
+   [
+    "my name is zoe",
+    "nice to meet you, sam."
+   ],
+   [
+    "i really like kites",
+    "why do you like cat?"
+   ],
+   [
+    "my name is zoe",
+    "nice to meet you, sam."
+   ],
+   [
+    "i love berlin",
+    "why do you like cat?"
+   ],
+   [
+    "i am zoe",
+    "nice, i am glad."
+   ],
+   [
+    "i really like noodles",
+    "why do you like running?"
+   ],
+   [
+    "my name is pablo",
+    "nice to meet you, sam."
+   ],
+   [
+    "i love berlin",
+    "why do you like cat?"
+   ],
+   [
+    "my name is pablo",
+    "nice to meet you, sam."
+   ],
+   [
+    "i really like berlin",
+    "why do you like running?"
+   ]
+  ]
+ },
+ "seconds": 20.7
+}

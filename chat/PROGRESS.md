@@ -78,3 +78,52 @@ What I learned:
 `win3_norm` continues from its 150k checkpoint in `runs/long_char/` (one core).
 
 Corpus quirk, kept so results stay comparable: the pet reply `i like {a}s.` makes "fishs".
+
+## Stage 2: word tokens (2026-10-29 02:00-02:45)
+
+A reply depends on the whole prompt, ~25 chars back but only ~6 words back. So the second
+design reads and writes **one word token per moment** ([words.py](words.py),
+[wordbrain.py](wordbrain.py)): 188 tokens (words, `? ! . ,`, `you:`, `bot:`, `<eol>`),
+82k training tokens (13.7 per exchange). Observation: one-hot of the last 8 tokens (1,504
+values). One action slot over the 188 tokens.
+
+Three recipe changes, each measured:
+
+1. **Heard history dropped for words.** It copies the whole windowed observation at each
+   decay (4,828 neurons, 522k params, ~15 tokens/s). The window already carries the context.
+2. **Supervised-only loop + no associative store** (`lesson(x, y)` then a greedy
+   `act(x)`, `episodic=False`), upstream's recipe for "demonstrations with no reward
+   protocol". A profile showed a third of each `step` in the associative store recording
+   zero-reward outcomes and more in the reward learner at zero rates. 28 -> 75 tokens/s.
+3. **16 parallel streams per lesson** (`streams=16`: 16 evenly spaced read positions in
+   the text, one lesson teaches all 16 rows). Upstream specifies its normalized teaching
+   point at ~32 rows per lesson. This was the biggest win, in both speed and quality.
+
+| Config (window 8, normalized, surprise) | params | tokens | val token acc (probes) | valid replies |
+| --- | --- | --- | --- | --- |
+| `w6_nohist`, `step` loop, 1 stream | 302k | 20k | 0.37, 0.44 | 0.05 |
+| `w8_nohist`, `step` loop, 1 stream | ~360k | 20k | 0.52, 0.58 | 0.01 |
+| `s8`, lesson loop, no store, 1 stream | 114k | 80k | 0.48, 0.51, 0.53, 0.50, 0.44, 0.45 | 0.06-0.23, swinging |
+| `s8_m128`, 128-unit region | 235k | 10k | **collapsed**: 0.004, every reply "emma emma emma..." | 0 |
+| `s8_b32`, 32 streams | 114k | 100k | 0.54, 0.48, 0.66, 0.53, 0.61 | 0.33 |
+| **`s8_b16`, 16 streams** | 114k | 100k | 0.62, 0.63, 0.71, 0.75, **0.75** | **0.30** |
+
+Word baselines (test split, one run each): word n-gram order 6 0.80 acc / 70% valid,
+**order 8 0.82 / 86% valid**; GRU (hidden 64, 61k params, 400k tokens) 0.80 / 59% valid.
+(0.82 is close to the ceiling: many replies are a free choice among three.)
+
+`s8_b16` samples at 100k tokens (validation conversation, greedy, brain hears its own replies):
+
+```
+you: what is your name?          bot: i am cadence, a small brain.
+you: hello                       bot: hi, nice to meet you.
+you: what is your favorite color? bot: i like blue.
+you: my pet is a rabbit          bot: a snake? that is cool.
+you: how are you?                bot: i am a bot.
+you: goodbye                     bot: hi,
+```
+
+Whole, grammatical sentences from the training repertoire, often the wrong one for the
+prompt (greetings/byes/thanks at 0%). It has learned the replies better than the mapping
+from prompt to reply. `s8_b16` continues as the main brain from its 100k checkpoint
+(`runs/main/`).

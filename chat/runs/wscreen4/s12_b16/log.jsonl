@@ -1,0 +1,1 @@
+{"event": "start", "cfg": {"window": 12, "streams": 16, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "s12_b16"}, "version": "0.91.1", "vocab": 188, "neurons": 2572, "synapses": 172544, "parameters": 163149, "start": 0}

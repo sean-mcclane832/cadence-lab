@@ -1,1 +1,3 @@
 {"event": "start", "cfg": {"window": 3, "genes": {"learning_surprise": true, "teaching": "normalized", "history_decays": [0.2, 0.8, 0.95]}, "name": "win3_norm"}, "version": "0.91.1", "neurons": 570, "synapses": 34560, "parameters": 36487, "start_char": 150000}
+{"event": "probe", "chars": 200000, "seconds": 324.6, "train_acc": 0.438, "lesson_share": 0.282, "val_acc": 0.7158, "val_reply_acc": 0.6926, "val_bpc": 1.57, "T": "0.1", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 300000, "seconds": 1001.6, "train_acc": 0.425, "lesson_share": 0.314, "val_acc": 0.7004, "val_reply_acc": 0.664, "val_bpc": 1.885, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}

@@ -32,8 +32,17 @@ CONFIGS = {
     "w8": {"window": 8, "genes": {**NORM, **H3}},
     "w6_m128": {"window": 6, "genes": {**NORM, **H3, "modules": (128,)}},
     "w8_m128": {"window": 8, "genes": {**NORM, **H3, "modules": (128,)}},
-    "w8_nohist": {"window": 8, "genes": {**NORM}},
-    "w6_nohist": {"window": 6, "genes": {**NORM}},
+    "w8_nohist": {"window": 8, "genes": {**NORM}, "loop": "step"},
+    # supervised-only loop (lesson, then greedy act) and no associative store: the text
+    # pays nothing, so the store only ever recorded zero outcomes; 2.6x faster
+    "s8": {"window": 8, "genes": {**NORM, "episodic": False}},
+    "s8_m128": {"window": 8, "genes": {**NORM, "episodic": False, "modules": (128,)}},
+    "s8_b16": {"window": 8, "streams": 16, "genes": {**NORM, "episodic": False}},
+    "s8_b32": {"window": 8, "streams": 32, "genes": {**NORM, "episodic": False}},
+    "s8_b16_m128": {"window": 8, "streams": 16, "genes": {**NORM, "episodic": False, "modules": (128,)}},
+    "s12_b16": {"window": 12, "streams": 16, "genes": {**NORM, "episodic": False}},
+    "s10": {"window": 10, "genes": {**NORM, "episodic": False}},
+    "w6_nohist": {"window": 6, "genes": {**NORM}, "loop": "step"},
     "w6_nohist_m128": {"window": 6, "genes": {**NORM, "modules": (128,)}},
     "w8_nohist_m128": {"window": 8, "genes": {**NORM, "modules": (128,)}},
 }
@@ -139,7 +148,7 @@ def evaluate(brain, window, split="val") -> dict:
 
 def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, start=0, log=print):
     out.mkdir(parents=True, exist_ok=True)
-    (out / "cfg.json").write_text(json.dumps(cfg), encoding="utf-8")
+    (out / "cfg.json").write_text(json.dumps(cfg), encoding="utf-8", newline="\n")
     tr, _, _ = C.splits()
     ids = W.encode(C.render(tr))
     window = cfg["window"]
@@ -148,21 +157,38 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
     log(json.dumps({"event": "start", "cfg": cfg, "version": cd.__version__, "vocab": W.V,
                     "neurons": brain.connectome.n, "synapses": brain.connectome.synapses,
                     "parameters": brain.parameters(), "start": start}))
-    hist: list[int] = []
+    # B parallel streams through the text, evenly spaced; one lesson teaches all B rows
+    B = int(cfg.get("streams", 1))
+    brain.reset()
+    hists: list[list[int]] = [[] for _ in range(B)]
     t0 = time.monotonic()
     hits = lessons = since = 0
     pos = start
+    t = start // B
     while pos < start + tokens:
-        i = pos % len(ids)
-        hist.append(ids[i])
-        if len(hist) > 64:
-            del hist[:-16]
-        a = int(brain.step(enc(hist), teacher=[ids[(i + 1) % len(ids)]])[0])
-        hits += a == ids[(i + 1) % len(ids)]
-        lessons += int(brain.last_learning.get("demonstration_accepted_presentations", 1))
-        since += 1
-        pos += 1
-        if pos % probe_every == 0 or pos == start + tokens:
+        xs, ys = [], []
+        for k in range(B):
+            i = (k * (len(ids) // B) + t) % len(ids)
+            h = hists[k]
+            h.append(ids[i])
+            if len(h) > 64:
+                del h[:-16]
+            xs.append(enc(h)[0])
+            ys.append(ids[(i + 1) % len(ids)])
+        x, y = np.array(xs), np.array(ys)
+        t += 1
+        if cfg.get("loop") == "step":
+            a = brain.step(x, teacher=y)
+        else:
+            # upstream's supervised-only stream: teach the present observation, then a
+            # greedy act advances the stream (no reward eligibility, no outcome records)
+            brain.lesson(x, y)
+            a = brain.act(x, greedy=True)
+        hits += int((np.asarray(a).reshape(-1) == y).sum())
+        lessons += int(brain.last_learning.get("demonstration_accepted_presentations", B))
+        since += B
+        pos += B
+        if pos % probe_every < B or pos >= start + tokens:
             path = brain.save(out / "brain.npz")
             ev = evaluate(cd.Brain.load(path), window)
             T = min(ev["text"]["bpt"], key=ev["text"]["bpt"].get)
@@ -172,8 +198,8 @@ def train(cfg, out: Path, tokens: int, probe_every: int, seed=0, resume=None, st
                             "val_acc": round(ev["text"]["acc"], 4), "val_reply_acc": round(ev["text"]["reply_acc"], 4),
                             "val_bpt": round(ev["text"]["bpt"][T], 3), "T": T,
                             "valid_reply": round(ev["reply"]["valid"], 3), "novel_valid": round(ev["novel"]["valid"], 3)}))
-            (out / f"eval-{pos}.json").write_text(json.dumps(ev, indent=1), encoding="utf-8")
-            if pos % (probe_every * 5) == 0:
+            (out / f"eval-{pos}.json").write_text(json.dumps(ev, indent=1), encoding="utf-8", newline="\n")
+            if pos % (probe_every * 5) < B:
                 brain.save(out / f"brain-{pos}.npz")
             hits = lessons = since = 0
 

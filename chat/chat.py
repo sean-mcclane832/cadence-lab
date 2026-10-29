@@ -24,6 +24,7 @@ import numpy as np  # noqa: E402
 import cadence as cd  # noqa: E402
 import corpus as C  # noqa: E402
 import textbrain as tb  # noqa: E402
+import wordbrain as wb  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 
@@ -47,14 +48,22 @@ def main() -> None:
     rng = np.random.default_rng(a.seed)
     hist: list[int] = []
     window = cfg["window"]
-    print(f"cadence {cd.__version__}, brain {a.brain.name} ({cfg.get('name')}), "
+    words = cfg.get("name") in wb.CONFIGS
+    speak = wb.say if words else tb.say
+    print(f"cadence {cd.__version__}, brain {a.brain.name} ({cfg.get('name')}, {'words' if words else 'chars'}), "
           f"{brain.parameters()} parameters. Type 'quit' to stop.")
 
     def turn(line: str) -> None:
         p = clean(line)
+        if words:
+            toks = wb.W.tokenize(p)
+            unknown = [t for t in toks if t not in wb.W.INDEX]
+            if unknown:
+                print(f"(not in my vocabulary, dropped: {' '.join(unknown)})")
+            p = wb.W.detok([t for t in toks if t in wb.W.INDEX])
         if not p:
             return
-        r = tb.say(brain, hist, p, window, temperature=a.temperature, rng=rng)
+        r = speak(brain, hist, p, window, temperature=a.temperature, rng=rng)
         print(f"bot: {r}", flush=True)
 
     if a.say is not None:

@@ -1,1 +1,3 @@
 {"event": "start", "cfg": {"window": 6, "genes": {"learning_surprise": true, "teaching": "normalized"}, "name": "w6_nohist"}, "version": "0.91.1", "vocab": 188, "neurons": 1444, "synapses": 100352, "parameters": 301893, "start": 0}
+{"event": "probe", "tokens": 10000, "epochs": 0.12, "seconds": 245.2, "train_acc": 0.112, "lesson_share": 0.629, "val_acc": 0.3716, "val_reply_acc": 0.3525, "val_bpt": 4.357, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "tokens": 20000, "epochs": 0.24, "seconds": 548.3, "train_acc": 0.165, "lesson_share": 0.567, "val_acc": 0.4423, "val_reply_acc": 0.4113, "val_bpt": 3.868, "T": "0.2", "valid_reply": 0.05, "novel_valid": 0.0}

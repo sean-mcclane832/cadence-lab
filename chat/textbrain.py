@@ -160,7 +160,7 @@ def train(cfg: dict, out: Path, chars: int, probe_every: int, seed: int = 0,
         brain = cd.Brain.load(resume)
     else:
         brain = compose(cfg, seed)
-    (out / "cfg.json").write_text(json.dumps(cfg), encoding="utf-8")
+    (out / "cfg.json").write_text(json.dumps(cfg), encoding="utf-8", newline="\n")
     log(json.dumps({"event": "start", "cfg": cfg, "version": cd.__version__,
                     "neurons": brain.connectome.n, "synapses": brain.connectome.synapses,
                     "parameters": brain.parameters(), "start_char": start_char}))
@@ -192,5 +192,5 @@ def train(cfg: dict, out: Path, chars: int, probe_every: int, seed: int = 0,
                             "val_acc": round(ev["text"]["acc"], 4), "val_reply_acc": round(ev["text"]["reply_acc"], 4),
                             "val_bpc": round(ev["text"]["bpc"][best_T], 3), "T": best_T,
                             "valid_reply": round(ev["reply"]["valid"], 3), "novel_valid": round(ev["novel"]["valid"], 3)}))
-            (out / f"eval-{pos}.json").write_text(json.dumps(ev, indent=1), encoding="utf-8")
+            (out / f"eval-{pos}.json").write_text(json.dumps(ev, indent=1), encoding="utf-8", newline="\n")
             hits = lessons = since = 0

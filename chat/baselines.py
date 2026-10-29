@@ -23,7 +23,39 @@ import numpy as np  # noqa: E402
 
 import corpus as C  # noqa: E402
 
-NL = C.INDEX["\n"]
+
+
+class Chars:
+    name = "chars"
+    V = C.V
+    eol = C.INDEX["\n"]
+    encode = staticmethod(C.encode)
+
+    @staticmethod
+    def prompt(p):
+        return C.encode(f"you: {p}\nbot: ")
+
+    @staticmethod
+    def text(ids):
+        return "".join(C.ALPHABET[i] for i in ids)
+
+
+class Words:
+    name = "words"
+
+    def __init__(self):
+        import words as W
+        self.W = W
+        self.V, self.eol, self.encode = W.V, W.EOL_ID, W.encode
+
+    def prompt(self, p):
+        return [self.W.INDEX[t] for t in self.W.tokenize(f"you: {p}")] + [self.W.BOT_ID]
+
+    def text(self, ids):
+        return self.W.detok([self.W.VOCAB[i] for i in ids])
+
+
+K = Chars()
 TEMPS = (0.5, 0.8, 1.0, 1.2, 1.5)
 
 
@@ -32,7 +64,7 @@ class NGram:
 
     def __init__(self, order: int):
         self.n = order
-        self.counts = [defaultdict(lambda: np.zeros(C.V)) for _ in range(order)]
+        self.counts = [defaultdict(lambda: np.zeros(K.V)) for _ in range(order)]
 
     def fit(self, ids):
         for t in range(len(ids)):
@@ -47,7 +79,7 @@ class NGram:
 
     def read(self, c, T=1.0):
         self.h.append(c)
-        p = np.full(C.V, 1.0 / C.V)
+        p = np.full(K.V, 1.0 / K.V)
         for k in range(self.n):
             if k > len(self.h):
                 break
@@ -73,23 +105,23 @@ class TorchModel:
         torch.set_num_threads(1)
         self.torch, self.kind, self.window = torch, kind, window
         if kind == "gru":
-            self.emb = nn.Embedding(C.V, C.V)
-            self.emb.weight.data = torch.eye(C.V)
+            self.emb = nn.Embedding(K.V, K.V)
+            self.emb.weight.data = torch.eye(K.V)
             self.emb.weight.requires_grad_(False)
-            self.rnn = nn.GRU(C.V, hidden, batch_first=True)
-            self.out = nn.Linear(hidden, C.V)
+            self.rnn = nn.GRU(K.V, hidden, batch_first=True)
+            self.out = nn.Linear(hidden, K.V)
             self.mods = nn.ModuleList([self.rnn, self.out])
         else:
-            self.net = nn.Sequential(nn.Linear(window * C.V, hidden), nn.Tanh(), nn.Linear(hidden, C.V))
+            self.net = nn.Sequential(nn.Linear(window * K.V, hidden), nn.Tanh(), nn.Linear(hidden, K.V))
             self.mods = nn.ModuleList([self.net])
         self.params = sum(p.numel() for p in self.mods.parameters())
 
     def _win(self, ids, t):
-        x = np.zeros(self.window * C.V, dtype=np.float32)
+        x = np.zeros(self.window * K.V, dtype=np.float32)
         for j in range(self.window):
             i = t - (self.window - 1 - j)
             if i >= 0:
-                x[j * C.V + ids[i]] = 1
+                x[j * K.V + ids[i]] = 1
         return x
 
     def fit(self, ids, chars, log, seq=64, batch=16, lr=3e-3):
@@ -103,14 +135,14 @@ class TorchModel:
             if self.kind == "gru":
                 x = torch.stack([ids_t[s:s + seq] for s in starts])
                 y = torch.stack([ids_t[s + 1:s + seq + 1] for s in starts])
-                h, _ = self.rnn(torch.nn.functional.one_hot(x, C.V).float())
+                h, _ = self.rnn(torch.nn.functional.one_hot(x, K.V).float())
                 logits = self.out(h)
             else:
                 pos = np.concatenate([np.arange(s, s + seq) for s in starts])
                 x = torch.tensor(np.stack([self._win(ids, t) for t in pos]))
                 y = ids_t[pos + 1]
                 logits = self.net(x)
-            loss = torch.nn.functional.cross_entropy(logits.reshape(-1, C.V), y.reshape(-1))
+            loss = torch.nn.functional.cross_entropy(logits.reshape(-1, K.V), y.reshape(-1))
             opt.zero_grad()
             loss.backward()
             opt.step()
@@ -127,7 +159,7 @@ class TorchModel:
         self.h.append(c)
         with torch.no_grad():
             if self.kind == "gru":
-                x = torch.nn.functional.one_hot(torch.tensor([[c]]), C.V).float()
+                x = torch.nn.functional.one_hot(torch.tensor([[c]]), K.V).float()
                 o, self.state = self.rnn(x, self.state)
                 logits = self.out(o[0, -1])
             else:
@@ -157,15 +189,15 @@ def score_text(m, ids, warm):
 
 def say(m, prompt, max_len=60):
     p = None
-    for c in C.encode(f"you: {prompt}\nbot: "):
+    for c in K.prompt(prompt):
         p = m.read(c)
     out = []
     a = int(np.argmax(p))
-    while a != NL and len(out) < max_len:
-        out.append(C.ALPHABET[a])
+    while a != K.eol and len(out) < max_len:
+        out.append(a)
         a = int(np.argmax(m.read(a)))
-    m.read(NL)
-    return "".join(out)
+    m.read(K.eol)
+    return K.text(out)
 
 
 def reply_eval(m, exs):
@@ -181,9 +213,9 @@ def reply_eval(m, exs):
 
 def full_eval(m):
     tr, va, te = C.splits()
-    val = score_text(m, C.encode(C.render(va[:120])), C.encode(C.render(va[200:202])))
+    val = score_text(m, K.encode(C.render(va[:120])), K.encode(C.render(va[200:202])))
     T = min(val["bpc"], key=val["bpc"].get)
-    test = score_text(m, C.encode(C.render(te)), C.encode(C.render(va[200:202])))
+    test = score_text(m, K.encode(C.render(te)), K.encode(C.render(va[200:202])))
     return {"val": val, "T": T, "test_acc": test["acc"], "test_bpc": test["bpc"][T],
             "test_reply": reply_eval(m, te), "novel": reply_eval(m, C.novel_exchanges(40))}
 
@@ -194,10 +226,15 @@ def main():
     ap.add_argument("--chars", type=int, default=300_000)
     ap.add_argument("--hidden", type=int, default=64)
     ap.add_argument("--out", type=Path, default=Path("runs/baselines"))
+    ap.add_argument("--words", action="store_true", help="word tokens instead of chars")
+    ap.add_argument("--window", type=int, default=3)
     a = ap.parse_args()
+    global K
+    if a.words:
+        K = Words()
     a.out.mkdir(parents=True, exist_ok=True)
     tr, va, te = C.splits()
-    ids = C.encode(C.render(tr))
+    ids = K.encode(C.render(tr))
 
     def log(s):
         print(s, flush=True)
@@ -205,7 +242,7 @@ def main():
     t0 = time.time()
     if a.kind == "ngram":
         res = {}
-        for order in (2, 3, 4, 6, 8, 10, 12):
+        for order in ((2, 3, 4, 6, 8, 10, 12) if K.name == 'chars' else (2, 3, 4, 5, 6, 8)):
             m = NGram(order)
             m.fit(ids)
             r = full_eval(m)
@@ -217,14 +254,15 @@ def main():
         out = {"kind": "ngram", "orders": {str(k): {kk: v[kk] for kk in ("test_acc", "test_bpc")} | {"valid": v["test_reply"]["valid"], "novel": v["novel"]["valid"], "val_acc": v["val"]["acc"]} for k, v in res.items()},
                "best_order": best, "best": res[best]}
     else:
-        m = TorchModel(a.kind, a.hidden)
+        m = TorchModel(a.kind, a.hidden, window=a.window)
         log(json.dumps({"kind": a.kind, "params": m.params}))
         m.fit(ids, a.chars, log)
         r = full_eval(m)
         out = {"kind": a.kind, "params": m.params, "chars": a.chars, **r}
     out["seconds"] = round(time.time() - t0, 1)
-    name = a.kind if a.kind == "ngram" else f"{a.kind}-h{a.hidden}-{a.chars}"
-    (a.out / f"{name}.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    name = a.kind if a.kind == "ngram" else f"{a.kind}-h{a.hidden}-w{a.window}-{a.chars}"
+    name = f"{K.name}-{name}"
+    (a.out / f"{name}.json").write_text(json.dumps(out, indent=1), encoding="utf-8", newline="\n")
     b = out.get("best", out)
     log(json.dumps({"done": name, "test_acc": round(b["test_acc"], 4), "test_bpc": round(b["test_bpc"], 3),
                     "valid_reply": b["test_reply"]["valid"], "novel": b["novel"]["valid"]}))

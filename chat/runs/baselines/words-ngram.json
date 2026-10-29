@@ -1,0 +1,192 @@
+{
+ "kind": "ngram",
+ "orders": {
+  "2": {
+   "test_acc": 0.521167184883999,
+   "test_bpc": 1.968869070672052,
+   "valid": 0.06,
+   "novel": 0.0,
+   "val_acc": 0.5222696766320928
+  },
+  "3": {
+   "test_acc": 0.7050944750059794,
+   "test_bpc": 1.2518117911621114,
+   "valid": 0.06,
+   "novel": 0.0,
+   "val_acc": 0.712019524100061
+  },
+  "4": {
+   "test_acc": 0.7538866299928246,
+   "test_bpc": 0.9192507121789183,
+   "valid": 0.24666666666666667,
+   "novel": 0.0,
+   "val_acc": 0.7718120805369127
+  },
+  "5": {
+   "test_acc": 0.7854580243960775,
+   "test_bpc": 0.7871047242524702,
+   "valid": 0.4666666666666667,
+   "novel": 0.0,
+   "val_acc": 0.7864551555826723
+  },
+  "6": {
+   "test_acc": 0.804831380052619,
+   "test_bpc": 0.7380679113560155,
+   "valid": 0.6966666666666667,
+   "novel": 0.0,
+   "val_acc": 0.8023184868822453
+  },
+  "8": {
+   "test_acc": 0.8215737861755561,
+   "test_bpc": 0.7176540391443311,
+   "valid": 0.8566666666666667,
+   "novel": 0.0,
+   "val_acc": 0.8102501525320317
+  }
+ },
+ "best_order": 8,
+ "best": {
+  "val": {
+   "acc": 0.8102501525320317,
+   "bpc": {
+    "0.5": 1.0713720616526998,
+    "0.8": 0.850860039217335,
+    "1.0": 0.7939720733241987,
+    "1.2": 0.7632782817900652,
+    "1.5": 0.7405789079096111
+   }
+  },
+  "T": "1.5",
+  "test_acc": 0.8215737861755561,
+  "test_bpc": 0.7176540391443311,
+  "test_reply": {
+   "valid": 0.8566666666666667,
+   "by_intent": {
+    "ilike": 0.9166666666666666,
+    "bye": 1.0,
+    "mood_good": 1.0,
+    "color": 1.0,
+    "robot": 0.55,
+    "name": 0.5263157894736842,
+    "pet": 1.0,
+    "botname": 1.0,
+    "food": 1.0,
+    "place": 0.7619047619047619,
+    "cando": 1.0,
+    "mood_bad": 1.0,
+    "doyoulike": 0.3333333333333333,
+    "greet": 1.0,
+    "howareyou": 0.7307692307692307,
+    "thanks": 1.0
+   },
+   "samples": [
+    [
+     "i really like dog",
+     "dog is nice."
+    ],
+    [
+     "good night",
+     "goodbye, take care."
+    ],
+    [
+     "i am okay",
+     "that is good to hear."
+    ],
+    [
+     "what is your favorite color?",
+     "i like blue."
+    ],
+    [
+     "are you smart?",
+     "i am a bot called cadence."
+    ],
+    [
+     "call me max",
+     "nice to meet you, rosa."
+    ],
+    [
+     "my pet is a dog",
+     "i like dogs."
+    ],
+    [
+     "what are you?",
+     "i am a bot called cadence."
+    ],
+    [
+     "what is your favorite food?",
+     "my favorite food is pizza."
+    ],
+    [
+     "are you smart?",
+     "i am a bot called cadence."
+    ],
+    [
+     "i want to go to the city",
+     "have fun in the city!"
+    ],
+    [
+     "what can you do?",
+     "i can try to help."
+    ]
+   ]
+  },
+  "novel": {
+   "valid": 0.0,
+   "by_intent": {
+    "novel_name": 0.0,
+    "novel_like": 0.0
+   },
+   "samples": [
+    [
+     "i am hugo",
+     "i am a bot called cadence."
+    ],
+    [
+     "i love kites",
+     "i am a bot called cadence."
+    ],
+    [
+     "my name is zoe",
+     "i am a bot called cadence."
+    ],
+    [
+     "i really like kites",
+     "i am a bot called cadence."
+    ],
+    [
+     "my name is zoe",
+     "i am a bot called cadence."
+    ],
+    [
+     "i love berlin",
+     "i am a bot called cadence."
+    ],
+    [
+     "i am zoe",
+     "i am a bot called cadence."
+    ],
+    [
+     "i really like noodles",
+     "i am a bot called cadence."
+    ],
+    [
+     "my name is pablo",
+     "i am a bot called cadence."
+    ],
+    [
+     "i love berlin",
+     "i am a bot called cadence."
+    ],
+    [
+     "my name is pablo",
+     "i am a bot called cadence."
+    ],
+    [
+     "i really like berlin",
+     "i am a bot called cadence."
+    ]
+   ]
+  }
+ },
+ "seconds": 5.8
+}
