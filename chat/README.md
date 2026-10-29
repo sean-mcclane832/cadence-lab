@@ -3,6 +3,11 @@
 Can a Cadence brain (cadence-net 0.91.1) learn to form sentences and answer typed lines?
 A small, honest attempt. Results, numbers and samples: [PROGRESS.md](PROGRESS.md).
 
+On a phone: [sean-mcclane832.github.io/cadence-arcade/chat](https://sean-mcclane832.github.io/cadence-arcade/chat/).
+The brain can't run in a browser, so that page looks up replies the real `brains/copy` brain
+made on Sean's PC for all 299 prompts the grammar can make (`export_web.py`, after a fixed
+two-exchange warm-up; without it, 18% of test prompts get a valid reply, with it 79%).
+
 ## Run it
 
 From this folder, on Sean's PC (the venv already exists):
@@ -45,6 +50,7 @@ Both run with cold settles (each settle starts from rest, see PROGRESS.md stage 
 | `words.py`, `wordbrain.py` | word-token Cadence brain (stage 2, the main line) |
 | `baselines.py` | char/word n-gram, window MLP, GRU on the same scoring |
 | `chat.py` | REPL over a saved word brain |
+| `export_web.py` | precompute the brain's replies to every grammar prompt for the phone page |
 | `eval_final.py`, `drift.py` | held-out test with window-cut ablations; frozen-stream drift check |
 | `runs/**/log.jsonl` | one JSON line per probe for every run |
 
