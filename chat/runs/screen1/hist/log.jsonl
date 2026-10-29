@@ -1,0 +1,6 @@
+{"event": "start", "cfg": {"window": 1, "genes": {"learning_surprise": true, "history_decays": [0.2, 0.8, 0.95]}, "name": "hist"}, "version": "0.91.1", "neurons": 298, "synapses": 17152, "parameters": 16495, "start_char": 0}
+{"event": "probe", "chars": 30000, "seconds": 130.0, "train_acc": 0.148, "lesson_share": 0.604, "val_acc": 0.211, "val_reply_acc": 0.1914, "val_bpc": 4.029, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 60000, "seconds": 268.5, "train_acc": 0.148, "lesson_share": 0.631, "val_acc": 0.4128, "val_reply_acc": 0.3284, "val_bpc": 3.029, "T": "0.1", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 90000, "seconds": 403.8, "train_acc": 0.12, "lesson_share": 0.688, "val_acc": 0.3204, "val_reply_acc": 0.2002, "val_bpc": 3.905, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 120000, "seconds": 536.6, "train_acc": 0.127, "lesson_share": 0.69, "val_acc": 0.1414, "val_reply_acc": 0.1579, "val_bpc": 4.561, "T": "0.3", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 150000, "seconds": 671.6, "train_acc": 0.112, "lesson_share": 0.738, "val_acc": 0.35, "val_reply_acc": 0.2486, "val_bpc": 3.322, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}

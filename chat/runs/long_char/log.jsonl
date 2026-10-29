@@ -1,0 +1,1 @@
+{"event": "start", "cfg": {"window": 3, "genes": {"learning_surprise": true, "teaching": "normalized", "history_decays": [0.2, 0.8, 0.95]}, "name": "win3_norm"}, "version": "0.91.1", "neurons": 570, "synapses": 34560, "parameters": 36487, "start_char": 150000}

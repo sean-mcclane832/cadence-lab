@@ -1,0 +1,2 @@
+{"event": "start", "cfg": {"window": 5, "genes": {"learning_surprise": true, "teaching": "normalized", "modules": [256], "history_decays": [0.2, 0.8, 0.95]}, "name": "win5_m256_norm"}, "version": "0.91.1", "neurons": 1226, "synapses": 257024, "parameters": 255583, "start_char": 0}
+{"event": "probe", "chars": 30000, "seconds": 812.5, "train_acc": 0.282, "lesson_share": 0.439, "val_acc": 0.6308, "val_reply_acc": 0.6056, "val_bpc": 2.083, "T": "0.1", "valid_reply": 0.0, "novel_valid": 0.0}

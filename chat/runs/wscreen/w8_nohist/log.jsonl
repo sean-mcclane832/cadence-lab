@@ -1,0 +1,1 @@
+{"event": "start", "cfg": {"window": 8, "genes": {"learning_surprise": true, "teaching": "normalized"}, "name": "w8_nohist"}, "version": "0.91.1", "vocab": 188, "neurons": 1820, "synapses": 124416, "parameters": 397021, "start": 0}

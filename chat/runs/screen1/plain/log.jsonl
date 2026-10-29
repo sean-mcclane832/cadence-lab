@@ -1,0 +1,3 @@
+{"event": "start", "cfg": {"window": 1, "genes": {"learning_surprise": true}, "name": "plain"}, "version": "0.91.1", "neurons": 196, "synapses": 10624, "parameters": 9865, "start_char": 0}
+{"event": "probe", "chars": 30000, "seconds": 116.3, "train_acc": 0.088, "lesson_share": 0.765, "val_acc": 0.1458, "val_reply_acc": 0.1197, "val_bpc": 4.546, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}
+{"event": "probe", "chars": 60000, "seconds": 234.0, "train_acc": 0.046, "lesson_share": 0.836, "val_acc": 0.1743, "val_reply_acc": 0.1628, "val_bpc": 4.586, "T": "0.2", "valid_reply": 0.0, "novel_valid": 0.0}
