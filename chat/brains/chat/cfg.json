@@ -1,0 +1,1 @@
+{"window": 8, "streams": 16, "eta": 0.0001, "reset_every": 1024, "cold": true, "genes": {"learning_surprise": true, "teaching": "normalized", "episodic": false}, "name": "main_cold_anneal"}

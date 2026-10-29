@@ -235,3 +235,74 @@ the 8-token context does govern what it says (cut it to 4 and valid replies fall
 5%). What it does worst is carry a word from the prompt into the reply, which is the core of
 conversation. A plain MLP on the identical input does that (95%). The gap is in learning,
 not information: the window holds the word.
+
+## Stage 5: final brains and results (04:15-06:30)
+
+Two lines ran to the end (stopped 06:22). Both were trained on the same recipe (8-word
+window, 16 streams, normalized teaching at eta 0.0003 or below, surprise lessons, cold
+settles, resets every 1,024 steps, no associative store); cadence-net 0.91.1. **Each is one
+brain, one seed, not an average.**
+
+- **main** (`brains/chat/`, committed): the 64-unit brain from stages 2-4, 1.52M tokens (18.5
+  epochs), eta 0.0001 after 480k. Plateaued at ~0.78 val from ~600k on. 9 refusals survived.
+- **copy** (`brains/copy/`, 45 MB, local only): the same recipe plus `recall=True,
+  recall_copy=2.0, recall_tokens=<each action's current-token input coordinate>` (upstream
+  0.91's copy pathway), from scratch, 680k tokens, 2 Numba threads from 120k. It learned
+  fastest from the start (0.70 at 80k vs 0.56 for a matched plain brain). 2 refusals.
+
+The shipped default was picked on validation, where the two were tied (0.786 / 71% vs 0.776 /
+72%). Then both were scored once on the test split:
+
+| Test (300 exchanges) | token acc | bits/token | valid replies | novel-name copy |
+| --- | --- | --- | --- | --- |
+| **Cadence copy** (3.6M params, 680k tokens) | 0.786 | 1.41 | **0.83** | 0.00 |
+| Cadence main (114k params, 1.52M tokens) | 0.795 | 1.30 | 0.70 | 0.00 |
+| word MLP, same 8-token window (h128) | 0.825 | 0.72 | 0.95 | 0.00 |
+| word 8-gram | 0.822 | 0.72 | 0.86 | 0.00 |
+| word GRU (h64, 400k tokens) | 0.799 | 0.85 | 0.59 | 0.00 |
+| Cadence copy, window cut to 4 | 0.22 | 9.43 | 0.00 | |
+| Cadence main, window cut to 4 | 0.60 | 2.87 | 0.06 | |
+
+Valid replies by intent, copy (main): name 0.68 (0.16), pet 0.96 (0.48), i like X 0.58
+(0.00), do you like X 0.44 (0.06), place 0.62 (0.43), bye 0.79 (0.36); fixed answers 0.85-1.0
+in both. The copy pathway is what moves words from the prompt into the reply.
+
+`python chat.py --say ...`, same ten lines, main | copy:
+
+```
+you: hi                   main: rabbit, nice to meet you.          copy: hi are how are can?
+you: how are you?         main: i am fine, thank you.              copy: i am fine, thank you.
+you: i am tired           main: oh no, i am a small brain i of rabbit bad rabbit ...   copy: that is too bad.
+you: my name is sam       main: hi emma!                           copy: hi sam!
+you: do you like chess?   main: no, i do not like rabbit.          copy: yes, a lot.
+you: i have a cat         main: a snake? that is cool.             copy: what is your cat called cat
+you: i am going to paris  main: what will you do in paris?         copy: have fun in paris!
+you: what is your name?   main: i am a bot called cadence.         copy: my name is cadence.
+you: thanks               main: you are welcome.                   copy: any time!
+you: bye                  main: what do you like rabbit?           copy: goodbye, take care.
+```
+
+### How far it got
+
+- **Yes:** a Cadence brain reads typed lines one word per moment and writes whole,
+  mostly grammatical replies one word per moment, in a continuing conversation, and the
+  reply depends on the prompt (cut the window and it falls apart). On this 16-intent
+  grammar the best brain answers 83% of fresh prompts with a valid reply.
+- **Not yet:** it is behind a plain MLP on the identical input (95%), which trains in
+  minutes. It cannot say a word it never trained on (0% on new names, as for every
+  baseline; the copy pathway would need the recall read to address an unseen token). It
+  sometimes loops ("rabbit ... rabbit") or stops mid-sentence. This is a closed grammar of
+  275 prompts, not open language, and under upstream's own guidance next-word accuracy and
+  self-feeding are component evidence, not sentence competence.
+- **What made the difference**, in order: word tokens instead of characters; upstream's
+  supervised-only loop without the associative store; 16-row lessons; the normalized
+  teaching point at a lower eta; **cold settles** (warm-started streams get trapped, the
+  biggest single fix); the copy pathway.
+
+### Next step
+
+Copy-pathway brain with a smaller recall footprint (its regions are as wide as the whole
+8-word window, 4.8k neurons, ~50-95 tokens/s), or a learned code so recall stores one token
+per slot. That would let it train 5-10x longer, and it is the only route here to answering
+with a never-seen name. Also worth reporting upstream (with Sean's OK): on text the warm start
+traps streams; cold settles fix it.

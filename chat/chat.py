@@ -1,6 +1,6 @@
 """Talk to a saved Cadence brain.
 
-    python chat.py                       # the shipped brain, brains/chat/brain.npz
+    python chat.py                       # brains/copy (best, local) else brains/chat (in git)
     python chat.py --brain runs/x/brain.npz --temperature 0.3
 
 Type a line and press enter. Lowercase letters, spaces and . , ? ! ' only; other
@@ -36,7 +36,9 @@ def clean(line: str) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--brain", type=Path, default=HERE / "brains" / "chat" / "brain.npz")
+    best = HERE / "brains" / "copy" / "brain.npz"   # 45 MB, local only (not in git)
+    ap.add_argument("--brain", type=Path,
+                    default=best if best.exists() else HERE / "brains" / "chat" / "brain.npz")
     ap.add_argument("--temperature", type=float, default=None,
                     help="sample replies at this temperature (default: greedy)")
     ap.add_argument("--seed", type=int, default=0)
